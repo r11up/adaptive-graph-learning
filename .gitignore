@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Outputs
+results/
+*.png
+*.pt
+*.ckpt
+
+# Data — keep the directory, not its contents
+data/*
+!data/.gitkeep
+
+# Source specification documents are deliberately NOT tracked: publishing
+# them would disclose the full filing. Keep them local.
+*.pdf
+
+# Original exploratory notebook, superseded by src/qagta and
+# examples/walkthrough.ipynb. Kept locally, not published.
+QAE_*.ipynb
+
+# OS
+.DS_Store

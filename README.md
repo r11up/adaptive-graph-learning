@@ -1,0 +1,182 @@
+# QAGTA — Quantum-Assisted Adaptive Graph Construction and Temporal Pattern Analysis
+
+A hybrid quantum–classical framework for representation learning on multivariate
+temporal data. Instead of assuming a fixed relational structure between variables,
+the system **derives graph topology from quantum latent states** and propagates
+features over that learned topology with graph attention.
+
+```
+multivariate time series
+        │
+        ▼
+  angle encoding ──▶ variational quantum circuit ──▶ ⟨Z⟩ expectation values
+        │                                                    │
+        │                                              latent embeddings z
+        ▼                                                    │
+  adaptive edge learning  ◀────── quantum fidelity |⟨ψi|ψj⟩|² ┘
+        │
+        ▼
+  differentiable adjacency ──▶ graph attention propagation ──▶ fused representation
+        │                                                              │
+        └──────────── hybrid optimisation (backprop + parameter shift) ─┘
+```
+
+## Why
+
+Deep graph networks tend to **over-smooth**: as depth grows, node embeddings converge
+toward one another, which suppresses exactly the sparse, irregular nodes that anomaly
+detection is meant to surface. And most pipelines fix the graph up front, so evolving
+relationships never make it into the model.
+
+This framework addresses both. Topology is recomputed from the current latent states on
+every forward pass, and propagation is attention-weighted with learnable skip aggregation
+so shallow, less-smoothed features survive to the output.
+
+## Install
+
+```bash
+pip install -e ".[dev,viz]"
+```
+
+Optional Qiskit backend (the default backend needs no quantum SDK):
+
+```bash
+pip install -e ".[qiskit]"
+```
+
+## Quick start
+
+```bash
+python scripts/generate_data.py --samples 300 --features 10 --out data/synthetic.csv
+python scripts/run_pipeline.py --data data/synthetic.csv
+```
+
+Or on your own CSV — feature columns plus a binary label column:
+
+```bash
+python scripts/run_pipeline.py --data yourdata.csv --label-column attack
+```
+
+As a library:
+
+```python
+from qagta import PipelineConfig, QuantumAdaptiveGraphPipeline
+from qagta.data import load_csv_dataset
+
+split = load_csv_dataset("data/synthetic.csv")
+
+pipeline = QuantumAdaptiveGraphPipeline(PipelineConfig(), input_dim=split.n_features)
+pipeline.fit(split.x_train)
+
+result = pipeline.evaluate(split.x_test, split.y_test)
+print(result.summary())
+```
+
+Training is one-class: only normal samples are used for fitting, and the held-out set
+mixes unseen normal samples with anomalies.
+
+## How it works
+
+**Quantum encoding.** Inputs are projected to one rotation angle per qubit, normalised,
+and squashed into `[0, 2π]`. A parameterised circuit (angle-encoding feature map plus a
+RealAmplitudes-style entangling ansatz) prepares a state whose Pauli-Z expectation values
+`⟨ψ(θ)|Z_k|ψ(θ)⟩` form the latent vector. The statevector itself is retained so quantum
+fidelity can be used downstream.
+
+The angle normalisation matters more than it looks. Without it the learned projection
+collapses onto one or two qubits, the rest sit at a near-constant rotation, every prepared
+state looks alike, all pairwise fidelities approach 1, and the quantum similarity term
+stops carrying information. On the bundled synthetic benchmark that single issue was worth
+0.62 → 0.97 AUC.
+
+**Adaptive edge learning.** Edge weights come from a parametric kernel mixing four
+similarity notions:
+
+```
+W_ij = α·cosine(z_i, z_j) + β·learnable(z_i, z_j) + γ·attention(z_i, z_j) + δ·fidelity(ψ_i, ψ_j)
+```
+
+The mixing coefficients are trainable (softmax-normalised), so the balance between the
+terms is itself learned. Candidate edges come from k-nearest-neighbour sparsification;
+retained weights stay differentiable, so gradients from the graph objective reach both the
+kernel and the quantum circuit.
+
+**Propagation and fusion.** The adjacency drives a multi-head graph attention stack that
+consumes the learned edge weights, with learnable weighted aggregation over per-layer skip
+projections. A gated decision module fuses graph context with the original quantum latent.
+
+**Training.** Stage one pre-trains the quantum autoencoder on a reconstruction objective.
+Stage two trains topology construction and propagation on *contextual* latent
+reconstruction: part of each node's own latent is masked before fusion, so the target can
+only be recovered from what the graph propagates in from neighbours. Leaving the node's own
+latent intact makes the objective satisfiable by an identity mapping, and the graph learns
+nothing.
+
+**Hybrid optimisation.** Classical parameters update by backpropagation. Quantum circuit
+parameters can co-adapt in the same loop, either through autograd on the built-in simulator
+or through the **parameter-shift rule** — the route that remains valid on shot-based
+backends and real hardware. The test suite verifies the two agree to 1e-4.
+
+## Results on the bundled benchmark
+
+The repository ships a synthetic generator, not the datasets any particular study used, so
+these numbers characterise the *implementation*, not the method's ceiling.
+
+| configuration | F1 | AUC-ROC |
+|---|---|---|
+| quantum latents only | 0.92 | 0.97 |
+| adaptive graph + SAGE | 0.84 | 0.93 |
+| adaptive graph + GAT | 0.80 | 0.89 |
+
+**The graph stage does not beat the latent-only baseline here, and this held across
+contamination rates from 5% to 25% and across seeds.** The synthetic generator produces
+*point* anomalies that are already well separated in latent space, and neighbourhood
+propagation can only blur that separation. Graph structure earns its keep when anomalies
+are *relational* — a node whose connections are inconsistent with its neighbourhood — which
+this generator does not simulate. Treat the synthetic run as an integration test of a
+working pipeline, and benchmark on domain data before drawing conclusions.
+
+## Configuration
+
+Every stage is configurable via YAML (see [configs/default.yaml](configs/default.yaml)):
+
+```bash
+python scripts/run_pipeline.py --data data/synthetic.csv --config configs/default.yaml
+```
+
+Notable knobs: `quantum.n_qubits` (sets latent dimensionality), `graph.k_neighbors` and
+`graph.edge_threshold` (topology density), `graph.use_fidelity` (quantum similarity term),
+`model.encoder` (`gat` or `sage`), and `training.quantum_gradient`
+(`autograd` or `parameter_shift`).
+
+## Layout
+
+```
+src/qagta/
+  quantum/    differentiable statevector simulator, encoder, fidelity, Qiskit backend
+  graph/      adaptive edge learning, dynamic graph construction
+  models/     graph attention and SAGE encoders, gated decision module
+  training/   hybrid training loops, parameter-shift rule, evaluation
+  data/       loaders, one-class splits, synthetic generator
+  pipeline.py end-to-end orchestration
+scripts/      data generation and pipeline runner
+tests/        41 tests covering all subsystems
+```
+
+## Tests
+
+```bash
+pytest
+```
+
+Coverage includes statevector normalisation and entanglement against analytic results,
+parameter-shift gradients against autograd, edge-kernel differentiability, over-smoothing
+resistance, and end-to-end pipeline behaviour.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
+
+> Note on scope: this repository is a general, self-contained implementation of the
+> architecture. It is not a disclosure document, and it deliberately omits filing-specific
+> material. Source specification PDFs are excluded from version control via `.gitignore`.
