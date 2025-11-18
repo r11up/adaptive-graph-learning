@@ -1,0 +1,34 @@
+# Default pipeline configuration.
+# Override any subset: python scripts/run_pipeline.py --config configs/default.yaml
+
+quantum:
+  backend: native        # native | qiskit
+  n_qubits: 4            # latent dimensionality == number of qubits
+  reps: 2                # ansatz repetitions
+  entanglement: full     # full | linear
+  decoder_hidden: 8
+
+graph:
+  hidden_dim: 16
+  k_neighbors: 5         # candidate edges per node before thresholding
+  edge_threshold: 0.4    # kernel weight below which an edge is dropped
+  use_fidelity: true     # include the quantum fidelity term in the kernel
+
+model:
+  encoder: gat           # gat | sage
+  hidden_channels: 8
+  num_layers: 3
+  heads: 4
+  dropout: 0.3
+  decision_hidden: 32
+
+training:
+  encoder_epochs: 30
+  encoder_lr: 0.01
+  graph_epochs: 40
+  graph_lr: 0.005
+  joint_quantum: false          # co-adapt circuit weights in the graph stage
+  quantum_gradient: autograd    # autograd | parameter_shift
+  quantum_lr: 0.01
+  ocsvm_nu: 0.05
+  seed: 42
