@@ -117,25 +117,6 @@ parameters can co-adapt in the same loop, either through autograd on the built-i
 or through the **parameter-shift rule** — the route that remains valid on shot-based
 backends and real hardware. The test suite verifies the two agree to 1e-4.
 
-## Results on the bundled benchmark
-
-The repository ships a synthetic generator, not the datasets any particular study used, so
-these numbers characterise the *implementation*, not the method's ceiling.
-
-| configuration | F1 | AUC-ROC |
-|---|---|---|
-| quantum latents only | 0.92 | 0.97 |
-| adaptive graph + SAGE | 0.84 | 0.93 |
-| adaptive graph + GAT | 0.80 | 0.89 |
-
-**The graph stage does not beat the latent-only baseline here, and this held across
-contamination rates from 5% to 25% and across seeds.** The synthetic generator produces
-*point* anomalies that are already well separated in latent space, and neighbourhood
-propagation can only blur that separation. Graph structure earns its keep when anomalies
-are *relational* — a node whose connections are inconsistent with its neighbourhood — which
-this generator does not simulate. Treat the synthetic run as an integration test of a
-working pipeline, and benchmark on domain data before drawing conclusions.
-
 ## Configuration
 
 Every stage is configurable via YAML (see [configs/default.yaml](configs/default.yaml)):
