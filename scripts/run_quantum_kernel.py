@@ -34,6 +34,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+import torch
 from scipy.stats import wilcoxon
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_score
@@ -42,19 +43,17 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.svm import SVC
 
 from qagta.data.abide import load_abide
-from qagta.graph.connectome import pearson_connectivity
+from qagta.data.descriptors import build_descriptors
 from qagta.quantum.kernel import QuantumFeatureMap, quantum_kernel_matrix
+from qagta.quantum.projected import kernel_target_alignment, projected_kernel_matrix
 
 
-def subject_descriptors(root: Path, pipeline: str, strategy: str, atlas: str, dataset):
-    """Flattened upper-triangle correlation vector per subject."""
+def subject_descriptors(root: Path, pipeline: str, strategy: str, atlas: str,
+                        dataset, kind: str = "correlation"):
+    """Per-subject descriptor block of the requested kind."""
     series_dir = root / "ABIDE_pcp" / pipeline / strategy
-    rows = []
-    for subject in dataset.subjects:
-        series = np.loadtxt(series_dir / f"{subject.file_id}_{atlas}.1D")
-        matrix = pearson_connectivity(series)
-        rows.append(matrix[np.triu_indices_from(matrix, k=1)])
-    return np.asarray(rows, dtype=np.float32)
+    series = [np.loadtxt(series_dir / f"{s.file_id}_{atlas}.1D") for s in dataset.subjects]
+    return build_descriptors(series, kind=kind)
 
 
 def metrics(y_true, y_pred, scores=None) -> dict[str, float]:
@@ -80,6 +79,19 @@ def main() -> int:
     parser.add_argument("--atlas", default="rois_cc200")
     parser.add_argument("--qubits", type=int, default=8, help="= number of PCA components")
     parser.add_argument("--reps", type=int, default=2)
+    parser.add_argument("--bandwidths", type=float, nargs="+",
+                        default=[0.005, 0.01, 0.02, 0.05, 0.1, 0.25, 0.5, 1.0],
+                        help="encoding-angle scales to search over (lever 1)")
+    parser.add_argument("--kernel-type", default="fidelity",
+                        choices=["fidelity", "projected", "both"],
+                        help="fidelity overlap or projected RDM kernel (lever 4)")
+    parser.add_argument("--gammas", type=float, nargs="+", default=[0.1, 0.5, 1.0, 2.0],
+                        help="RBF width for the projected kernel")
+    parser.add_argument("--descriptor", default="correlation",
+                        choices=["correlation", "graph", "both"],
+                        help="subject descriptor (lever 3)")
+    parser.add_argument("--selection", default="cv_auc", choices=["cv_auc", "alignment"],
+                        help="selection rule: inner-CV AUC or kernel-target alignment (lever 2)")
     parser.add_argument("--entanglement", default="linear", choices=["linear", "full"])
     parser.add_argument("--limit", type=int)
     parser.add_argument("--min-test-size", type=int, default=10)
@@ -98,14 +110,18 @@ def main() -> int:
     print(dataset.summary())
 
     features = subject_descriptors(
-        args.data_root, args.pipeline, args.strategy, args.atlas, dataset
+        args.data_root, args.pipeline, args.strategy, args.atlas, dataset,
+        kind=args.descriptor,
     )
     labels, sites = dataset.labels, dataset.sites
     print(f"subject descriptors: {features.shape}")
 
-    feature_map = QuantumFeatureMap(
-        n_qubits=args.qubits, reps=args.reps, entanglement=args.entanglement
-    )
+    feature_maps = {
+        b: QuantumFeatureMap(n_qubits=args.qubits, reps=args.reps,
+                             entanglement=args.entanglement, bandwidth=b)
+        for b in args.bandwidths
+    }
+    print(f"bandwidths searched: {args.bandwidths}")
     grid_c = [0.1, 1.0, 10.0]
     grid_gamma = ["scale", 0.1, 1.0]
 
@@ -135,26 +151,51 @@ def main() -> int:
         test_angles = np.clip(angle_scaler.transform(test_reduced), 0, np.pi)
 
         # --- quantum kernel -------------------------------------------------
-        k_train = quantum_kernel_matrix(train_angles, train_angles, feature_map)
-        k_test = quantum_kernel_matrix(test_angles, train_angles, feature_map)
+        # Search bandwidth jointly with C, selected by inner CV on train sites.
+        # Candidates: bandwidth x kernel type x (gamma, projected only).
+        kernels: dict[tuple, tuple] = {}
+        for bandwidth, fm in feature_maps.items():
+            if args.kernel_type in ("fidelity", "both"):
+                kernels[("fidelity", bandwidth, None)] = (
+                    quantum_kernel_matrix(train_angles, train_angles, fm),
+                    quantum_kernel_matrix(test_angles, train_angles, fm),
+                )
+            if args.kernel_type in ("projected", "both"):
+                with torch.no_grad():
+                    st = fm(torch.as_tensor(train_angles, dtype=torch.float32))
+                    se = fm(torch.as_tensor(test_angles, dtype=torch.float32))
+                for gamma in args.gammas:
+                    kernels[("projected", bandwidth, gamma)] = (
+                        projected_kernel_matrix(st, st, args.qubits, gamma),
+                        projected_kernel_matrix(se, st, args.qubits, gamma),
+                    )
         # Select C by inner cross-validation on the training sites. Scoring on
         # the training fit instead would simply pick the most overfit model —
         # with an RBF kernel that yields a classifier that memorises the
         # training split and predicts a single class everywhere else.
         inner = StratifiedKFold(n_splits=3, shuffle=True, random_state=0)
         best = None
-        for c in grid_c:
-            score = cross_val_score(
-                SVC(kernel="precomputed", C=c, class_weight="balanced"),
-                k_train, y_train, cv=inner, scoring="roc_auc",
-            ).mean()
+        for spec, (k_train, _) in kernels.items():
+            if args.selection == "alignment":
+                # Scores the kernel against the labels with no classifier fit.
+                score, candidate_c = kernel_target_alignment(k_train, y_train), grid_c[1]
+            else:
+                score, candidate_c = max(
+                    (cross_val_score(
+                        SVC(kernel="precomputed", C=c, class_weight="balanced"),
+                        k_train, y_train, cv=inner, scoring="roc_auc").mean(), c)
+                    for c in grid_c
+                )
             if best is None or score > best[0]:
-                best = (score, c)
+                best = (score, candidate_c, spec)
+        chosen = best[2]
+        k_train, k_test = kernels[chosen]
         model = SVC(kernel="precomputed", C=best[1], class_weight="balanced").fit(
             k_train, y_train
         )
         per_fold["quantum kernel"].append(
-            {"site": site, "n": len(test_idx),
+            {"site": site, "n": len(test_idx), "kernel_type": chosen[0],
+             "bandwidth": chosen[1], "gamma": chosen[2],
              **metrics(y_test, model.predict(k_test), model.decision_function(k_test))}
         )
 

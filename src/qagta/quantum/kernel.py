@@ -48,12 +48,25 @@ class QuantumFeatureMap(nn.Module):
     """
 
     def __init__(
-        self, n_qubits: int = 8, reps: int = 2, entanglement: str = "linear", scale: float = 1.0
+        self,
+        n_qubits: int = 8,
+        reps: int = 2,
+        entanglement: str = "linear",
+        bandwidth: float = 1.0,
     ) -> None:
+        """``bandwidth`` scales the encoding angles.
+
+        This is the single most influential hyperparameter in quantum kernels
+        (Canatar et al., TMLR 2023). Large values spread states across the
+        Bloch sphere until every overlap vanishes — the same concentration that
+        kills region-level fidelity at wide registers. Small values keep states
+        close, raising kernel values but reducing expressivity. The useful
+        setting is usually well below 1.0 and must be tuned, not assumed.
+        """
         super().__init__()
         self.n_qubits = n_qubits
         self.reps = reps
-        self.scale = scale
+        self.bandwidth = bandwidth
         self.dim = 2**n_qubits
 
         if entanglement == "full":
@@ -80,7 +93,7 @@ class QuantumFeatureMap(nn.Module):
         batch = x.shape[0]
         state = torch.zeros((batch, self.dim), dtype=torch.complex64, device=x.device)
         state[:, 0] = 1.0
-        angles = x * self.scale
+        angles = x * self.bandwidth
 
         for _ in range(self.reps):
             for k in range(self.n_qubits):  # superposition
