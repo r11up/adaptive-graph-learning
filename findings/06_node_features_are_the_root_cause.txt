@@ -98,3 +98,41 @@ REFERENCES
     Medical Image Analysis 48:117-130, 2018.
 [3] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
     resting-state data: an autism-based example." NeuroImage 147:736-745, 2017.
+
+
+UPDATE — CONNECTIVITY PROFILES IMPLEMENTED, PARTIAL RECOVERY
+------------------------------------------------------------
+`load_abide(feature_mode="connectivity")` now builds node features from each
+region's row of the correlation matrix instead of its raw time course.
+
+  feature mode    node-feature AUC   explained variance
+  -------------   ----------------   ------------------
+  temporal        0.478              59.9%
+  connectivity    0.537              91.1%
+
+Two things to note.
+
+The explained variance jumps to 91.1%, which finally matches the manuscript's
+claim that 16 components retain "more than 90% of BOLD signal variance". The
+temporal mode reaches only ~60-78%. That suggests the manuscript's figure was
+computed on connectivity profiles rather than raw time courses, which is worth
+resolving in the text.
+
+But AUC only moves 0.478 -> 0.537, still far from the 0.693 the full
+correlation vector supports. A SECOND defect is now visible:
+
+  PCA IS FIT PER SUBJECT, SO THE BASES ARE NOT COMPARABLE ACROSS SUBJECTS.
+
+Component 1 for subject A and component 1 for subject B are different linear
+combinations of regions. Any classifier comparing subjects is therefore
+comparing coordinates in different bases, which destroys most of the signal
+regardless of how good the underlying features are. This affects the temporal
+mode identically and has been present throughout.
+
+FIX: fit ONE shared PCA basis on the training sites only, then project every
+subject through it. Fitting on training sites preserves the Leave-Site-Out
+guarantee; fitting on all subjects would leak.
+
+That is the next experiment, and it should be run before any further graph or
+quantum work. Expected outcome: node-feature AUC approaching 0.69, at which
+point the quantum and graph stages become evaluable for the first time.

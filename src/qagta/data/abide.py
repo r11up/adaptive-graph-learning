@@ -81,6 +81,36 @@ class AbideDataset:
         )
 
 
+def compress_connectivity_profiles(
+    timeseries: np.ndarray, n_components: int = 16
+) -> tuple[np.ndarray, float]:
+    """Compress each region's *connectivity profile* to node features.
+
+    Region ``i``'s profile is row ``i`` of the subject's correlation matrix —
+    how that region relates to every other region. This is what carries the
+    diagnostic signal in rs-fMRI: FINDING 06 measures per-region temporal
+    features at AUC 0.459 (chance) against 0.693 for pairwise correlations.
+
+    Compressing profiles rather than raw time courses also suits a fidelity
+    kernel better. Two regions with similar connectivity fingerprints should
+    produce overlapping quantum states; two regions with similar raw time
+    courses need not be functionally related at all.
+    """
+    from qagta.graph.connectome import pearson_connectivity
+
+    profiles = pearson_connectivity(timeseries)  # (n_roi, n_roi), row = profile
+    n_roi = profiles.shape[0]
+
+    usable = min(n_components, n_roi)
+    pca = PCA(n_components=usable, random_state=0)
+    features = pca.fit_transform(profiles)
+    retained = float(pca.explained_variance_ratio_.sum())
+
+    if usable < n_components:
+        features = np.pad(features, ((0, 0), (0, n_components - usable)))
+    return features.astype(np.float32), retained
+
+
 def compress_region_timeseries(
     timeseries: np.ndarray, n_components: int = 16
 ) -> tuple[np.ndarray, float]:
@@ -124,6 +154,7 @@ def load_abide(
     n_components: int = 16,
     min_timepoints: int = 60,
     limit: int | None = None,
+    feature_mode: str = "connectivity",
 ) -> AbideDataset:
     """Load every downloaded subject and compress it to node features.
 
@@ -162,7 +193,12 @@ def load_abide(
             skipped["too_short"] += 1
             continue
 
-        features, retained = compress_region_timeseries(timeseries, n_components)
+        if feature_mode == "connectivity":
+            features, retained = compress_connectivity_profiles(timeseries, n_components)
+        elif feature_mode == "temporal":
+            features, retained = compress_region_timeseries(timeseries, n_components)
+        else:
+            raise ValueError(f"unknown feature_mode {feature_mode!r}")
         subjects.append(
             SubjectRecord(
                 file_id=row.FILE_ID,
