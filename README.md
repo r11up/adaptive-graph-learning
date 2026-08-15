@@ -32,17 +32,64 @@ This framework addresses both. Topology is recomputed from the current latent st
 every forward pass, and propagation is attention-weighted with learnable skip aggregation
 so shallow, less-smoothed features survive to the output.
 
+## Two things live here
+
+1. **A general framework** (`qagta.quantum`, `qagta.graph`, `qagta.models`) —
+   quantum encoding, adaptive edge learning, attention propagation, hybrid
+   optimisation, usable on any multivariate temporal data.
+2. **An fMRI connectome study** (`qagta.data.abide`, `qagta.graph.connectome`,
+   `qagta.training.lso`) — functional-connectivity classification on ABIDE with
+   Leave-Site-Out validation against classical baselines. Start at
+   [docs/SETUP.md](docs/SETUP.md) and [docs/DATASETS.md](docs/DATASETS.md).
+
 ## Install
 
 ```bash
-pip install -e ".[dev,viz]"
+python3.13 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev,viz,quantum,neuro]"
 ```
 
-Optional Qiskit backend (the default backend needs no quantum SDK):
+`quantum` brings PennyLane + the lightning simulator; `neuro` brings nilearn for
+dataset access. The built-in PyTorch simulator needs neither, so
+`pip install -e ".[dev]"` is enough for the generic framework.
+
+Optional Qiskit backend:
 
 ```bash
 pip install -e ".[qiskit]"
 ```
+
+## The connectome study
+
+```bash
+python scripts/download_abide.py          # 1035 subjects, 20 sites, ~406 MB
+python scripts/run_abide_study.py --epochs 30
+```
+
+Per subject, 200 CC200 brain regions become graph nodes; each region's BOLD time
+series is PCA-compressed to 16 features, encoded by a 16-qubit ring-entangled
+circuit, and the pairwise **quantum fidelity** `|⟨ψi|ψj⟩|²` between regions
+initialises a k-NN-sparsified topology that a graph attention network classifies
+over. Compared against SVM (linear/RBF) on correlation matrices and GCN on
+Pearson and RBF graphs, all under identical Leave-Site-Out folds.
+
+`docs/DATASET_CANDIDATES.md` surveys additional journal-published cohorts
+(ADHD-200, SRPBS, UCLA CNP, COBRE, REST-meta-MDD) for extending beyond a single
+disorder, with access routes and the effort each requires.
+
+### Quantum backend
+
+Two interchangeable backends, pinned to agree numerically in CI (expectation
+values to 1e-5, statevector overlap > 0.99999, gradients to 1e-4):
+
+| backend | per subject (200 regions, fwd+bwd) | |
+|---|---|---|
+| `--backend torch` | **1.9 s** | batched statevector, default |
+| `--backend pennylane` | ~12.6 s | `lightning.qubit`, adjoint differentiation |
+
+The speedup is an execution-strategy win — the workload is the same circuit run
+once per region, which vectorises — not an approximation. See
+[docs/SETUP.md](docs/SETUP.md) for the reasoning and the compute profile.
 
 ## Quick start
 

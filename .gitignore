@@ -37,3 +37,9 @@ QAE_*.ipynb
 
 # OS
 .DS_Store
+
+# Encoded cohort caches (large, regenerable)
+results/*.pt
+
+# Manuscript sources — unpublished, kept local
+paper-tex/

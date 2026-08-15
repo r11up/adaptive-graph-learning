@@ -49,6 +49,40 @@ def _apply_ry(state: torch.Tensor, n_qubits: int, qubit: int, theta: torch.Tenso
     return torch.stack((out0, out1), dim=2).reshape(batch, -1)
 
 
+def _apply_rx(state: torch.Tensor, n_qubits: int, qubit: int, theta: torch.Tensor) -> torch.Tensor:
+    """Apply RX(theta) on ``qubit``. ``theta`` is scalar or shape ``(batch,)``."""
+    batch = state.shape[0]
+    left = 2**qubit
+    right = 2 ** (n_qubits - qubit - 1)
+    s = state.reshape(batch, left, 2, right)
+
+    theta = torch.as_tensor(theta, dtype=torch.float32, device=state.device)
+    if theta.dim() == 0:
+        theta = theta.expand(batch)
+    cos = torch.cos(theta / 2).reshape(batch, 1, 1).to(state.dtype)
+    isin = (-1j * torch.sin(theta / 2)).reshape(batch, 1, 1).to(state.dtype)
+
+    s0 = s[:, :, 0, :]
+    s1 = s[:, :, 1, :]
+    return torch.stack((cos * s0 + isin * s1, isin * s0 + cos * s1), dim=2).reshape(batch, -1)
+
+
+def _apply_rz(state: torch.Tensor, n_qubits: int, qubit: int, theta: torch.Tensor) -> torch.Tensor:
+    """Apply RZ(theta) on ``qubit``. Diagonal: |0> -> e^{-i0/2}, |1> -> e^{+i0/2}."""
+    batch = state.shape[0]
+    left = 2**qubit
+    right = 2 ** (n_qubits - qubit - 1)
+    s = state.reshape(batch, left, 2, right)
+
+    theta = torch.as_tensor(theta, dtype=torch.float32, device=state.device)
+    if theta.dim() == 0:
+        theta = theta.expand(batch)
+    phase = (theta / 2).reshape(batch, 1, 1)
+    minus = torch.polar(torch.ones_like(phase), -phase).to(state.dtype)
+    plus = torch.polar(torch.ones_like(phase), phase).to(state.dtype)
+    return torch.stack((minus * s[:, :, 0, :], plus * s[:, :, 1, :]), dim=2).reshape(batch, -1)
+
+
 def _cnot_permutation(
     n_qubits: int, control: int, target: int, device: torch.device
 ) -> torch.Tensor:
