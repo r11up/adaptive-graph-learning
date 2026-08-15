@@ -37,6 +37,7 @@ import numpy as np
 from scipy.stats import wilcoxon
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_score
+from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.svm import SVC
 
@@ -136,13 +137,22 @@ def main() -> int:
         # --- quantum kernel -------------------------------------------------
         k_train = quantum_kernel_matrix(train_angles, train_angles, feature_map)
         k_test = quantum_kernel_matrix(test_angles, train_angles, feature_map)
+        # Select C by inner cross-validation on the training sites. Scoring on
+        # the training fit instead would simply pick the most overfit model —
+        # with an RBF kernel that yields a classifier that memorises the
+        # training split and predicts a single class everywhere else.
+        inner = StratifiedKFold(n_splits=3, shuffle=True, random_state=0)
         best = None
         for c in grid_c:
-            model = SVC(kernel="precomputed", C=c, class_weight="balanced").fit(k_train, y_train)
-            score = f1_score(y_train, model.predict(k_train), zero_division=0)
+            score = cross_val_score(
+                SVC(kernel="precomputed", C=c, class_weight="balanced"),
+                k_train, y_train, cv=inner, scoring="roc_auc",
+            ).mean()
             if best is None or score > best[0]:
-                best = (score, model)
-        model = best[1]
+                best = (score, c)
+        model = SVC(kernel="precomputed", C=best[1], class_weight="balanced").fit(
+            k_train, y_train
+        )
         per_fold["quantum kernel"].append(
             {"site": site, "n": len(test_idx),
              **metrics(y_test, model.predict(k_test), model.decision_function(k_test))}
@@ -153,12 +163,14 @@ def main() -> int:
             best = None
             for c in grid_c:
                 for gamma in (grid_gamma if kernel == "rbf" else ["scale"]):
-                    model = SVC(kernel=kernel, C=c, gamma=gamma,
-                                class_weight="balanced").fit(train_reduced, y_train)
-                    score = f1_score(y_train, model.predict(train_reduced), zero_division=0)
+                    score = cross_val_score(
+                        SVC(kernel=kernel, C=c, gamma=gamma, class_weight="balanced"),
+                        train_reduced, y_train, cv=inner, scoring="roc_auc",
+                    ).mean()
                     if best is None or score > best[0]:
-                        best = (score, model)
-            model = best[1]
+                        best = (score, c, gamma)
+            model = SVC(kernel=kernel, C=best[1], gamma=best[2],
+                        class_weight="balanced").fit(train_reduced, y_train)
             per_fold[name].append(
                 {"site": site, "n": len(test_idx),
                  **metrics(y_test, model.predict(test_reduced),

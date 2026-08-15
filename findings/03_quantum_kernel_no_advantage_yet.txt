@@ -1,0 +1,119 @@
+FINDING 03 — QUANTUM KERNEL: NO ADVANTAGE YET, AND A NEAR-MISS FALSE POSITIVE
+==============================================================================
+Status: measured; negative so far; includes a corrected methodological error
+Date:   2026-08-15
+Code:   src/qagta/quantum/kernel.py, scripts/run_quantum_kernel.py
+Data:   ABIDE I, Leave-Site-Out, subject-level correlation descriptors
+
+
+MOTIVATION
+----------
+FINDING 01 shows fidelity between *regions* degenerates at 16 qubits. But the
+same primitive can be applied between *subjects*, giving a kernel matrix
+
+    K_ij = |<psi(x_i)|psi(x_j)>|^2
+
+for a precomputed-kernel SVM. This is the Havlicek/Schuld quantum kernel
+setting [1,2]. It needs only 4-8 qubits for a compressed subject descriptor,
+which is inside the operating window FINDING 01 identifies, and it competes
+with the classical SVM using the same classifier and the same folds — changing
+only the kernel. Published work reports a 4-qubit quantum kernel SVM reaching
+AUC 0.957 on UCLA CNP for ADHD vs control [3], so the approach is credible.
+
+
+THE FALSE POSITIVE, AND WHY IT MATTERS
+--------------------------------------
+The first sweep appeared to show a decisive quantum win:
+
+    quantum vs classical RBF: median dF1 = +0.489, wins 20/20, Wilcoxon p = 0.0001
+
+This was NOT a quantum advantage. The classical RBF baseline had collapsed:
+
+    classical RBF   F1 = 0.000 +- 0.000   (all-negative prediction, every fold)
+
+Cause: hyperparameters were selected by F1 on the TRAINING set. With an RBF
+kernel, high gamma fits the training split perfectly (train F1 = 1.0), so the
+grid search reliably chose the most overfit model, which then predicted a
+single class on the held-out site. The quantum kernel, being flatter, was less
+able to overfit and so was less damaged by the same bad selection rule.
+
+The asymmetry is what exposed it: quantum beat RBF 20/20 while LOSING to
+classical linear. A method that genuinely separates classes does not beat one
+classical kernel unanimously and lose to a simpler one.
+
+Fix: select hyperparameters by inner 3-fold stratified cross-validation on the
+training sites, scored by AUC, for both quantum and classical arms.
+
+Lesson worth stating in any writeup: a baseline scoring exactly 0.000 with zero
+variance is never a result, it is a bug. Quantum-advantage claims are especially
+vulnerable to this failure mode, because a weak quantum model can "win" simply
+by being harder to overfit than a mis-tuned classical comparator.
+
+
+CORRECTED RESULT
+----------------
+8 qubits / 8 PCA components, 400-subject subset, identical folds:
+
+  model                        F1               accuracy         AUC
+  --------------------------   --------------   --------------   --------------
+  quantum kernel               0.560 +- 0.166   0.529 +- 0.068   0.592 +- 0.048
+  classical RBF                0.548 +- 0.103   0.587 +- 0.046   0.633 +- 0.077
+  classical linear             0.546 +- 0.137   0.588 +- 0.063   0.635 +- 0.073
+  reference: RBF on full dim   0.617 +- 0.079   0.633 +- 0.036   0.682 +- 0.073
+
+  quantum vs classical RBF:    median dF1 = +0.021, wins 5/8, p = 0.945
+  quantum vs classical linear: median dF1 = -0.034, wins 3/8, p = 0.945
+
+Conclusion: at parity on F1, slightly behind on AUC, not significant either way.
+NO QUANTUM ADVANTAGE IS DEMONSTRATED at this configuration.
+
+
+WHAT REMAINS UNTESTED
+---------------------
+The search space has barely been explored. Untried, in priority order:
+
+1. Feature-map design. The current ZZ-style map is the textbook default. The
+   bandwidth of the encoding (angle scaling) is known to control the
+   concentration/expressivity trade-off and is the single most influential
+   hyperparameter in quantum kernels [4]. It has not been tuned at all here.
+2. Descriptor choice. PCA on correlation vectors is a generic reduction that
+   discards the network structure the quantum map might exploit. Graph-derived
+   or connectivity-motif descriptors may suit the map better.
+3. Qubit/repetition sweep with the corrected selection. The earlier sweep is
+   invalid and was discarded.
+4. Kernel-target alignment as a selection criterion instead of accuracy.
+
+An honest reading: the reframe is sound and the machinery is now correct, but
+the default configuration does not beat a tuned classical kernel. Reporting
+otherwise would require exactly the kind of broken baseline this finding
+documents.
+
+
+REFERENCES
+----------
+[1] Havlicek V. et al. "Supervised learning with quantum-enhanced feature
+    spaces." Nature 567:209-212, 2019.
+
+[2] Schuld M., Killoran N. "Quantum machine learning in feature Hilbert
+    spaces." Physical Review Letters 122:040504, 2019.
+
+[3] "Quantum Kernel Methods for Calibrated and Interpretable Neuroimaging
+    Classification in Computational Psychiatry." Research Square preprint
+    rs-10221499/v1, 2025.  [4-qubit quantum kernel SVM, AUC 0.957 on UCLA CNP]
+
+[4] Canatar A., Peters E., Pehlevan C., Wilson C.M., Killoran N. "Bandwidth
+    enables generalization in quantum kernel models." Transactions on Machine
+    Learning Research, 2023.
+
+[5] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data: an autism-based example." NeuroImage 147:736-745, 2017.
+    [ABIDE leave-site-out accuracy ceiling ~0.67]
+
+[6] Huang H.-Y. et al. "Power of data in quantum machine learning." Nature
+    Communications 12:2631, 2021.  [when quantum models can and cannot beat
+    classical ones given the same data]
+
+
+REPRODUCE
+---------
+  python scripts/run_quantum_kernel.py --qubits 8
