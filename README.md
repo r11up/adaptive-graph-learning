@@ -1,4 +1,4 @@
-# QAGTA — Quantum-Assisted Adaptive Graph Construction and Temporal Pattern Analysis
+# Quantum-Assisted Adaptive Graph Construction and Temporal Pattern Analysis
 
 A hybrid quantum–classical framework for representation learning on multivariate
 temporal data. Instead of assuming a fixed relational structure between variables,
