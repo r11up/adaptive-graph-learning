@@ -1,0 +1,68 @@
+FINDING 05 — OVER-SMOOTHING IS REPAIRABLE; CLASSIFICATION DOES NOT FOLLOW
+=========================================================================
+Status: measured, full cohort, 4-configuration ablation
+Date:   2026-08-15
+Code:   scripts/run_sweep.sh, src/qagta/pipelines/connectome_pipeline.py
+Data:   ABIDE I, 1035 subjects, 20 sites, Leave-Site-Out, 30 epochs/fold
+Raw:    results/20260815-115501Z_sweep/
+
+
+RESULT
+------
+  configuration              MAD      F1      accuracy
+  ------------------------   ------   -----   --------
+  4 qubits, fidelity-only    0.002    0.197   0.508
+  4 qubits, mixed kernel     0.054    0.133   0.512
+  8 qubits, mixed kernel     0.043    0.292   0.495
+  16 qubits, mixed kernel    0.144    0.230   0.506
+
+
+THE DISSOCIATION
+----------------
+Replacing fidelity-only topology seeding with the specified mixed kernel raises
+MAD by up to 72x (0.002 -> 0.144). Node representations no longer collapse
+toward a common mean; over-smoothing is substantially relieved.
+
+Accuracy does not move. All four configurations sit within 0.02 of chance.
+
+Over-smoothing was therefore a genuine, repairable defect that was NOT the
+binding constraint on classification.
+
+
+WHY THIS MATTERS MORE THAN EITHER METRIC ALONE
+----------------------------------------------
+A study measuring only accuracy would conclude quantum-derived topology does
+not help. A study measuring only MAD would conclude the fix worked. Measuring
+both localises the failure: the topology was repaired, and the bottleneck is
+downstream of graph propagation.
+
+Prime suspect: the read-out. Global mean pooling averages 200 regional feature
+vectors into one graph embedding, so whichever region carries the
+discriminative pattern is averaged away. The correlation SVM on the same folds
+keeps all 19,900 pairwise features and reaches 0.671 accuracy. The gap between
+0.506 and 0.671 is a capacity gap in the read-out, not a topology-quality gap.
+
+Note also that MAD is highest at 16 qubits (0.144), where FINDING 01 shows
+fidelity is fully collapsed. That is consistent rather than contradictory: with
+fidelity contributing nothing, the mixed kernel falls back on cosine similarity
+of the 16-dimensional latents, which is more informative than the 4-dimensional
+case. It is further evidence that MAD is being driven by the cosine term, not
+by the quantum contribution.
+
+
+WHAT TO TEST NEXT
+-----------------
+1. Replace global mean pooling with a read-out that preserves regional
+   identity: concatenated node features, attention pooling, or a fixed
+   region-ordered flatten.
+2. Report MAD alongside accuracy in any over-smoothing claim. They dissociate,
+   so one does not stand in for the other.
+
+
+REFERENCES
+----------
+[1] Rusch T.K., Bronstein M.M., Mishra S. "A survey on oversmoothing in graph
+    neural networks." arXiv:2303.10993, 2023.
+[2] Chen D. et al. "Measuring and relieving the over-smoothing problem for
+    graph neural networks from the topological view." AAAI 2020. [MAD metric]
+[3] Velickovic P. et al. "Graph attention networks." ICLR 2018.

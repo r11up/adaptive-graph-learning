@@ -174,12 +174,62 @@ def fig_quantum_kernel(kernel_json: Path, out_dir: Path, paper_dir: Path | None)
     save(fig, "fig_quantum_kernel", out_dir, paper_dir)
 
 
+def fig_topology_ablation(sweep_dir: Path, out_dir: Path, paper_dir: Path | None) -> None:
+    """Over-smoothing versus classification across topology configurations.
+
+    The point of this figure is the dissociation: narrowing the register and
+    restoring the mixed kernel recovers node distinctiveness (MAD), while
+    accuracy stays at chance. Topology was therefore not the binding constraint
+    on classification.
+    """
+    import re
+
+    rows = []
+    for run_log in sorted(sweep_dir.glob("*/run.log")):
+        text = run_log.read_text()
+        mad = re.search(r"MAD, higher = more distinct\): ([\d.]+)", text)
+        prop = re.search(r"Proposed \(quantum \+ GAT\)\s+([\d.]+)\+-[\d.]+\s+([\d.]+)", text)
+        if mad and prop:
+            rows.append({"tag": run_log.parent.name, "mad": float(mad.group(1)),
+                         "f1": float(prop.group(1)), "accuracy": float(prop.group(2))})
+    if not rows:
+        print("  (skipped fig_topology_ablation: no completed runs)")
+        return
+
+    labels = [r["tag"].replace("_", "\n") for r in rows]
+    x = np.arange(len(rows))
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9))
+
+    bars = axes[0].bar(x, [r["mad"] for r in rows], color=QUANTUM, width=0.6)
+    axes[0].set_xticks(x)
+    axes[0].set_xticklabels(labels, fontsize=7.5)
+    axes[0].set_ylabel("MAD (node distinctiveness)")
+    axes[0].set_title("Over-smoothing is relieved", fontsize=9)
+    for bar, r in zip(bars, rows, strict=True):
+        axes[0].text(bar.get_x() + bar.get_width() / 2, r["mad"] + 0.002,
+                     f"{r['mad']:.3f}", ha="center", fontsize=7)
+
+    axes[1].bar(x, [r["accuracy"] for r in rows], color=CLASSICAL, width=0.6)
+    axes[1].axhline(0.5, color=ACCENT, ls="--", lw=1.2)
+    axes[1].text(len(rows) - 0.6, 0.507, "chance", fontsize=7, color=ACCENT)
+    axes[1].set_xticks(x)
+    axes[1].set_xticklabels(labels, fontsize=7.5)
+    axes[1].set_ylabel("accuracy")
+    axes[1].set_ylim(0, 0.75)
+    axes[1].set_title("Classification does not follow", fontsize=9)
+
+    fig.tight_layout()
+    save(fig, "fig_topology_ablation", out_dir, paper_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lso-json", type=Path, default=Path("results/abide_lso_results.json"))
     parser.add_argument("--kernel-json", type=Path, default=None,
                         help="quantum_kernel_results.json; newest is used if omitted")
     parser.add_argument("--paper-dir", type=Path, default=Path("paper-tex"))
+    parser.add_argument("--sweep-dir", type=Path, default=None,
+                        help="topology sweep directory; newest is used if omitted")
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
 
@@ -196,6 +246,14 @@ def main() -> int:
     fig_fidelity_collapse(out_dir, args.paper_dir)
     fig_lso_comparison(args.lso_json, out_dir, args.paper_dir)
     fig_quantum_kernel(kernel_json, out_dir, args.paper_dir)
+
+    sweep = args.sweep_dir
+    if sweep is None:
+        candidates = [d for d in sorted(Path("results").glob("*_sweep"))
+                      if any(d.glob("*/run.log"))]
+        sweep = candidates[-1] if candidates else None
+    if sweep and sweep.exists():
+        fig_topology_ablation(sweep, out_dir, args.paper_dir)
     print("done")
     return 0
 
