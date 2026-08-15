@@ -1,0 +1,117 @@
+FINDING 01 — QUANTUM FIDELITY COLLAPSES WITH REGISTER WIDTH
+===========================================================
+Status: measured, reproducible, contradicts the source manuscript
+Date:   2026-08-15
+Code:   src/qagta/quantum/fmri_encoder.py, src/qagta/quantum/fidelity.py
+Data:   ABIDE I, 1035 subjects, 20 sites, CC200 / C-PAC filt_noglobal
+
+
+CLAIM
+-----
+Quantum state fidelity |<psi_i|psi_j>|^2 between regional embeddings loses all
+discriminative power as the qubit register widens. At 16 qubits — the width the
+manuscript specifies — no pair of brain regions has fidelity above 0.01, so the
+metric cannot order neighbours and any topology derived from it is noise.
+
+
+MEASUREMENT
+-----------
+Real ABIDE subjects, 200 CC200 regions each, ring-entangled encoder,
+fidelity computed over all 19,900 region pairs:
+
+  qubits   Hilbert dim   mean fidelity   max      pairs > 0.01
+  ------   -----------   -------------   ------   ------------
+  4        16            0.0624          0.970    47.5%
+  8        256           0.0039          0.662     7.4%
+  12       4,096         0.0003          0.144      0.6%
+  16       65,536        0.0000          0.023      0.0%
+
+Downstream consequences at 16 qubits:
+  edge weights after k-NN sparsification   mean 0.0016
+  node-feature MAD after propagation       0.003   (manuscript reports 0.45)
+
+
+MECHANISM
+---------
+Measure concentration. The parcellation yields 200 regional states; a
+65,536-dimensional Hilbert space has vastly more room than 200 states can
+populate, so they spread out and every pairwise overlap approaches zero. This
+is the well-known concentration-of-measure problem in quantum kernels, and it
+is the same effect that produces barren plateaus in variational circuits
+[Cerezo 2021, McClean 2018, Thanasilp 2024].
+
+
+WHERE THIS CONTRADICTS THE MANUSCRIPT
+-------------------------------------
+Section III-C of the manuscript treats near-orthogonality as a benefit:
+
+  "in high-dimensional Hilbert spaces, unrelated vectors tend to be close to
+   orthogonal ... Low-relevance noise connections therefore land near zero
+   fidelity by default, while genuine structural relationships stand out,
+   giving a naturally sparser and cleaner adjacency matrix."
+
+The measurement shows the mechanism has no operating window at 16 qubits.
+Orthogonality is selective only while *some* pairs remain non-orthogonal. At
+16 qubits everything is orthogonal, so nothing stands out — the claimed
+average degree of k ~ 25 with visible DMN/ECN block structure cannot arise.
+
+The correct statement is narrower and still useful: fidelity-based connectivity
+requires a *narrow* register. The original notebook accompanying this work used
+4 qubits, which the table above shows is a viable operating point. The scaling
+to 16 qubits, motivated by "one qubit per PCA feature", silently destroyed the
+metric the method depends on.
+
+
+IMPLICATION FOR THE PAPER
+-------------------------
+This is publishable in its own right, as a design constraint with a measured
+curve. It converts a vague appeal to "exponentially large Hilbert spaces" into
+a quantitative statement: for N regions, the register must be narrow enough
+that 2^n does not vastly exceed N, or the fidelity metric degenerates.
+
+Recommended framing: report the curve, state the operating window, and cite the
+concentration literature. Do not claim high-dimensional Hilbert space as an
+unqualified advantage.
+
+
+REFERENCES
+----------
+[1] Havlicek V., Corcoles A.D., Temme K., Harrow A.W., Kandala A., Chow J.M.,
+    Gambetta J.M. "Supervised learning with quantum-enhanced feature spaces."
+    Nature 567:209-212, 2019.
+
+[2] Schuld M., Killoran N. "Quantum machine learning in feature Hilbert
+    spaces." Physical Review Letters 122:040504, 2019.
+
+[3] Thanasilp S., Wang S., Cerezo M., Holmes Z. "Exponential concentration in
+    quantum kernel methods." Nature Communications 15:5200, 2024.
+
+[4] Cerezo M., Sone A., Volkoff T., Cincio L., Coles P.J. "Cost function
+    dependent barren plateaus in shallow parametrized quantum circuits."
+    Nature Communications 12:1791, 2021.
+
+[5] McClean J.R., Boixo S., Smelyanskiy V.N., Babbush R., Neven H. "Barren
+    plateaus in quantum neural network training landscapes." Nature
+    Communications 9:4812, 2018.
+
+[6] Craddock R.C., James G.A., Holtzheimer P.E., Hu X.P., Mayberg H.S. "A whole
+    brain fMRI atlas generated via spatially constrained spectral clustering."
+    Human Brain Mapping 33:1914-1928, 2012.  [CC200 atlas]
+
+
+REPRODUCE
+---------
+  python - <<'PY'
+  import torch
+  from qagta.data.abide import load_abide
+  from qagta.quantum.fmri_encoder import RingEntangledEncoder
+  from qagta.quantum.fidelity import pairwise_fidelity
+  for nq in (4, 8, 12, 16):
+      ds = load_abide(limit=6, n_components=nq)
+      enc = RingEntangledEncoder(nq)
+      x = torch.as_tensor(ds.subjects[0].features)
+      with torch.no_grad():
+          z, s = enc(x, return_state=True)
+          f = pairwise_fidelity(s); off = f[~torch.eye(200, dtype=bool)]
+      print(nq, float(off.mean()), float(off.max()), float((off > 0.01).float().mean()))
+  PY

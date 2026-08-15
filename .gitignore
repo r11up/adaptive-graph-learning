@@ -43,3 +43,6 @@ results/*.pt
 
 # Manuscript sources — unpublished, kept local
 paper-tex/
+
+# Encoded caches inside timestamped run dirs
+results/**/encoded.pt

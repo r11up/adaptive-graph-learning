@@ -1,0 +1,107 @@
+FINDING 02 — THE GRAPH PIPELINE DOES NOT REPRODUCE; THE CLASSICAL BASELINES DO
+==============================================================================
+Status: measured, full cohort, negative result
+Date:   2026-08-15
+Code:   scripts/run_abide_study.py
+Data:   ABIDE I, 1035 subjects, 20 sites, Leave-Site-Out, 30 epochs/fold
+Raw:    results/abide_lso_run.log, results/abide_lso_results.json
+
+
+RESULT
+------
+  model                        F1               accuracy         specificity
+  --------------------------   --------------   --------------   --------------
+  SVM (linear)                 0.653 +- 0.039   0.671 +- 0.036   0.689 +- 0.067
+  SVM (RBF)                    0.627 +- 0.054   0.642 +- 0.042   0.634 +- 0.088
+  GCN + Pearson                0.252 +- 0.118   0.494 +- 0.029   0.664 +- 0.185
+  GCN + RBF                    0.145 +- 0.119   0.508 +- 0.029   0.783 +- 0.179
+  Proposed (quantum + GAT)     0.230 +- 0.141   0.506 +- 0.028   0.650 +- 0.214
+  Ablation (quantum + GCN)     0.164 +- 0.128   0.508 +- 0.028   0.750 +- 0.195
+
+  over-smoothing diagnostic MAD = 0.003   (manuscript reports 0.45)
+
+
+WHAT REPRODUCES
+---------------
+The classical arm reproduces and slightly exceeds the manuscript:
+  SVM linear   measured 0.653   manuscript 0.58
+  SVM RBF      measured 0.627   manuscript 0.62
+
+This validates the components that could have failed silently: subject
+loading, ASD/control label mapping (DX_GROUP 1/2 -> 1/0), site assignment,
+and Leave-Site-Out fold construction. The data carries the signal claimed.
+
+
+WHAT DOES NOT
+-------------
+All four graph configurations sit at chance (accuracy 0.494-0.508). The
+manuscript reports F1 = 0.72 for the proposed model; measured is 0.230.
+
+Per-fold behaviour identifies the failure mode: folds collapse to a single
+predicted class. Either all-control (F1 = 0.000, specificity 1.000) or all-ASD
+(F1 ~ 0.65, specificity 0.000). The models are not learning a decision
+boundary. Note that a degenerate all-positive predictor scores F1 ~ 0.65 on a
+balanced set, which is why F1 alone is a misleading headline metric here —
+accuracy and specificity expose it immediately.
+
+
+CAUSES IDENTIFIED
+-----------------
+1. Fidelity collapse upstream (see FINDING 01). At 16 qubits the topology is
+   effectively random, so propagation has no meaningful structure to exploit.
+
+2. Implementation divergence from the patent. The patent specifies an edge
+   kernel integrating "cosine similarity, learnable transformations, attention
+   scores, AND quantum fidelity" — four terms. The connectome pipeline as first
+   written seeded k-NN topology from fidelity ALONE, so fidelity's collapse
+   left nothing to order neighbours by. Fixed via --topology mixed.
+
+3. Read-out bottleneck, independent of the above. Global mean pooling averages
+   200 regional feature vectors into one graph embedding, discarding which
+   region carries what. The SVM comparator sees all 19,900 pairwise
+   correlations. A meaningful part of the 0.65-vs-0.23 gap is therefore
+   read-out capacity, not topology quality, and would persist even with healthy
+   fidelity.
+
+
+HONEST INTERPRETATION
+---------------------
+This is not evidence that quantum-derived topology fails. It is evidence that
+this configuration destroys the metric it depends on, and that the graph-level
+read-out discards most of the available signal. Both are fixable; neither was
+fixed by the configuration as specified in the manuscript.
+
+It does mean the manuscript's Table I cannot currently be reproduced from this
+implementation, and the F1 = 0.72 figure should not be relied on until the
+above are addressed and re-measured.
+
+
+REFERENCES
+----------
+[1] Di Martino A. et al. "The autism brain imaging data exchange: towards a
+    large-scale evaluation of the intrinsic brain architecture in autism."
+    Molecular Psychiatry 19:659-667, 2014.  [ABIDE I]
+
+[2] Craddock C. et al. "The Neuro Bureau Preprocessing Initiative: open sharing
+    of preprocessed neuroimaging data and derivatives." Neuroinformatics, 2013.
+    [C-PAC derivatives]
+
+[3] Velickovic P., Cucurull G., Casanova A., Romero A., Lio P., Bengio Y.
+    "Graph attention networks." ICLR 2018.
+
+[4] Rusch T.K., Bronstein M.M., Mishra S. "A survey on oversmoothing in graph
+    neural networks." arXiv:2303.10993, 2023.
+
+[5] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data: an autism-based example." NeuroImage 147:736-745, 2017.
+    [establishes realistic ABIDE accuracy ceiling ~0.67 under leave-site-out]
+
+
+NOTE ON THE REALISTIC CEILING
+-----------------------------
+Reference [5] is important context for the manuscript's claims. Under
+leave-site-out validation on ABIDE, published accuracy clusters around 0.65-0.70.
+The measured SVM here (0.671 accuracy) sits squarely in that range. Reported
+ABIDE accuracies above ~0.85 in the literature almost always use random splits
+rather than site-held-out splits, and are not comparable. Any claim materially
+above ~0.70 under true leave-site-out warrants scrutiny.
