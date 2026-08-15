@@ -1,0 +1,147 @@
+FINDING 04 — COMPETITIVE LANDSCAPE AND HOW TO ACTUALLY BEAT IT
+===============================================================
+Status: literature survey, 2024-2026
+Date:   2026-08-15
+Purpose: identify what published quantum work reports, on what data, under
+         what protocol, and where a defensible claim is still available
+
+
+THE HEADLINE: THE GAP IS THE PROTOCOL, NOT THE ACCURACY
+--------------------------------------------------------
+Targeted searching found no published quantum machine-learning result on ABIDE
+functional connectivity evaluated under Leave-Site-Out cross-validation. Quantum
+neuroimaging work either uses different modalities (sMRI slices, EEG, calcium
+imaging), different cohorts (UCLA CNP, UK Biobank), or easier validation splits.
+
+That is the opening. Not a higher number — a number that means something.
+
+
+WHAT THE FIELD REPORTS
+----------------------
+  work                        data                model            reported     protocol
+  -------------------------   -----------------   --------------   ----------   ------------------
+  HybridVQC (EPJ 2026)        ABIDE sMRI slices   ResNet-18 + VQC  75.0% test   val/test split
+  Quantum kernel SVM (2025)   UCLA CNP            4-qubit kernel   AUC 0.957    not site-held-out
+  QSVM ASD detection (2025)   screening/tabular   QSVM             96.7% acc    not fMRI
+  Q time-series transformer   rs-fMRI/UKB         quantum trans.   -            -
+  Choi et al. (KBS 2025)      rs-fMRI             1D-CNN + QCNN    -            per-region
+  Chan et al. (2025)          mouse calcium       fidelity graph   n/a          descriptive only
+  -------------------------   -----------------   --------------   ----------   ------------------
+  classical ensemble (2024)   ABIDE               GCN/FCN/SVM      72.2% acc    CV
+  Abraham et al. (2017)       ABIDE               classical        ~67% acc     LEAVE-SITE-OUT
+  THIS WORK                   ABIDE fMRI          SVM baseline     67.1% acc    LEAVE-SITE-OUT
+
+
+READING THE NUMBERS HONESTLY
+----------------------------
+The 96.7% and AUC 0.957 figures are not competitors to this work, and treating
+them as targets would be a mistake:
+
+- The 96.7% QSVM result is on autism *screening* data (questionnaire/tabular),
+  not fMRI functional connectivity. Different problem, vastly easier.
+- HybridVQC's 75.0% is ABIDE, but *structural* MRI slices with a ResNet-18
+  feature extractor, under a validation/test split rather than site-held-out.
+  It is also explicitly "quantum-inspired", not a quantum kernel or circuit.
+- The UCLA CNP quantum kernel result (AUC 0.957) is a genuine quantum kernel,
+  but on a single-site cohort where site confounds cannot arise.
+
+Meanwhile the two protocol-matched anchors agree closely with each other and
+with this work: Abraham et al. reach ~67% under leave-site-out, and this
+implementation's SVM reaches 67.1%. Classical methods under easier CV reach
+about 72%. That is the true operating range for ABIDE functional connectivity.
+
+Any ABIDE fMRI result materially above ~72% under genuine leave-site-out should
+be treated as a red flag until the split is verified. This is worth stating in
+the paper: it protects the work and it is a real service to the subfield.
+
+
+WHY CHASING 96% WOULD BE THE WRONG MOVE
+---------------------------------------
+To "match" the headline numbers this work would have to abandon leave-site-out
+for a random split. That would inflate the metric by roughly 5-10 points through
+site leakage alone, and would make the result non-comparable to the very papers
+being cited as motivation. It would also undercut the paper's own stated
+rationale for LSO. The number would go up; the contribution would go down.
+
+
+THE DEFENSIBLE CLAIM AVAILABLE
+------------------------------
+Not "quantum achieves 96%". Rather:
+
+  "Under site-held-out validation on ABIDE, a quantum kernel outperforms a
+   matched classical kernel on identical features and identical folds, with
+   paired significance across 20 sites."
+
+An effect as small as +0.03 AUC with p < 0.05 paired over 20 sites is a
+stronger scientific claim than 96% on a random split, because it is the first
+protocol-clean quantum-vs-classical comparison in this setting. It is also
+falsifiable, which the headline numbers largely are not.
+
+Current status of that claim (FINDING 03): quantum kernel AUC 0.592 vs
+classical 0.633-0.635, p = 0.945. Not yet achieved, with the search space
+essentially unexplored.
+
+
+CONCRETE LEVERS, RANKED BY EXPECTED EFFECT
+------------------------------------------
+1. ENCODING BANDWIDTH. The scaling applied to features before angle encoding
+   controls the concentration/expressivity trade-off and is the single most
+   influential hyperparameter in quantum kernels [4]. It is currently fixed at
+   1.0 and has never been tuned. Bandwidth tuning alone has been shown to move
+   quantum kernels from below-classical to competitive. This is the highest
+   expected-value experiment available and is cheap: the kernel matrix is one
+   matrix product.
+
+2. KERNEL-TARGET ALIGNMENT as the model-selection criterion, instead of
+   accuracy or AUC. Aligns the kernel to the labels directly and is standard
+   practice in the quantum kernel literature.
+
+3. DESCRIPTOR CHOICE. PCA on correlation vectors is a generic reduction that
+   discards network structure. Graph-derived descriptors (modularity,
+   participation coefficient, network-level summaries) may carry structure the
+   quantum feature map can exploit, where raw principal components do not.
+
+4. PROJECTED QUANTUM KERNELS [6]. Measure reduced density matrices rather than
+   full-state overlaps. Specifically designed to resist the exponential
+   concentration documented in FINDING 01, and directly applicable here.
+
+5. COHORT BREADTH. ADHD-200 under the same protocol (FINDING for datasets).
+   Two disorders, one protocol, is a stronger paper than one disorder with a
+   marginally better number.
+
+Note that levers 1, 2 and 4 all attack concentration, which FINDING 01 measured
+as the dominant failure mode. That convergence is a good sign they are the
+right things to try.
+
+
+REFERENCES
+----------
+[1] HybridVQC: "A Quantum-Inspired Neural Architecture for Autism Spectrum
+    Disorder Classification." EPJ Web of Conferences, 2026.
+    [ABIDE sMRI, 75.0% test accuracy]
+
+[2] "Quantum Kernel Methods for Calibrated and Interpretable Neuroimaging
+    Classification in Computational Psychiatry." Research Square
+    rs-10221499/v1, 2025.  [UCLA CNP, 4-qubit quantum kernel, AUC 0.957]
+
+[3] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data: an autism-based example." NeuroImage 147:736-745, 2017.
+    [ABIDE leave-site-out ~67%; the protocol-matched anchor]
+
+[4] Canatar A., Peters E., Pehlevan C., Wilson C.M., Killoran N. "Bandwidth
+    enables generalization in quantum kernel models." TMLR, 2023.
+
+[5] Park J.J. et al. "Resting-state fMRI analysis using quantum time-series
+    transformer." arXiv:2509.00711, 2025.
+
+[6] Huang H.-Y., Broughton M., Mohseni M., Babbush R., Boixo S., Neven H.,
+    McClean J.R. "Power of data in quantum machine learning." Nature
+    Communications 12:2631, 2021.  [projected quantum kernels; conditions under
+    which quantum models can beat classical ones on the same data]
+
+[7] Choi J. et al. "Early-stage detection of cognitive impairment by hybrid
+    quantum-classical algorithm using resting-state functional MRI time-series."
+    Knowledge-Based Systems 310:112922, 2025.
+
+[8] Chan S., Smith W., Gabriel K. "Quantum state fidelity for functional neural
+    network construction." arXiv:2508.16895, 2025.
