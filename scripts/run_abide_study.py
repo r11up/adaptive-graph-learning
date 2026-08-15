@@ -59,6 +59,8 @@ def main() -> int:
     parser.add_argument("--atlas", default="rois_cc200")
     parser.add_argument("--n-qubits", type=int, default=16)
     parser.add_argument("--k-neighbors", type=int, default=20)
+    parser.add_argument("--topology", default="mixed", choices=["mixed", "fidelity", "cosine"],
+                        help="how the candidate topology is seeded")
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--lr", type=float, default=0.01)
     parser.add_argument("--hidden-dim", type=int, default=32)
@@ -105,13 +107,15 @@ def main() -> int:
         print(f"\nencoding {len(dataset)} subjects x {dataset.n_roi} regions "
               f"({args.n_qubits} qubits, {n_params} circuit parameters, backend={args.backend})")
         start = time.perf_counter()
-        cohort = encode_cohort(dataset, encoder, k_neighbors=args.k_neighbors)
+        cohort = encode_cohort(dataset, encoder, k_neighbors=args.k_neighbors,
+                               topology=args.topology)
         print(f"encoding took {time.perf_counter() - start:.1f}s")
         cohort.save(args.cache)
         print(f"cached -> {args.cache}")
 
     density = graph_density(cohort.edge_index[0], cohort.latents.shape[1])
-    print(f"quantum graph: {cohort.latents.shape[1]} nodes, avg degree {density:.1f}")
+    print(f"quantum graph: {cohort.latents.shape[1]} nodes, avg degree {density:.1f}, "
+      f"topology={args.topology}")
 
     results = []
 

@@ -20,6 +20,7 @@ import torch
 from torch_geometric.data import Data
 
 from qagta.data.abide import AbideDataset
+from qagta.graph.adaptive_edges import AdaptiveEdgeLearner
 from qagta.graph.connectome import fidelity_connectivity, knn_sparsify
 
 
@@ -64,17 +65,51 @@ class EncodedCohort:
         return cls(**blob)
 
 
+def _initial_adjacency(
+    latents: torch.Tensor, states: torch.Tensor, topology: str
+) -> torch.Tensor:
+    """Similarity matrix used to seed the candidate topology.
+
+    ``fidelity`` uses the quantum overlap alone. ``mixed`` blends it with the
+    cosine similarity of the measured latents, which is the kernel the
+    architecture actually specifies — similarity *and* fidelity, among other
+    terms — and which degrades gracefully: in high-dimensional Hilbert spaces
+    fidelity concentrates toward zero for every pair, and a fidelity-only seed
+    then selects neighbours out of noise. Keeping the cosine term preserves a
+    usable ordering no matter how far the fidelity has collapsed.
+    """
+    if topology == "fidelity":
+        return fidelity_connectivity(states)
+
+    cosine = AdaptiveEdgeLearner.cosine_similarity_matrix(latents)
+    if topology == "cosine":
+        return cosine
+    if topology != "mixed":
+        raise ValueError(f"unknown topology {topology!r}")
+
+    fidelity = fidelity_connectivity(states)
+    # Rescale fidelity to comparable spread before blending, so a collapsed
+    # fidelity contributes little rather than dominating with noise.
+    spread = fidelity.std()
+    if float(spread) > 1e-8:
+        fidelity = (fidelity - fidelity.mean()) / spread
+        cosine_scaled = (cosine - cosine.mean()) / cosine.std().clamp_min(1e-8)
+        return 0.5 * cosine_scaled + 0.5 * fidelity
+    return cosine
+
+
 @torch.no_grad()
 def encode_cohort(
     dataset: AbideDataset,
     encoder: torch.nn.Module,
     k_neighbors: int = 20,
+    topology: str = "mixed",
     verbose: bool = True,
     progress_every: int = 50,
 ) -> EncodedCohort:
-    """Encode every subject and build its fidelity-initialised sparse graph.
+    """Encode every subject and build its sparse graph.
 
-    The statevectors are used here, once, to define the topology; they are not
+    The statevectors are used here, once, to seed the topology; they are not
     retained, since training recomputes edge weights from the (much smaller)
     expectation-value latents.
     """
@@ -85,7 +120,7 @@ def encode_cohort(
         x = torch.as_tensor(subject.features, dtype=torch.float32)
         z, states = encoder.encode(x, return_state=True)
 
-        adjacency = fidelity_connectivity(states)
+        adjacency = _initial_adjacency(z, states, topology)
         edge_index, edge_weight = knn_sparsify(adjacency, k=k_neighbors)
 
         latents.append(z)

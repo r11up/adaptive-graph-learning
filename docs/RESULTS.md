@@ -72,6 +72,33 @@ It is not evidence that quantum-derived topology fails. It is evidence that
 matters: the failure is in the fidelity scale, upstream of the graph and the
 classifier, and every downstream number inherits it.
 
+## The qubit-count measurement
+
+Fidelity's dynamic range collapses exponentially with the width of the register.
+Measured on real ABIDE subjects, 200 regions each:
+
+| qubits | Hilbert dim | mean fidelity | max | region pairs > 0.01 |
+|---|---|---|---|---|
+| **4** | 16 | 0.0624 | 0.970 | **47.5%** |
+| 8 | 256 | 0.0039 | 0.662 | 7.4% |
+| 12 | 4,096 | 0.0003 | 0.144 | 0.6% |
+| 16 | 65,536 | 0.0000 | 0.023 | **0.0%** |
+
+At 4 qubits nearly half of all region pairs carry a fidelity above 0.01 and the
+strongest pairs reach 0.97 — the metric discriminates. At 16 qubits *no pair*
+clears 0.01. The parcellation has 200 regions; a 65,536-dimensional space has
+far more room than 200 states can populate, so they spread out and every overlap
+vanishes. The original notebook accompanying this work used 4 qubits.
+
+This also sharpens what the patent actually specifies. Its kernel integrates
+"cosine similarity, learnable transformations, attention scores, **and** quantum
+fidelity" — fidelity is one term among four. The connectome pipeline as first
+written seeded the k-NN topology from **fidelity alone**, so when fidelity
+collapsed there was nothing left to order neighbours by. The `--topology mixed`
+mode restores the specified behaviour: fidelity is standardised and blended with
+the cosine similarity of the measured latents, so a collapsed fidelity
+contributes little instead of injecting noise.
+
 ## Directions worth testing
 
 Ranked by how directly they attack the measured cause:
