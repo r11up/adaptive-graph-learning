@@ -31,18 +31,33 @@ unchanged and the only thing that varies is the disorder.
 
 Two release routes, and the difference matters:
 
-- **C-PAC derivatives on S3** (what the script fetches): **104 usable subjects
-  (26 ADHD / 78 control) across 6 sites**, verified downloaded and loading.
-  Anonymous, scriptable, lands in the ABIDE layout so
-  `load_abide(root='data/adhd200')` reads it directly. The benchmark pipeline
-  covers 162 subject directories; 104 of those have both a CC200 series and a
-  usable diagnostic label. Note the class imbalance — useful for validating the
-  code path, too small and skewed for a headline result.
+- **C-PAC derivatives on S3** (what the script fetches): 104 subjects
+  (26 ADHD / 78 control) across 6 sites. Anonymous, scriptable, lands in the
+  ABIDE layout so `load_abide(root='data/adhd200')` reads it directly.
+
+  **This subset is not viable for a Leave-Site-Out study, and it was measured,
+  not assumed.** The per-site class breakdown:
+
+  | site | control | ADHD | total | LSO usable |
+  |---|---|---|---|---|
+  | KKI | 16 | 8 | 24 | yes |
+  | NeuroIMAGE | 7 | 7 | 14 | yes |
+  | Peking_1 | 20 | 7 | 27 | yes |
+  | OHSU | 14 | 0 | 14 | no — single class |
+  | Pittsburgh | 19 | 0 | 19 | no — single class |
+  | NYU | 2 | 4 | 6 | no — too small |
+
+  Only 3 of 6 sites survive, carrying 22 ADHD cases between them. Running the
+  full protocol on it returns F1 = 0.11 +- 0.22 for the proposed model, with two
+  of the three folds collapsing to all-negative predictions — a null result
+  driven by cohort size, not by the method. It proves the code path works on a
+  second disorder and nothing more.
 - **Neuro Bureau "Athena" release**: the full 947 subjects (362 ADHD / 585
-  control) with CC200 time series, but distributed through NITRC as per-site tar
-  archives. Requires a free NITRC account, no data use agreement. Worth doing
-  manually for a publication-grade result — 947 subjects across 8 sites is
-  comparable in weight to ABIDE I itself.
+  control) with CC200 time series, distributed through NITRC as per-site tar
+  archives. Requires a free NITRC account, no data use agreement. Given the
+  numbers above this is **not optional** — it is the only route to an ADHD arm
+  that can carry a claim. 947 subjects across 8 sites is comparable in weight to
+  ABIDE I itself.
 
 > ADHD-200 Consortium. "The ADHD-200 Consortium: a model to advance the
 > translational potential of neuroimaging in clinical neuroscience."
