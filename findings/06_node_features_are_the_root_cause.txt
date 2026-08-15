@@ -1,0 +1,100 @@
+FINDING 06 — THE NODE FEATURES CARRY NO CLASS SIGNAL (ROOT CAUSE)
+=================================================================
+Status: measured, decisive, supersedes the read-out hypothesis
+Date:   2026-08-15
+Data:   ABIDE I, 1035 subjects, 20 sites
+Raw:    results/20260815-141325Z_readout/readout_comparison.json
+
+
+THE READ-OUT HYPOTHESIS IS REJECTED
+-----------------------------------
+FINDING 05 proposed that global mean pooling was discarding regional identity.
+Four read-outs were compared under identical Leave-Site-Out folds:
+
+  read-out     F1               accuracy         specificity
+  ----------   --------------   --------------   -----------
+  mean         0.292 +- 0.145   0.495 +- 0.028   0.550
+  stats        0.295 +- 0.146   0.500 +- 0.029   0.554
+  attention    0.133 +- 0.119   0.512 +- 0.027   0.800
+  flatten      0.192 +- 0.133   0.497 +- 0.028   0.700
+
+All four sit at chance. Preserving regional identity exactly (flatten, fixed
+atlas order) changes nothing. The read-out was not the bottleneck.
+
+
+THE ACTUAL ROOT CAUSE
+---------------------
+Testing the node features directly, with no graph involved at all:
+
+  feature set                             AUC
+  -------------------------------------   -----
+  quantum latents, mean-pooled            0.501
+  quantum latents, all 200 regions        0.459
+  correlation profile (19,900-d)          0.693
+
+The per-region features contain no diagnostic information. Not compressed
+information, not information the graph fails to exploit — none. An SVM given
+all 1600 latent dimensions directly performs at chance (0.459), while the same
+classifier on pairwise correlations reaches 0.693.
+
+This explains every negative result in this study at once: the graph pipeline
+sits at chance regardless of qubit count, topology kernel, over-smoothing
+mitigation, or read-out, because it was never given features that separate the
+classes.
+
+
+MECHANISM
+---------
+ASD-related signal in rs-fMRI lives in the *correlations between* regions, not
+in the temporal dynamics of any single region. PCA of one region's BOLD series
+captures that region's own profile, which is dominated by scanner, motion and
+physiological factors rather than diagnosis.
+
+The architecture therefore places the discriminative information — pairwise
+correlation — into the graph *structure*, where it is used only to route
+messages, and then supplies node features that carry none of it. Message
+passing over a k=20 sparsified graph cannot reconstruct the full pairwise
+correlation pattern that the SVM reads directly.
+
+This is a design-level issue, not a bug. The pipeline is faithful to the
+specification; the specification puts the signal in the wrong place.
+
+
+THE FIX TO TEST
+---------------
+Use each region's CONNECTIVITY PROFILE as its node feature: row i of the
+subject's correlation matrix, a 200-dimensional vector describing how region i
+relates to every other region. This is standard practice in fMRI GNN work
+(BrainGNN, population-graph GCNs) and it puts the pairwise information where
+the network can actually use it.
+
+The quantum encoder then operates on connectivity profiles rather than raw
+temporal PCA, which is also a more natural input for a fidelity kernel: two
+regions with similar connectivity fingerprints should have overlapping quantum
+states, whereas two regions with similar raw time courses need not be
+functionally related at all.
+
+Predicted outcome: node-feature AUC should rise from ~0.50 toward the ~0.69
+that the correlation profile supports, at which point the graph stages can be
+evaluated on their merits for the first time.
+
+
+WHY THIS ORDERING OF FINDINGS MATTERS
+--------------------------------------
+FINDING 01 (fidelity collapse) and FINDING 05 (over-smoothing) were both real,
+measured defects, and both were repaired. Neither changed accuracy, because a
+fourth defect sat upstream of both. Fixing visible problems in the order they
+appear is not the same as finding the binding constraint — the node-feature
+test above costs minutes and should have been run before any of the graph
+work.
+
+
+REFERENCES
+----------
+[1] Li X. et al. "BrainGNN: Interpretable brain graph neural network for fMRI
+    analysis." Medical Image Analysis 74:102233, 2021.
+[2] Parisot S. et al. "Disease prediction using graph convolutional networks:
+    Application to Autism Spectrum Disorder and Alzheimer's disease."
+    Medical Image Analysis 48:117-130, 2018.
+[3] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data: an autism-based example." NeuroImage 147:736-745, 2017.
