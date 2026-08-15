@@ -83,6 +83,7 @@ def train_fold(
     dropout: float = 0.6,
     batch_size: int = 16,
     model_type: str = "gat",
+    readout: str = "mean",
     seed: int = 0,
     measure_mad: bool = True,
 ) -> FoldResult:
@@ -92,7 +93,8 @@ def train_fold(
 
     if model_type == "gat":
         model: torch.nn.Module = ConnectomeGAT(
-            latent_dim=latent_dim, hidden_dim=hidden_dim, heads=heads, dropout=dropout
+            latent_dim=latent_dim, hidden_dim=hidden_dim, heads=heads, dropout=dropout,
+            readout=readout, n_nodes=cohort.latents.shape[1],
         )
     elif model_type == "gcn":
         from qagta.models.connectome_gat import ConnectomeGCN

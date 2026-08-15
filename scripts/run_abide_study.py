@@ -66,6 +66,9 @@ def main() -> int:
     parser.add_argument("--hidden-dim", type=int, default=32)
     parser.add_argument("--heads", type=int, default=4)
     parser.add_argument("--dropout", type=float, default=0.6)
+    parser.add_argument("--readout", default="mean",
+                        choices=["mean", "attention", "flatten", "stats"],
+                        help="graph read-out; mean discards regional identity")
     parser.add_argument("--limit", type=int, help="use only the first N subjects")
     parser.add_argument("--backend", default="torch", choices=["torch", "pennylane"])
     parser.add_argument("--permutations", type=int, default=0)
@@ -155,7 +158,7 @@ def main() -> int:
     proposed = leave_site_out(
         cohort, name="Proposed (quantum + GAT)", epochs=args.epochs, lr=args.lr,
         hidden_dim=args.hidden_dim, heads=args.heads, dropout=args.dropout,
-        model_type="gat", seed=args.seed,
+        model_type="gat", readout=args.readout, seed=args.seed,
     )
     results.append(proposed)
 
