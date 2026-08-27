@@ -136,23 +136,68 @@ def load_roi_mat(path: Path) -> np.ndarray | None:
 
 
 def load_nifti(path: Path, atlas_img, masker_cache: dict):
-    """Parcellate a 4-D BOLD volume into ROI time series."""
+    """Parcellate a 4-D BOLD volume into ROI time series, aligned to the atlas.
+
+    NiftiLabelsMasker returns only the regions that actually intersect a given
+    subject's coverage, so subjects with slightly different field-of-view come
+    back with different column counts — measured here as 21 distinct widths
+    between 180 and 190 across one cohort. Column *i* would then denote a
+    different brain region for different subjects, which silently destroys any
+    cross-subject comparison.
+
+    This maps whatever the masker returns back onto the atlas's full, fixed
+    label list, so column *i* is always the same region and regions missing for
+    a subject are zero-filled.
+    """
+    import nibabel as nib
     from nilearn.maskers import NiftiLabelsMasker
 
-    if "masker" not in masker_cache:
+    if "labels" not in masker_cache:
+        atlas_data = nib.load(atlas_img).get_fdata().astype(int)
+        canonical = [int(v) for v in np.unique(atlas_data) if v > 0]
+        masker_cache["labels"] = canonical
+        masker_cache["index"] = {label: i for i, label in enumerate(canonical)}
         masker_cache["masker"] = NiftiLabelsMasker(
-            labels_img=atlas_img, standardize="zscore_sample",
-            memory=None, verbose=0,
+            labels_img=atlas_img, standardize="zscore_sample", memory=None, verbose=0,
         )
+
+    masker = masker_cache["masker"]
     try:
-        return np.nan_to_num(masker_cache["masker"].fit_transform(str(path)))
+        series = np.nan_to_num(masker.fit_transform(str(path)))
     except Exception as exc:  # noqa: BLE001 - nilearn raises many types
         print(f"    ! {path.name}: {exc.__class__.__name__}", file=sys.stderr)
         return None
 
+    canonical = masker_cache["labels"]
+    aligned = np.zeros((series.shape[0], len(canonical)), dtype=float)
 
-def resolve_atlas(name: str):
-    """Fetch a parcellation image. CC200 keeps parity with ABIDE."""
+    # `labels_` lists the region ids actually returned, in column order.
+    returned = [int(v) for v in getattr(masker, "labels_", canonical)]
+    index = masker_cache["index"]
+    for column, label in enumerate(returned):
+        if column < series.shape[1] and label in index:
+            aligned[:, index[label]] = series[:, column]
+    return aligned
+
+
+def resolve_atlas(name: str, local_path: Path | None = None):
+    """Resolve a parcellation image, preferring a local file.
+
+    A local atlas is the safer default: nilearn's Craddock fetcher pulls from a
+    NITRC host that is frequently unavailable, and the ADHD-200 release ships
+    the exact CC200 template it was parcellated with
+    (``templates/ADHD200_parcellate_200.nii.gz``). Reusing that file keeps a
+    newly parcellated cohort on the same footing as ADHD-200 rather than a
+    near-miss variant of it.
+
+    Note the template resolves to 190 non-empty parcels despite labels running
+    to 200, which is why ADHD-200 series are 190 columns wide.
+    """
+    if local_path is not None:
+        if not local_path.exists():
+            raise SystemExit(f"atlas not found: {local_path}")
+        return str(local_path), "local file"
+
     from nilearn import datasets
 
     if name in {"cc200", "craddock"}:
@@ -181,10 +226,19 @@ def main() -> int:
     parser.add_argument("--positive-values", nargs="+", required=True,
                         help="label values counting as the case class")
     parser.add_argument("--atlas", default="cc200", help="nifti format only")
+    parser.add_argument("--atlas-path", type=Path, default=None,
+                        help="local parcellation NIfTI; preferred over the "
+                             "nilearn fetcher, whose host is often unavailable")
     parser.add_argument("--columns", default=None, metavar="START:END",
                         help="0-indexed column slice to keep from multi-atlas "
                              "ROI matrices, e.g. 228:428 for CC200 in REST-meta-MDD")
     parser.add_argument("--out-root", type=Path, default=Path("data"))
+    parser.add_argument("--id-regex", default=None, metavar="PATTERN",
+                        help="regex with one capture group extracting the subject "
+                             "id from a filename, e.g. '(S\\d+-\\d+-\\d+)' for "
+                             "REST-meta-MDD's ROISignals_S1-1-0001.mat. Overrides "
+                             "the built-in heuristic, which assumes a plain "
+                             "numeric id.")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -211,7 +265,7 @@ def main() -> int:
     atlas_img, note = (None, None)
     masker_cache: dict = {}
     if args.format == "nifti":
-        atlas_img, note = resolve_atlas(args.atlas)
+        atlas_img, note = resolve_atlas(args.atlas, args.atlas_path)
         print(f"atlas: {args.atlas}" + (f"  ({note})" if note else ""))
 
     series_dir = args.out_root / args.cohort / "ABIDE_pcp" / "cpac" / "filt_noglobal"
@@ -219,8 +273,9 @@ def main() -> int:
         series_dir.mkdir(parents=True, exist_ok=True)
 
     rows, unmatched, unreadable = [], 0, 0
+    id_pattern = re.compile(args.id_regex) if args.id_regex else ID_IN_NAME
     for path in files:
-        match = ID_IN_NAME.search(path.stem)
+        match = id_pattern.search(path.stem)
         key = normalise_id(match.group(1)) if match else normalise_id(path.stem)
         record = lookup.get(key)
         if record is None:
