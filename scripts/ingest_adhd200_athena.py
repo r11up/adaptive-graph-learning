@@ -19,11 +19,11 @@ Get the archive
 
 Output
 ------
-Writes the ABIDE-compatible layout, so ``load_abide(root='data/adhd200')``
+Writes the ABIDE-compatible layout, so ``load_abide(root='data/ADHD-200')``
 reads the result with no code changes:
 
-    data/adhd200/ABIDE_pcp/cpac/filt_noglobal/<ScanDirID>_rois_cc200.1D
-    data/adhd200/ABIDE_pcp/Phenotypic_V1_0b_preprocessed1.csv
+    data/ADHD-200/ABIDE_pcp/cpac/filt_noglobal/<ScanDirID>_rois_cc200.1D
+    data/ADHD-200/ABIDE_pcp/Phenotypic_V1_0b_preprocessed1.csv
 
 Diagnosis and site come from the per-site phenotypic tables on the public INDI
 S3 bucket (no login needed for those), joined on the numeric scan ID parsed out
@@ -148,7 +148,7 @@ def main() -> int:
     )
     parser.add_argument("source", type=Path,
                         help="downloaded archive (.tgz/.tar.gz/.zip) or extracted directory")
-    parser.add_argument("--out", type=Path, default=Path("data/adhd200"))
+    parser.add_argument("--out", type=Path, default=Path("data/ADHD-200"))
     parser.add_argument("--keep-existing", action="store_true",
                         help="merge with any subjects already present")
     args = parser.parse_args()

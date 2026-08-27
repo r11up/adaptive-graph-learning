@@ -33,7 +33,7 @@ Two release routes, and the difference matters:
 
 - **C-PAC derivatives on S3** (what the script fetches): 104 subjects
   (26 ADHD / 78 control) across 6 sites. Anonymous, scriptable, lands in the
-  ABIDE layout so `load_abide(root='data/adhd200')` reads it directly.
+  ABIDE layout so `load_abide(root='data/ADHD-200')` reads it directly.
 
   **This subset is not viable for a Leave-Site-Out study, and it was measured,
   not assumed.** The per-site class breakdown:

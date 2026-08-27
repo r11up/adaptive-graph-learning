@@ -87,8 +87,8 @@ Drop per-subject ROI time-series files into the same layout and the loader picks
 them up unchanged:
 
 ```
-data/abide/ABIDE_pcp/<pipeline>/<strategy>/<FILE_ID>_rois_cc200.1D
-data/abide/ABIDE_pcp/Phenotypic_V1_0b_preprocessed1.csv   # needs FILE_ID, DX_GROUP, SITE_ID
+data/ABIDE-I/ABIDE_pcp/<pipeline>/<strategy>/<FILE_ID>_rois_cc200.1D
+data/ABIDE-I/ABIDE_pcp/Phenotypic_V1_0b_preprocessed1.csv   # needs FILE_ID, DX_GROUP, SITE_ID
 ```
 
 `load_abide()` keys off those three phenotypic columns only, so extending to a

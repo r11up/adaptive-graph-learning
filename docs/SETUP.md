@@ -100,7 +100,7 @@ requests. The script retries with exponential backoff and is resumable — just
 run it again, and lower `--workers` (default 8) if failures persist.
 
 **`no usable subjects found`.** The derivative files did not download. Check
-`data/abide/ABIDE_pcp/cpac/filt_noglobal/` contains `.1D` files.
+`data/ABIDE-I/ABIDE_pcp/cpac/filt_noglobal/` contains `.1D` files.
 
 **Cache/cohort size mismatch.** The cache is keyed to the cohort it was built
 from; pass `--refresh-cache` after changing `--limit`, `--n-qubits`, or the

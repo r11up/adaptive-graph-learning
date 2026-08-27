@@ -177,7 +177,7 @@ def compress_region_timeseries(
 
 
 def load_abide(
-    root: str | Path = "data/abide",
+    root: str | Path = "data/ABIDE-I",
     pipeline: str = "cpac",
     strategy: str = "filt_noglobal",
     atlas: str = "rois_cc200",

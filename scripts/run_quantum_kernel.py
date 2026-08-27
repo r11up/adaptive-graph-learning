@@ -73,7 +73,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    parser.add_argument("--data-root", type=Path, default=Path("data/abide"))
+    parser.add_argument("--data-root", type=Path, default=Path("data/ABIDE-I"))
     parser.add_argument("--pipeline", default="cpac")
     parser.add_argument("--strategy", default="filt_noglobal")
     parser.add_argument("--atlas", default="rois_cc200")

@@ -91,7 +91,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    parser.add_argument("--out", type=Path, default=Path("data/abide"))
+    parser.add_argument("--out", type=Path, default=Path("data/ABIDE-I"))
     parser.add_argument("--pipeline", default="cpac", choices=["cpac", "ccs", "dparsf", "niak"])
     parser.add_argument("--atlas", default="rois_cc200",
                         help="derivative name, e.g. rois_cc200, rois_cc400, rois_aal, rois_ho")

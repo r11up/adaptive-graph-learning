@@ -10,8 +10,8 @@ required — the C-PAC derivatives are served anonymously.
 Files are written in the ABIDE-compatible layout, so ``load_abide()`` reads the
 resulting cohort without modification:
 
-    data/adhd200/ABIDE_pcp/cpac/filt_noglobal/<ScanDirID>_rois_cc200.1D
-    data/adhd200/ABIDE_pcp/Phenotypic_V1_0b_preprocessed1.csv
+    data/ADHD-200/ABIDE_pcp/cpac/filt_noglobal/<ScanDirID>_rois_cc200.1D
+    data/ADHD-200/ABIDE_pcp/Phenotypic_V1_0b_preprocessed1.csv
 
 The phenotypic table is rewritten to ABIDE's column convention
 (``FILE_ID`` / ``SITE_ID`` / ``DX_GROUP``, where 1 = case and 2 = control), with
@@ -137,7 +137,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    parser.add_argument("--out", type=Path, default=Path("data/adhd200"))
+    parser.add_argument("--out", type=Path, default=Path("data/ADHD-200"))
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--limit", type=int)
     args = parser.parse_args()
