@@ -90,6 +90,20 @@ def load_roi_text(path: Path) -> np.ndarray | None:
     return np.nan_to_num(array) if array.ndim == 2 else None
 
 
+def slice_columns(array: np.ndarray, spec: str | None) -> np.ndarray:
+    """Select an atlas block from a multi-atlas ROI-signals matrix.
+
+    REST-meta-MDD ships DPABI output in which several parcellations are
+    concatenated column-wise into a single 1833-column matrix (AAL,
+    Harvard-Oxford, CC200, Zalesky, Dosenbach, Power). Only one block should
+    reach the pipeline, and it must be the CC200 block for parity with ABIDE.
+    """
+    if not spec:
+        return array
+    start, _, end = spec.partition(":")
+    return array[:, int(start) : int(end)]
+
+
 def load_roi_mat(path: Path) -> np.ndarray | None:
     """Extract the ROI-signals matrix from a .mat, identified by shape."""
     try:
@@ -167,6 +181,9 @@ def main() -> int:
     parser.add_argument("--positive-values", nargs="+", required=True,
                         help="label values counting as the case class")
     parser.add_argument("--atlas", default="cc200", help="nifti format only")
+    parser.add_argument("--columns", default=None, metavar="START:END",
+                        help="0-indexed column slice to keep from multi-atlas "
+                             "ROI matrices, e.g. 228:428 for CC200 in REST-meta-MDD")
     parser.add_argument("--out-root", type=Path, default=Path("data"))
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -218,6 +235,8 @@ def main() -> int:
             array = load_roi_text(path)
         elif args.format == "roi_mat":
             array = load_roi_mat(path)
+            if array is not None:
+                array = slice_columns(array, args.columns)
         else:
             array = load_nifti(path, atlas_img, masker_cache)
 
