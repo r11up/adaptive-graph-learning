@@ -95,6 +95,14 @@ def main() -> int:
     parser.add_argument("--entanglement", default="linear", choices=["linear", "full"])
     parser.add_argument("--limit", type=int)
     parser.add_argument("--min-test-size", type=int, default=10)
+    parser.add_argument("--cv", default="leave-site-out",
+                        choices=["leave-site-out", "stratified"],
+                        help="stratified k-fold is the honest choice for cohorts "
+                             "with too few sites to support Leave-Site-Out; two "
+                             "sites give two folds, where a paired test cannot "
+                             "reach significance at any effect size")
+    parser.add_argument("--folds", type=int, default=10,
+                        help="number of folds when --cv stratified")
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
 
@@ -130,9 +138,21 @@ def main() -> int:
         "reference: RBF on full dim": [],
     }
 
-    for site in sorted(set(sites.tolist())):
-        test_idx = np.where(sites == site)[0]
-        train_idx = np.where(sites != site)[0]
+    if args.cv == "stratified":
+        splitter = StratifiedKFold(n_splits=args.folds, shuffle=True, random_state=0)
+        split_iter = [
+            (f"fold{i + 1}", train, test)
+            for i, (train, test) in enumerate(splitter.split(features, labels))
+        ]
+        print(f"stratified {args.folds}-fold CV "
+              f"({len(set(sites.tolist()))} sites is too few for Leave-Site-Out)")
+    else:
+        split_iter = [
+            (site, np.where(sites != site)[0], np.where(sites == site)[0])
+            for site in sorted(set(sites.tolist()))
+        ]
+
+    for site, train_idx, test_idx in split_iter:
         if len(test_idx) < args.min_test_size or len(np.unique(labels[test_idx])) < 2:
             continue
 
