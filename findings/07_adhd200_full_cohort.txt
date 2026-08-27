@@ -1,0 +1,93 @@
+FINDING 07 — ADHD-200 FULL COHORT: NO QUANTUM ADVANTAGE, AND A PARCELLATION MISMATCH
+====================================================================================
+Status: measured, full Athena cohort
+Date:   2026-08-28
+Data:   ADHD-200 Athena CC200, 767 subjects, 9 sites (7 usable folds)
+Raw:    results/adhd200_qkernel/quantum_kernel_results.json
+
+
+COHORT
+------
+The NITRC Athena release ingested cleanly: 768 subjects, 280 ADHD / 488
+control, 9 sites. Per-site class balance:
+
+  site         ADHD  control   LSO usable
+  ----------   ----  -------   ----------
+  KKI            22       61   yes
+  NYU           118       98   yes
+  NeuroIMAGE     25       23   yes
+  OHSU           37       42   yes
+  Peking_1       24       61   yes
+  Peking_2       35       32   yes
+  Peking_3       19       23   yes
+  Pittsburgh      0       89   no (control-only)
+  WashU           0       59   no (control-only)
+
+7 usable folds with 280 ADHD cases, against 3 folds and 22 cases from the
+public C-PAC subset (FINDING 03). This is the cohort the ADHD arm needed.
+
+
+PARCELLATION MISMATCH WITH ABIDE
+--------------------------------
+Every ADHD-200 Athena file has 190 ROIs; every ABIDE PCP file has 200. The
+CC200 atlas specifies 200 clusters but the normalised-cut procedure resolves
+to 190, and the two releases made different choices about which to ship.
+
+Consequence: the cohorts CANNOT be pooled into one graph model, because node
+counts differ. Each must be reported as its own Leave-Site-Out experiment.
+This is a further argument for the per-cohort reporting already recommended on
+preprocessing-confound grounds.
+
+A handful of subjects also carry duplicated ROI columns, making the
+correlation matrix singular and causing LAPACK's divide-and-conquer SVD to
+fail outright. Handled with a fallback to the gesvd driver and, failing that,
+a small diagonal jitter, so affected subjects stay in the cohort rather than
+being silently dropped.
+
+
+QUANTUM KERNEL RESULT
+---------------------
+8 qubits, matched 8-component descriptors, identical folds, alignment-based
+selection, bandwidth and kernel type searched within each fold:
+
+  model                        F1               accuracy         AUC
+  --------------------------   --------------   --------------   --------------
+  quantum kernel               0.354 +- 0.037   0.536 +- 0.027   0.528 +- 0.036
+  classical RBF                0.336 +- 0.142   0.523 +- 0.062   0.552 +- 0.034
+  classical linear             0.310 +- 0.141   0.568 +- 0.070   0.526 +- 0.066
+  reference: RBF full-dim      0.237 +- 0.155   0.574 +- 0.096   0.554 +- 0.075
+
+  quantum vs RBF:     median dF1 -0.053, wins 3/7, Wilcoxon p = 0.94
+  quantum vs linear:  median dF1 +0.067, wins 4/7, Wilcoxon p = 0.58
+
+The quantum kernel posts the highest mean F1 and the narrowest interval, but
+neither paired test approaches significance and its AUC is not the best. There
+is no quantum advantage here. Reporting the F1 ranking alone would be
+misleading, which is why all three metrics and both paired tests are given.
+
+Note also that every model sits near chance (AUC 0.52-0.55). ADHD-200 is a
+genuinely hard benchmark: the original competition's winning entry reached
+about 61% accuracy, and much of the >90% literature uses random splits rather
+than site-held-out validation. These numbers are consistent with the honest
+ceiling for this cohort under LSO, not evidence of a broken pipeline.
+
+
+STATUS OF THE CENTRAL CLAIM
+---------------------------
+Across two cohorts (ABIDE I, ADHD-200) and two framings (region-level graph
+topology, subject-level kernel), no configuration has demonstrated a
+statistically significant advantage for quantum methods over matched classical
+baselines under Leave-Site-Out validation.
+
+
+REFERENCES
+----------
+[1] Bellec P. et al. "The Neuro Bureau ADHD-200 Preprocessed Repository."
+    NeuroImage 144:275-286, 2017.
+[2] ADHD-200 Consortium. "The ADHD-200 Consortium: a model to advance the
+    translational potential of neuroimaging in clinical neuroscience."
+    Frontiers in Systems Neuroscience 6:62, 2012.
+[3] Craddock R.C. et al. "A whole brain fMRI atlas generated via spatially
+    constrained spectral clustering." Human Brain Mapping 33:1914-1928, 2012.
+[4] Canatar A. et al. "Bandwidth enables generalization in quantum kernel
+    models." TMLR, 2023.

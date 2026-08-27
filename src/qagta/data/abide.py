@@ -81,6 +81,40 @@ class AbideDataset:
         )
 
 
+def _robust_pca(matrix: np.ndarray, n_components: int) -> tuple[np.ndarray, float]:
+    """PCA that survives rank-deficient input.
+
+    Some parcellations emit duplicated ROI columns — the CC200 atlas resolves
+    to 190 distinct clusters, and a few of those carry identical time courses
+    in individual subjects. The resulting correlation matrix is singular and
+    LAPACK's divide-and-conquer SVD can fail to converge outright. Retrying
+    with the slower but more tolerant ``gesvd`` driver, and finally with a
+    small diagonal jitter, keeps such subjects in the cohort instead of
+    silently dropping them.
+    """
+    try:
+        pca = PCA(n_components=n_components, random_state=0)
+        return pca.fit_transform(matrix).astype(np.float32), float(
+            pca.explained_variance_ratio_.sum()
+        )
+    except np.linalg.LinAlgError:
+        pass
+
+    centred = matrix - matrix.mean(axis=0, keepdims=True)
+    try:
+        import scipy.linalg
+
+        u, s, _ = scipy.linalg.svd(centred, full_matrices=False, lapack_driver="gesvd")
+    except (np.linalg.LinAlgError, ValueError):
+        jitter = 1e-6 * np.random.default_rng(0).standard_normal(centred.shape)
+        u, s, _ = np.linalg.svd(centred + jitter, full_matrices=False)
+
+    features = (u[:, :n_components] * s[:n_components]).astype(np.float32)
+    total = float((s**2).sum())
+    retained = float((s[:n_components] ** 2).sum() / total) if total > 0 else 0.0
+    return features, retained
+
+
 def compress_connectivity_profiles(
     timeseries: np.ndarray, n_components: int = 16
 ) -> tuple[np.ndarray, float]:
@@ -102,9 +136,7 @@ def compress_connectivity_profiles(
     n_roi = profiles.shape[0]
 
     usable = min(n_components, n_roi)
-    pca = PCA(n_components=usable, random_state=0)
-    features = pca.fit_transform(profiles)
-    retained = float(pca.explained_variance_ratio_.sum())
+    features, retained = _robust_pca(profiles, usable)
 
     if usable < n_components:
         features = np.pad(features, ((0, 0), (0, n_components - usable)))
@@ -137,9 +169,7 @@ def compress_region_timeseries(
     regions = regions / np.where(scale > 0, scale, 1.0)
 
     usable = min(n_components, n_roi, n_time)
-    pca = PCA(n_components=usable, random_state=0)
-    features = pca.fit_transform(regions)
-    retained = float(pca.explained_variance_ratio_.sum())
+    features, retained = _robust_pca(regions, usable)
 
     if usable < n_components:  # short scan: pad so every subject has the same width
         features = np.pad(features, ((0, 0), (0, n_components - usable)))

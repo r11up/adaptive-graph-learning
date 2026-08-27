@@ -46,7 +46,44 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent))
-from download_adhd200 import load_phenotypic  # noqa: E402
+from download_adhd200 import load_phenotypic as load_phenotypic_s3  # noqa: E402
+
+
+def load_phenotypic_local(root: Path) -> pd.DataFrame | None:
+    """Merge the per-site phenotypic CSVs shipped inside the archive.
+
+    Preferred over the S3 tables: the release ships labels for every site it
+    contains, including WashU and Peking_2/3, which the public C-PAC bucket
+    does not cover. Column naming is not consistent across sites (``ScanDir
+    ID`` vs ``ScanDirID``), and the site is taken from the directory name
+    rather than the numeric ``Site`` code so folds carry readable names.
+    """
+    frames = []
+    for csv in sorted(root.rglob("*_phenotypic.csv")):
+        try:
+            frame = pd.read_csv(csv)
+        except (ValueError, OSError, pd.errors.ParserError):
+            continue
+        frame.columns = [c.strip() for c in frame.columns]
+        id_column = next(
+            (c for c in frame.columns if c.replace(" ", "").lower() == "scandirid"), None
+        )
+        if id_column is None or "DX" not in frame.columns:
+            continue
+        frame = frame.rename(columns={id_column: "ScanDir ID"})
+        frame["SITE_NAME"] = csv.parent.name
+        frames.append(frame[["ScanDir ID", "DX", "SITE_NAME"]])
+        print(f"  {csv.parent.name}: {len(frame)} rows")
+
+    if not frames:
+        return None
+    merged = pd.concat(frames, ignore_index=True)
+    merged["ScanDir ID"] = pd.to_numeric(merged["ScanDir ID"], errors="coerce")
+    merged["DX"] = pd.to_numeric(merged["DX"], errors="coerce")
+    merged = merged.dropna(subset=["ScanDir ID", "DX"])
+    merged["ScanDir ID"] = merged["ScanDir ID"].astype(int)
+    merged = merged[merged["DX"].isin([0, 1, 2, 3])]
+    return merged.drop_duplicates(subset=["ScanDir ID"])
 
 # Athena names embed the numeric scan id, e.g. sfnwmrda0010001_session_1_rest_1_cc200_TCs.1D
 SUBJECT_ID = re.compile(r"(\d{7})")
@@ -137,8 +174,11 @@ def main() -> int:
                 "'cc200' and 'TCs' — check the archive is the CC200 release."
             )
 
-        print("fetching phenotypic tables from INDI S3 ...")
-        phenotypic = load_phenotypic()
+        print("reading phenotypic tables ...")
+        phenotypic = load_phenotypic_local(root)
+        if phenotypic is None:
+            print("  no local tables found; falling back to INDI S3")
+            phenotypic = load_phenotypic_s3()
         labelled = set(phenotypic["ScanDir ID"])
 
         written, skipped_unlabelled, skipped_bad = 0, 0, 0
