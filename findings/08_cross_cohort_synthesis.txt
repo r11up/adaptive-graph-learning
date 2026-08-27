@@ -1,0 +1,107 @@
+FINDING 08 — NO QUANTUM ADVANTAGE ACROSS FOUR COHORTS; THE ONE POSITIVE REVERSES
+================================================================================
+Status: measured, four cohorts, the central claim of the study
+Date:   2026-08-28
+Raw:    results/MDD_qkernel, results/UCLA_qkernel_cv10, results/adhd200_qkernel
+
+
+THE COMPARISON
+--------------
+Subject-level quantum kernel SVM against classical kernels on identical
+descriptors and identical folds. 8 qubits, 8 PCA components, bandwidth and
+kernel type searched within each fold by kernel-target alignment, classical
+side additionally sweeping gamma.
+
+  cohort           n     folds  quantum F1  RBF F1  linear F1  full-dim F1
+  --------------   ----  -----  ----------  ------  ---------  -----------
+  REST-meta-MDD    2428  25     0.571       0.549   0.623      0.671
+  ADHD-200          767   7     0.354       0.336   0.310      0.237
+  UCLA-CNP          226  10     0.615       0.426   0.524      0.622
+
+  paired Wilcoxon, quantum vs classical:
+  cohort           vs RBF                    vs linear
+  --------------   -----------------------   -----------------------
+  REST-meta-MDD    14/25 wins, p = 0.771     7/25 wins, p = 0.0105 *
+  ADHD-200          3/7  wins, p = 0.938     4/7  wins, p = 0.578
+  UCLA-CNP          4/10 wins, p = 0.557     8/10 wins, p = 0.0371 *
+
+  * significant at 0.05 uncorrected, in OPPOSITE directions
+
+
+THE HEADLINE: THE POSITIVE RESULT DOES NOT REPLICATE
+----------------------------------------------------
+UCLA-CNP produced the study's only quantum win: the kernel beat the classical
+linear kernel on 8 of 10 folds, p = 0.0371.
+
+On REST-meta-MDD the same comparison runs the other way and is also
+significant: the linear kernel beats the quantum kernel on 18 of 25 folds,
+p = 0.0105.
+
+MDD is the better-powered test by a wide margin — 2428 subjects against 226,
+25 folds against 10 — so where the two disagree, MDD should be believed. The
+UCLA result is most economically explained as noise surfaced by running
+several comparisons: six paired tests across three cohorts, of which two
+reached p < 0.05 in opposite directions, is close to what multiple testing
+alone predicts. Neither survives Bonferroni correction (0.05/6 = 0.0083).
+
+Reporting the UCLA number alone would be the single most misleading thing this
+study could do.
+
+
+SUPPORTING EVIDENCE THAT THE WIN WAS NOT REAL
+---------------------------------------------
+1. AUC is at chance on UCLA for every model (0.490-0.514). An F1 gap with
+   chance-level AUC reflects where the decision threshold happened to fall,
+   not better ranking of subjects. On MDD, where AUC does separate
+   (0.544-0.684), the quantum kernel is not best.
+
+2. The win was against the LINEAR kernel only, never against RBF, on any
+   cohort. "A non-linear kernel beats a linear one" is a statement about the
+   data, not about quantum computing.
+
+3. Effect direction is inconsistent across cohorts, which is the signature of
+   noise rather than a mechanism.
+
+
+THE DIMENSIONALITY RESULT IS LARGER THAN ANY QUANTUM EFFECT
+------------------------------------------------------------
+On MDD the full-dimensional classical RBF reaches F1 0.671 and AUC 0.684,
+against 0.571 / 0.544 for the quantum kernel on 8 PCA components. The cost of
+compressing 19,900 correlations to 8 components dwarfs every quantum-versus-
+classical difference measured here.
+
+This is the binding constraint. Any quantum method restricted to a narrow
+register inherits it, and FINDING 01 shows why the register cannot simply be
+widened: fidelity concentrates to zero. The two constraints act against each
+other — narrow registers preserve the kernel but destroy the features, wide
+registers preserve the features but destroy the kernel.
+
+
+STATUS OF THE CENTRAL CLAIM
+---------------------------
+Across four cohorts (ABIDE I, ADHD-200, REST-meta-MDD, UCLA-CNP), two framings
+(region-level graph topology, subject-level kernel), and every lever tested
+(register width, bandwidth, kernel type, selection rule, descriptor,
+read-out), no configuration demonstrates a reproducible advantage for quantum
+methods over matched classical baselines.
+
+This is a negative result, and it is worth publishing as one. It is measured
+on four public cohorts under site-held-out or stratified validation, with
+paired tests, matched features and matched tuning budgets — conditions under
+which much of the published quantum-neuroimaging literature does not report.
+
+
+REFERENCES
+----------
+[1] Havlicek V. et al. "Supervised learning with quantum-enhanced feature
+    spaces." Nature 567:209-212, 2019.
+[2] Thanasilp S. et al. "Exponential concentration in quantum kernel methods."
+    Nature Communications 15:5200, 2024.
+[3] Canatar A. et al. "Bandwidth enables generalization in quantum kernel
+    models." TMLR, 2023.
+[4] Yan C.-G. et al. "Reduced default mode network functional connectivity in
+    patients with recurrent major depressive disorder." PNAS 116:9078, 2019.
+[5] Poldrack R.A. et al. "A phenome-wide examination of neural and cognitive
+    function." Scientific Data 3:160110, 2016.
+[6] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data: an autism-based example." NeuroImage 147:736-745, 2017.

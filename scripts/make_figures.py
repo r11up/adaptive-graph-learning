@@ -222,6 +222,73 @@ def fig_topology_ablation(sweep_dir: Path, out_dir: Path, paper_dir: Path | None
     save(fig, "fig_topology_ablation", out_dir, paper_dir)
 
 
+def fig_cross_cohort(out_dir: Path, paper_dir: Path | None) -> None:
+    """Quantum vs classical kernels across every cohort.
+
+    The point of this figure is the sign flip: the one cohort where the quantum
+    kernel beats a classical one is contradicted by the largest cohort, which
+    runs the other way with more folds and ten times the subjects.
+    """
+    runs = [
+        ("REST-meta-MDD", "results/MDD_qkernel", 2428, 25),
+        ("ADHD-200", "results/adhd200_qkernel", 767, 7),
+        ("UCLA-CNP", "results/UCLA_qkernel_cv10", 226, 10),
+    ]
+    loaded = []
+    for label, path, n, folds in runs:
+        f = Path(path) / "quantum_kernel_results.json"
+        if f.exists():
+            loaded.append((label, json.loads(f.read_text()), n, folds))
+    if not loaded:
+        print("  (skipped fig_cross_cohort: no results)")
+        return
+
+    models = ["quantum kernel", "classical RBF", "classical linear"]
+    colours = [QUANTUM, CLASSICAL, "#718096"]
+    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.1))
+
+    x = np.arange(len(loaded))
+    width = 0.26
+    for i, (model, colour) in enumerate(zip(models, colours, strict=True)):
+        vals = [d["summary"][model]["f1"][0] for _, d, _, _ in loaded]
+        errs = [d["summary"][model]["f1"][1] for _, d, _, _ in loaded]
+        axes[0].bar(x + (i - 1) * width, vals, width, yerr=errs, label=model,
+                    color=colour, error_kw={"lw": 1, "ecolor": "#4a5568"})
+    axes[0].set_xticks(x)
+    axes[0].set_xticklabels([f"{lab}\nn={n}, {f} folds" for lab, _, n, f in loaded],
+                            fontsize=7)
+    axes[0].set_ylabel("F1")
+    axes[0].legend(fontsize=7, frameon=False)
+    axes[0].set_title("Matched features, matched folds", fontsize=9)
+
+    # Signed effect against the linear kernel, the only comparison that reached
+    # significance anywhere — and it reaches it in both directions.
+    labels, deltas, ps = [], [], []
+    for label, data, _, _ in loaded:
+        test = data.get("paired_tests", {}).get("classical linear")
+        if test:
+            labels.append(label)
+            deltas.append(test["median_diff"])
+            ps.append(test["p_value"])
+    bars = axes[1].barh(np.arange(len(labels)), deltas,
+                        color=[QUANTUM if d > 0 else ACCENT for d in deltas], height=0.55)
+    axes[1].axvline(0, color="black", lw=1)
+    axes[1].set_yticks(np.arange(len(labels)))
+    axes[1].set_yticklabels(labels, fontsize=8)
+    axes[1].set_xlabel("median $\\Delta$F1  (quantum $-$ classical linear)")
+    axes[1].set_title("The effect changes sign", fontsize=9)
+    for bar, d, pv in zip(bars, deltas, ps, strict=True):
+        mark = "*" if pv < 0.05 else ""
+        axes[1].text(d + (0.006 if d > 0 else -0.006), bar.get_y() + bar.get_height() / 2,
+                     f"p={pv:.3f}{mark}", va="center", fontsize=7,
+                     ha="left" if d > 0 else "right")
+    span = max(abs(min(deltas)), abs(max(deltas))) * 2.1
+    axes[1].set_xlim(-span, span)
+
+    fig.tight_layout()
+    save(fig, "fig_cross_cohort", out_dir, paper_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lso-json", type=Path, default=Path("results/abide_lso_results.json"))
@@ -254,6 +321,8 @@ def main() -> int:
         sweep = candidates[-1] if candidates else None
     if sweep and sweep.exists():
         fig_topology_ablation(sweep, out_dir, args.paper_dir)
+
+    fig_cross_cohort(out_dir, args.paper_dir)
     print("done")
     return 0
 
