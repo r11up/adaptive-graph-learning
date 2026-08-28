@@ -451,6 +451,160 @@ def fig_connectivity_comparison(out_dir: Path, paper_dir: Path | None) -> None:
     save(fig, "fig_connectivity_comparison", out_dir, paper_dir)
 
 
+def fig_kernel_spectrum(out_dir: Path, paper_dir: Path | None) -> None:
+    """Effective dimension and eigenvalue decay, quantum kernel versus RBF.
+
+    A Gram matrix's participation ratio, (sum lambda)^2 / sum lambda^2, counts
+    how many directions the kernel actually uses. Near 1 the kernel is almost
+    constant and every subject looks alike; near n it is almost the identity and
+    every subject is its own cluster. Useful kernels sit between.
+
+    The measurement shows both kernels sweeping the same range as their width
+    parameter varies, and both possessing a usable window. That is the
+    mechanism behind the matched-feature tie: at comparable effective dimension
+    the quantum fidelity kernel and the classical RBF kernel occupy the same
+    function class on these data.
+    """
+    from scipy import stats as sstats
+    from sklearn.metrics.pairwise import rbf_kernel
+    from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+    from qagta.data.abide import load_abide
+    from qagta.data.descriptors import build_descriptors
+    from qagta.quantum.kernel import QuantumFeatureMap, quantum_kernel_matrix
+
+    root = Path("data/ABIDE-I")
+    if not (root / "ABIDE_pcp").exists():
+        print("  (skipped fig_kernel_spectrum: ABIDE not found)")
+        return
+
+    dataset = load_abide(root=root, n_components=8, limit=400)
+    series_dir = root / "ABIDE_pcp" / "cpac" / "filt_noglobal"
+    connectivity = build_descriptors(
+        [np.loadtxt(series_dir / f"{s.file_id}_rois_cc200.1D") for s in dataset.subjects],
+        kind="correlation",
+    )
+    y = dataset.labels
+    t_stat, _ = sstats.ttest_ind(connectivity[y == 0], connectivity[y == 1],
+                                 axis=0, equal_var=False)
+    chosen = np.argsort(-np.nan_to_num(np.abs(t_stat)))[:8]
+    angles = MinMaxScaler((0, np.pi)).fit_transform(connectivity[:, chosen])
+    scaled = StandardScaler().fit_transform(connectivity[:, chosen])
+
+    def effective_dim(kernel: np.ndarray) -> float:
+        ev = np.clip(np.linalg.eigvalsh(kernel), 0, None)
+        return float((ev.sum() ** 2) / (ev**2).sum()) if (ev**2).sum() > 0 else 0.0
+
+    def spectrum(kernel: np.ndarray) -> np.ndarray:
+        ev = np.clip(np.linalg.eigvalsh(kernel), 0, None)[::-1]
+        return ev / ev.sum()
+
+    bandwidths = [0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5, 1.0, 2.0]
+    gammas = [0.01, 0.05, 0.125, 0.5, 2.0]
+
+    q_dims, q_kernels = [], {}
+    for b in bandwidths:
+        fm = QuantumFeatureMap(n_qubits=8, reps=2, entanglement="linear", bandwidth=b)
+        kernel = quantum_kernel_matrix(angles, angles, fm)
+        q_dims.append(effective_dim(kernel))
+        q_kernels[b] = kernel
+    c_dims, c_kernels = [], {}
+    for g in gammas:
+        kernel = rbf_kernel(scaled, gamma=g)
+        c_dims.append(effective_dim(kernel))
+        c_kernels[g] = kernel
+
+    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.0))
+
+    axes[0].loglog(bandwidths, q_dims, "o-", color=QUANTUM, label="quantum fidelity")
+    axes[0].loglog(gammas, c_dims, "s--", color=ACCENT, label="classical RBF")
+    axes[0].axhspan(4, 20, color="grey", alpha=0.16)
+    axes[0].text(0.022, 8.5, "usable window", fontsize=7, color="#444")
+    axes[0].axhline(len(angles), color="grey", ls=":", lw=1)
+    axes[0].text(0.022, len(angles) * 0.62, "identity limit", fontsize=6.5, color="grey")
+    axes[0].set_xlabel("width parameter (bandwidth / $\\gamma$)")
+    axes[0].set_ylabel("effective dimension")
+    axes[0].legend(fontsize=7, frameon=False)
+    axes[0].set_title("Both kernels sweep the same range", fontsize=9)
+
+    # Eigenvalue decay at comparable effective dimension.
+    best_b = min(bandwidths, key=lambda b: abs(effective_dim(q_kernels[b]) - 8.2))
+    axes[1].semilogy(spectrum(q_kernels[best_b])[:40], "o-", color=QUANTUM, ms=3,
+                     label=f"quantum (bw={best_b}, eff.dim={effective_dim(q_kernels[best_b]):.1f})")
+    axes[1].semilogy(spectrum(c_kernels[0.125])[:40], "s--", color=ACCENT, ms=3,
+                     label=f"RBF ($\\gamma$=0.125, eff.dim={effective_dim(c_kernels[0.125]):.1f})")
+    axes[1].set_xlabel("eigenvalue index")
+    axes[1].set_ylabel("normalised eigenvalue")
+    axes[1].legend(fontsize=6.5, frameon=False)
+    axes[1].set_title("At matched effective dimension, matched decay", fontsize=9)
+
+    fig.tight_layout()
+    save(fig, "fig_kernel_spectrum", out_dir, paper_dir)
+
+
+def fig_architectures(out_dir: Path, paper_dir: Path | None) -> None:
+    """Schematic of the three architectures, drawn to be told apart at a glance.
+
+    RQT, SQK and QPG differ in one structural choice — what occupies a node and
+    where the quantum stage acts — and every negative result in the study
+    attaches to a specific one of them.
+    """
+    from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
+
+    fig, axes = plt.subplots(1, 3, figsize=(7.9, 2.9))
+    panels = [
+        ("RQT — Region-level Quantum Topology",
+         ["200 brain regions", "temporal PCA features", "fidelity between REGIONS",
+          "graph attention", "pool over regions"],
+         "node = brain region", "chance", ACCENT),
+        ("SQK — Subject-level Quantum Kernel",
+         ["subjects", "connectivity vector", "fidelity between SUBJECTS",
+          "kernel SVM", "(no graph)"],
+         "no graph", "ties classical", CLASSICAL),
+        ("QPG — Quantum Population Graph",
+         ["subjects", "connectivity vector", "fidelity between SUBJECTS",
+          "population GCN", "predict held-out node"],
+         "node = subject", "ties classical", QUANTUM),
+    ]
+
+    for ax, (title, rows, node_label, outcome, colour) in zip(axes, panels, strict=True):
+        ax.set_xlim(0, 1)
+        ax.set_ylim(0, 1)
+        ax.axis("off")
+        ax.set_title(title, fontsize=8, pad=6)
+
+        y = 0.86
+        for i, row in enumerate(rows):
+            emphasis = "fidelity" in row
+            box = FancyBboxPatch(
+                (0.06, y - 0.075), 0.88, 0.115,
+                boxstyle="round,pad=0.012",
+                facecolor=colour if emphasis else "#f0f2f5",
+                edgecolor="#8a94a6", linewidth=0.7,
+                alpha=0.95 if emphasis else 1.0,
+            )
+            ax.add_patch(box)
+            ax.text(0.5, y - 0.018, row, ha="center", va="center", fontsize=6.8,
+                    color="white" if emphasis else "#1a202c",
+                    fontweight="bold" if emphasis else "normal")
+            if i < len(rows) - 1:
+                ax.add_patch(FancyArrowPatch(
+                    (0.5, y - 0.078), (0.5, y - 0.115),
+                    arrowstyle="-|>", mutation_scale=7, color="#8a94a6", lw=0.8,
+                ))
+            y -= 0.175
+
+        ax.text(0.5, 0.045, f"{node_label}   |   {outcome}", ha="center",
+                fontsize=6.8, style="italic", color="#4a5568")
+
+    fig.suptitle(
+        "Three architectures: what sits on a node, and where the quantum stage acts",
+        fontsize=9, y=1.0,
+    )
+    fig.tight_layout()
+    save(fig, "fig_architectures", out_dir, paper_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lso-json", type=Path, default=Path("results/abide_lso_results.json"))
@@ -488,6 +642,8 @@ def main() -> int:
     fig_benchmark(out_dir, args.paper_dir)
     fig_parcellation(out_dir, args.paper_dir)
     fig_connectivity_comparison(out_dir, args.paper_dir)
+    fig_kernel_spectrum(out_dir, args.paper_dir)
+    fig_architectures(out_dir, args.paper_dir)
     print("done")
     return 0
 

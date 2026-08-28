@@ -1,0 +1,82 @@
+FINDING 12 — WHY THE KERNELS TIE: THEY OCCUPY THE SAME FUNCTION CLASS
+======================================================================
+Status: measured, 400 ABIDE subjects, 8 selected features
+Date:   2026-08-28
+Figure: fig_kernel_spectrum
+
+
+THE DIAGNOSTIC
+--------------
+A Gram matrix's participation ratio, (sum lambda)^2 / sum lambda^2, counts how
+many directions the kernel actually uses. Near 1 the kernel is nearly constant
+and every subject looks alike (underfitting); near n it approaches the identity
+and every subject is its own cluster (memorising). Useful kernels sit between.
+
+
+MEASUREMENT
+-----------
+  quantum fidelity kernel, 8 qubits        classical RBF
+  bandwidth  eff.dim   off-diag            gamma    eff.dim   off-diag
+  ---------  -------   --------            ------   -------   --------
+  0.02           1.1     0.939             0.010        1.3     0.859
+  0.05           1.6     0.783             0.050        3.0     0.528
+  0.10           5.4     0.333             0.125        8.2     0.271
+  0.15          10.8     0.200             0.500       91.6     0.038
+  0.20          23.1     0.117             2.000      373.9     0.001
+  0.30          37.1     0.074
+  0.50         162.6     0.021
+  1.00         289.3     0.010
+  2.00         343.1     0.009
+
+  (n = 400, so 400 is the identity limit)
+
+
+RESULT
+------
+Both kernels traverse the same range, from an effective dimension of ~1 to ~350
+out of 400. Both possess a usable window. Quantum fidelity at bandwidth 0.15
+reaches effective dimension 10.8; the RBF kernel at gamma = 0.125 reaches 8.2.
+At that matched setting their normalised eigenvalue spectra are nearly
+indistinguishable.
+
+This explains the matched-feature tie of FINDING 11 mechanistically rather than
+statistically. On these data the quantum fidelity kernel is not a qualitatively
+different similarity measure. It is a reparameterisation that sweeps the same
+family of Gram matrices, with encoding bandwidth playing the role gamma plays
+for RBF. Once both are tuned to the same effective dimension, equivalent
+performance is the expected outcome, not a surprise.
+
+
+A CORRECTION TO AN EARLIER READING
+----------------------------------
+A first pass over three bandwidths (0.05, 0.5, 2.0) appeared to show the
+quantum kernel jumping from effective dimension 1.6 straight to 162.6, skipping
+the useful range entirely — which would have meant no viable operating point.
+Sampling the bandwidth axis more finely shows that is wrong: 0.10 and 0.15 land
+at 5.4 and 10.8, squarely inside the window. The apparent gap was an artefact of
+a coarse grid.
+
+Recorded because the coarse-grid version was briefly the working explanation,
+and it would have supported a stronger and false claim — that the quantum
+kernel has no usable regime at all.
+
+
+PRACTICAL CONSEQUENCE
+---------------------
+Bandwidth is decisive, and an unreported default is likely to be wrong. At
+bandwidth 1.0 the quantum kernel sits at effective dimension 289 of 400, close
+to the identity, where it memorises the training set. Published quantum-kernel
+results that do not state how bandwidth was chosen should be read with that in
+mind, since the default is squarely in the memorising regime.
+
+
+REFERENCES
+----------
+[1] Canatar A., Peters E., Pehlevan C., Wilson C.M., Shaydulin R. "Bandwidth
+    enables generalization in quantum kernel models." TMLR, 2023.
+[2] Thanasilp S., Wang S., Cerezo M., Holmes Z. "Exponential concentration in
+    quantum kernel methods." Nature Communications 15:5200, 2024.
+[3] Havlicek V. et al. "Supervised learning with quantum-enhanced feature
+    spaces." Nature 567:209-212, 2019.
+[4] Cristianini N., Shawe-Taylor J., Elisseeff A., Kandola J. "On kernel-target
+    alignment." NeurIPS 2001.
