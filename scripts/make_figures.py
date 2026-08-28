@@ -605,6 +605,160 @@ def fig_architectures(out_dir: Path, paper_dir: Path | None) -> None:
     save(fig, "fig_architectures", out_dir, paper_dir)
 
 
+# Each quantum model and the classical comparator it was matched against.
+MODEL_FAMILIES = [
+    ("Kernel SVM", ["QSVM-fixed", "QSVM-Pegasos"], "SVM-RBF"),
+    ("Convolutional", ["QCNN"], "CNN (1-D)"),
+    ("Variational", ["VQC"], "MLP"),
+    ("Trainable kernel", ["TQEK"], "Trainable-RBF"),
+]
+COHORT_ORDER = ["ABIDE-I", "ADHD-200", "REST-meta-MDD", "UCLA-CNP"]
+
+
+def _load_suite(results_root: Path) -> dict:
+    """Summaries from the most recent quantum model suite, keyed by cohort."""
+    suites = sorted(results_root.glob("*_qmodels"))
+    if not suites:
+        return {}
+    out = {}
+    for cohort_dir in sorted(suites[-1].iterdir()):
+        f = cohort_dir / "quantum_models_results.json"
+        if f.exists():
+            out[cohort_dir.name] = json.loads(f.read_text())
+    return out
+
+
+def fig_quantum_vs_classical(out_dir: Path, paper_dir: Path | None,
+                             results_root: Path = Path("results")) -> None:
+    """Quantum models against their matched classical comparators.
+
+    One panel per model family, so each quantum model is read against the
+    classical model it was actually matched to rather than against the best
+    classical number anywhere in the study. Bars are grouped by cohort and
+    coloured by metric; the classical comparator is hatched.
+    """
+    suite = _load_suite(results_root)
+    if not suite:
+        print("  (skipped fig_quantum_vs_classical: no suite results)")
+        return
+
+    cohorts = [c for c in COHORT_ORDER if c in suite]
+    metrics = [("accuracy", QUANTUM), ("f1", ACCENT), ("auc", "#2f855a")]
+
+    fig, axes = plt.subplots(1, len(MODEL_FAMILIES), figsize=(11.5, 3.4), sharey=True)
+    for ax, (title, quantum_models, classical) in zip(axes, MODEL_FAMILIES, strict=True):
+        available = [
+            m for m in quantum_models
+            if any(m in suite[c].get("summary", {}) for c in cohorts)
+        ]
+        if not available:
+            ax.axis("off")
+            continue
+        entries = available + [classical]
+
+        n_groups = len(cohorts)
+        slot = 0.8 / max(len(entries), 1)
+        x = np.arange(n_groups)
+
+        for e, model in enumerate(entries):
+            is_classical = model == classical
+            offset = -0.4 + slot * (e + 0.5)
+            for m, (metric, colour) in enumerate(metrics):
+                width = slot / len(metrics)
+                values, errors = [], []
+                for cohort in cohorts:
+                    summary = suite[cohort].get("summary", {}).get(model, {})
+                    v = summary.get(metric)
+                    ok = v and v[0] == v[0]
+                    values.append(v[0] if ok else 0.0)
+                    errors.append(v[1] if ok else 0.0)
+                ax.bar(
+                    x + offset + (m - 1) * width, values, width * 0.92, yerr=errors,
+                    color=colour, alpha=0.55 if is_classical else 1.0,
+                    hatch="//" if is_classical else None,
+                    edgecolor="white", linewidth=0.4,
+                    error_kw={"lw": 0.7, "ecolor": "#4a5568"},
+                )
+
+        ax.axhline(0.5, color="grey", ls=":", lw=1)
+        ax.set_xticks(x)
+        ax.set_xticklabels([c.replace("REST-meta-", "") for c in cohorts],
+                           fontsize=6.8, rotation=20, ha="right")
+        ax.set_title(f"{title}\n{' / '.join(available)} vs {classical}", fontsize=7.5)
+        ax.set_ylim(0, 0.85)
+    axes[0].set_ylabel("score")
+
+    handles = [plt.Rectangle((0, 0), 1, 1, color=c) for _, c in metrics]
+    handles.append(plt.Rectangle((0, 0), 1, 1, facecolor="grey", alpha=0.55, hatch="//"))
+    fig.legend(
+        handles, [m.upper() for m, _ in metrics] + ["classical comparator"],
+        loc="upper center", ncol=4, fontsize=7, frameon=False,
+        bbox_to_anchor=(0.5, 1.02),
+    )
+    fig.suptitle("Quantum models against matched classical comparators", fontsize=9.5, y=1.11)
+    fig.tight_layout()
+    save(fig, "fig_quantum_vs_classical", out_dir, paper_dir)
+
+
+def fig_quantum_delta(out_dir: Path, paper_dir: Path | None,
+                      results_root: Path = Path("results")) -> None:
+    """Signed quantum-minus-classical difference, with paired significance.
+
+    Reading the differences directly avoids the eye having to subtract paired
+    bars, and makes the sign pattern across cohorts visible at a glance.
+    """
+    suite = _load_suite(results_root)
+    if not suite:
+        print("  (skipped fig_quantum_delta: no suite results)")
+        return
+
+    cohorts = [c for c in COHORT_ORDER if c in suite]
+    rows = []
+    for cohort in cohorts:
+        tests = suite[cohort].get("paired_tests", {})
+        for label, stats in tests.items():
+            quantum = label.split(" vs ")[0]
+            rows.append((cohort, quantum, stats["median_diff"], stats["p_value"]))
+    if not rows:
+        print("  (skipped fig_quantum_delta: no paired tests)")
+        return
+
+    models = sorted({r[1] for r in rows})
+    fig, ax = plt.subplots(figsize=(7.6, 3.4))
+    slot = 0.8 / len(models)
+
+    for i, model in enumerate(models):
+        deltas, ps, xs = [], [], []
+        for j, cohort in enumerate(cohorts):
+            match = [r for r in rows if r[0] == cohort and r[1] == model]
+            if match:
+                deltas.append(match[0][2])
+                ps.append(match[0][3])
+                xs.append(j - 0.4 + slot * (i + 0.5))
+        if not xs:
+            continue
+        colours = [QUANTUM if d > 0 else ACCENT for d in deltas]
+        ax.bar(xs, deltas, slot * 0.9, color=colours, edgecolor="white", linewidth=0.4)
+        for xpos, delta, p in zip(xs, deltas, ps, strict=True):
+            if p < 0.05:
+                ax.text(xpos, delta + (0.004 if delta > 0 else -0.012), "*",
+                        ha="center", fontsize=10, color="#1a202c")
+
+    ax.axhline(0, color="black", lw=1)
+    ax.set_xticks(np.arange(len(cohorts)))
+    ax.set_xticklabels(cohorts, fontsize=8)
+    ax.set_ylabel("median $\\Delta$accuracy (quantum $-$ classical)")
+    ax.set_title("Signed difference per cohort; * marks $p < 0.05$ (paired Wilcoxon)",
+                 fontsize=9)
+    for model in models:
+        ax.plot([], [], "s", color=QUANTUM, label=model)
+    ax.legend(fontsize=7, frameon=False, ncol=len(models), loc="upper center")
+    ax.text(0.01, 0.02, "above zero: quantum better", transform=ax.transAxes,
+            fontsize=7, color=QUANTUM)
+    fig.tight_layout()
+    save(fig, "fig_quantum_delta", out_dir, paper_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lso-json", type=Path, default=Path("results/abide_lso_results.json"))
@@ -644,6 +798,8 @@ def main() -> int:
     fig_connectivity_comparison(out_dir, args.paper_dir)
     fig_kernel_spectrum(out_dir, args.paper_dir)
     fig_architectures(out_dir, args.paper_dir)
+    fig_quantum_vs_classical(out_dir, args.paper_dir)
+    fig_quantum_delta(out_dir, args.paper_dir)
     print("done")
     return 0
 
