@@ -358,6 +358,99 @@ def fig_benchmark(out_dir: Path, paper_dir: Path | None) -> None:
     save(fig, "fig_benchmark", out_dir, paper_dir)
 
 
+ATLAS_PATH = Path(
+    "data/sources/ADHD-200-Athena-release/ADHD200_CC200_TCs_filtfix/"
+    "templates/ADHD200_parcellate_200.nii.gz"
+)
+
+
+def fig_parcellation(out_dir: Path, paper_dir: Path | None) -> None:
+    """The CC200 parcellation on a template brain.
+
+    Purely descriptive: it shows what enters the model as graph nodes and
+    claims no result. Included because every cohort in the study is defined on
+    this parcellation, and because the 190-versus-200 discrepancy between
+    releases is only intelligible once the atlas is shown.
+    """
+    if not ATLAS_PATH.exists():
+        print("  (skipped fig_parcellation: atlas not found)")
+        return
+    from nilearn import plotting
+
+    fig = plt.figure(figsize=(7.4, 2.5))
+    display = plotting.plot_roi(
+        str(ATLAS_PATH), figure=fig, display_mode="z",
+        cut_coords=(-20, 0, 20, 40), cmap="tab20", colorbar=False,
+        annotate=True, draw_cross=False, black_bg=False,
+    )
+    fig.suptitle(
+        "CC200 functional parcellation — 190 non-empty regions, whole brain",
+        fontsize=9, y=0.99,
+    )
+    save(fig, "fig_parcellation", out_dir, paper_dir)
+    display.close()
+
+
+def fig_connectivity_comparison(out_dir: Path, paper_dir: Path | None) -> None:
+    """Pearson correlation against quantum fidelity for one subject.
+
+    This is the picture behind FINDING 01. The correlation matrix is dense and
+    structured; the fidelity matrix at 16 qubits is empty, because every pair of
+    regional states has become orthogonal. The 4-qubit panel shows the same
+    metric inside its usable range.
+    """
+    import glob
+
+    import torch
+
+    from qagta.graph.connectome import pearson_connectivity
+    from qagta.quantum.fidelity import pairwise_fidelity
+    from qagta.quantum.fmri_encoder import RingEntangledEncoder
+
+    files = sorted(glob.glob("data/ABIDE-I/ABIDE_pcp/cpac/filt_noglobal/*.1D"))
+    if not files:
+        print("  (skipped fig_connectivity_comparison: no ABIDE series)")
+        return
+
+    series = np.loadtxt(files[0])
+    correlation = pearson_connectivity(series)
+
+    from qagta.data.abide import compress_connectivity_profiles
+
+    panels = [("Pearson correlation", correlation, "RdBu_r", (-1, 1))]
+    for n_qubits in (4, 16):
+        features, _ = compress_connectivity_profiles(series, n_qubits)
+        torch.manual_seed(0)
+        encoder = RingEntangledEncoder(n_qubits)
+        with torch.no_grad():
+            _, states = encoder(torch.as_tensor(features), return_state=True)
+            fidelity = pairwise_fidelity(states).numpy()
+        panels.append(
+            (f"Quantum fidelity, {n_qubits} qubits", fidelity, "magma", (0, None))
+        )
+
+    # Order regions by correlation clustering so block structure is visible.
+    order = np.argsort(correlation.mean(axis=1))
+
+    fig, axes = plt.subplots(1, 3, figsize=(7.8, 2.9))
+    for ax, (title, matrix, cmap, limits) in zip(axes, panels, strict=True):
+        shown = matrix[np.ix_(order, order)]
+        vmin, vmax = limits
+        if vmax is None:
+            vmax = float(np.percentile(shown, 99.5)) or 1e-6
+        im = ax.imshow(shown, cmap=cmap, vmin=vmin, vmax=vmax, interpolation="nearest")
+        ax.set_title(title, fontsize=8.5)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04).ax.tick_params(labelsize=6)
+        off = shown[~np.eye(len(shown), dtype=bool)]
+        ax.set_xlabel(f"mean |value| = {np.abs(off).mean():.3f}", fontsize=7)
+
+    fig.suptitle("What the quantum metric does to topology (one subject)", fontsize=9)
+    fig.tight_layout()
+    save(fig, "fig_connectivity_comparison", out_dir, paper_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lso-json", type=Path, default=Path("results/abide_lso_results.json"))
@@ -393,6 +486,8 @@ def main() -> int:
 
     fig_cross_cohort(out_dir, args.paper_dir)
     fig_benchmark(out_dir, args.paper_dir)
+    fig_parcellation(out_dir, args.paper_dir)
+    fig_connectivity_comparison(out_dir, args.paper_dir)
     print("done")
     return 0
 
