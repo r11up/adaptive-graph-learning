@@ -1,0 +1,109 @@
+FINDING 14 — PLAN A (LEARNED PROJECTION): RAISES CLASSICAL, LOWERS QUANTUM
+===========================================================================
+Status: measured, ABIDE-I, 20 folds, full cohort
+Date:   2026-08-28
+Raw:    results/ABIDE_hybrid/hybrid_results.json
+
+
+THE IDEA
+--------
+FINDING 11 located the constraint on the quantum arm as the feature budget
+rather than the model: at eight features quantum and classical tie, while the
+same classical model given all 2000 reaches 0.649. The register caps how much
+reaches the circuit.
+
+Plan A replaces fixed t-test selection with a linear projection R^2000 -> R^8
+learned jointly with the circuit, so the quantum stage receives an optimised
+summary of every connection instead of eight raw ones — more information, no
+extra qubits.
+
+Every quantum head was given a classical twin with an identical projection,
+identical bottleneck width and identical training, plus a linear-head control
+to measure how much of any gain came from the projection alone.
+
+
+RESULT (ABIDE-I, 20 folds)
+--------------------------
+  model         accuracy   F1      AUC     sec/fold
+  -----------   --------   -----   -----   --------
+  H-QCNN         0.549     0.535   0.553    11.7
+  H-VQC          0.522     0.534   0.513     6.4
+  H-MLP          0.642     0.615   0.709     0.3
+  H-CNN          0.632     0.617   0.711     4.0
+  H-Linear       0.624     0.617   0.704     0.3
+
+  paired Wilcoxon:
+  H-QCNN vs H-CNN       -0.078  wins  5/20  p = 0.0079 **
+  H-VQC  vs H-MLP       -0.130  wins  4/20  p = 0.0006 **
+  H-QCNN vs H-Linear    -0.056  wins  5/20  p = 0.0222 **
+  H-VQC  vs H-Linear    -0.110  wins  4/20  p = 0.0033 **
+
+
+PLAN A FAILS, AND IT FAILS SIGNIFICANTLY
+----------------------------------------
+Against fixed selection (FINDING 13):
+
+  quantum:   QCNN 0.610 -> H-QCNN 0.549      worse
+             VQC  0.575 -> H-VQC  0.522      worse
+  classical: MLP  0.600 -> H-MLP  0.642      better
+             CNN  0.589 -> H-CNN  0.632      better
+
+The learned projection helps the classical arm and hurts the quantum arm, and
+all four paired tests reject at p < 0.05 — the first comparisons in this study
+where classical beats quantum with real statistical weight.
+
+H-MLP at 0.642 accuracy and 0.709 AUC is the best result any neural model has
+reached on ABIDE here, second only to the 2000-feature SVM at 0.649/0.738.
+
+
+THE MECHANISM
+-------------
+H-Linear is the diagnostic. A single linear layer on the learned projection
+reaches 0.624 accuracy and 0.704 AUC — within 0.02 of the best classical head.
+The projection is doing nearly all the work.
+
+The quantum head then makes it worse. A bounded Pauli-Z expectation is a poorer
+classifier on top of a good 8-dimensional projection than a plain linear layer
+is. Whatever the circuit adds does not compensate for compressing a well-chosen
+representation through a bounded scalar read-out.
+
+
+TWO FAULTS FIXED ALONG THE WAY, BOTH BY MEASUREMENT
+---------------------------------------------------
+1. A randomly initialised projection left the quantum head at 0.528 against
+   0.610 for the same circuit on fixed features. Optimising 2000 projection
+   parameters through a bounded expectation value does not work. Warm-starting
+   at the fixed-selection solution means the projection can only depart from
+   that baseline if departing helps.
+
+2. A plain sigmoid squashed angle spread, placing standardised inputs in its
+   flat tails. This is the failure FINDING 01 measured, where restoring angle
+   spread was worth 0.62 to 0.97 AUC. Normalising per dimension before bounding
+   fixed it.
+
+Together these took the hybrid QCNN from 0.528 to 0.582 on a 300-subject
+subset, where the gaps looked non-significant. THAT DID NOT SURVIVE THE FULL
+COHORT: on 20 folds the same comparison is -0.078 at p = 0.0079. A subset of
+six folds was not enough to judge, and the intermediate reading was wrong.
+
+
+WHAT IT IS WORTH
+----------------
+The negative result is informative. It shows the feature-budget diagnosis was
+right about where the headroom is — the classical arm gained 0.042 accuracy
+from exactly the intervention the diagnosis predicted — while showing the
+quantum head cannot exploit that headroom, because its bounded read-out is the
+weaker classifier once the representation is good.
+
+It also produced the study's best neural result on ABIDE (H-MLP, 0.642/0.709),
+which is worth reporting on its own terms.
+
+
+REFERENCES
+----------
+[1] Cong I., Choi S., Lukin M.D. "Quantum convolutional neural networks."
+    Nature Physics 15:1273-1278, 2019.
+[2] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data." NeuroImage 147:736-745, 2017.
+[3] McClean J.R. et al. "Barren plateaus in quantum neural network training
+    landscapes." Nature Communications 9:4812, 2018.
