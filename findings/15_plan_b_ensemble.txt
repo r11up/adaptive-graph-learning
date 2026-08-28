@@ -1,0 +1,83 @@
+FINDING 15 — PLAN B (BLOCK ENSEMBLE): HELPS CLASSICAL, NOT QUANTUM
+===================================================================
+Status: measured, ABIDE-I, 20 folds, full cohort
+Date:   2026-08-28
+Raw:    results/ABIDE_ensemble/ensemble_results.json
+
+
+THE IDEA
+--------
+The register caps one circuit at 8 features and FINDING 01 shows it cannot be
+widened. Plan B sidesteps the cap: split the top 32 features into 4 disjoint
+blocks, train one narrow model per block, combine with learned weights. The
+ensemble sees 32 features while every circuit stays at 8.
+
+Two comparators, controlling different things:
+  C-Ensemble  same partition, same combiner, classical members -> isolates model
+  C-Single    one classical model given all 32 features at once -> bounds what
+              the block partition costs
+
+
+RESULT (ABIDE-I, 20 folds)
+--------------------------
+  model         accuracy   F1      AUC     sec/fold
+  -----------   --------   -----   -----   --------
+  Q-Ensemble     0.592     0.570   0.641    30.6
+  C-Ensemble     0.622     0.602   0.677     0.2
+  C-Single       0.603     0.590   0.658     0.1
+
+  Q-Ensemble vs C-Ensemble:  -0.028  wins 5/20  p = 0.0475 *
+  Q-Ensemble vs C-Single:    -0.015  wins 8/20  p = 0.5869
+
+  mean learned block weight: 0.326  0.207  0.257  0.211
+
+
+WHAT IT SHOWS
+-------------
+Ensembling helps the classical arm: C-Ensemble 0.622 against C-Single 0.603,
+so partitioning into blocks and combining is worth about +0.019 accuracy over
+one model on the same 32 features.
+
+The quantum arm does not get that benefit. Q-Ensemble at 0.592 loses to
+C-Ensemble significantly (p = 0.0475) and is indistinguishable from C-Single.
+It is also no better than a single QCNN on 8 features (0.610 in FINDING 13,
+though under a different epoch and learning-rate budget, so not a strict
+comparison).
+
+Learned block weights are near-even, so the combiner is not collapsing onto one
+block — every block contributes and the ensemble is genuinely using its 32
+features.
+
+
+THE SUBSET WAS MISLEADING, AGAIN
+--------------------------------
+On 300 subjects and 6 folds, Q-Ensemble beat C-Single by +0.041 (4/6 wins),
+which looked like the block construction was buying the quantum arm something.
+On the full cohort that is -0.015 at p = 0.59 — no effect.
+
+This is the second time in two Plans that a six-fold subset pointed the wrong
+way (FINDING 14 records the first). Subsets of this size are not adequate for
+judging these differences, and no intermediate result from one should be
+reported.
+
+
+CUMULATIVE POSITION
+-------------------
+Plan A (learned projection): classical +0.042, quantum -0.061, all four paired
+tests significant against quantum.
+Plan B (block ensemble): classical +0.019 over its own single-model control,
+quantum flat, significantly behind the matched classical ensemble.
+
+Both plans targeted the feature budget that FINDING 11 identified, and both
+confirm the diagnosis was right about the headroom while showing the quantum
+head cannot convert it. Across four architectural families now — kernel,
+population graph, learned projection, block ensemble — every intervention that
+helps the quantum arm helps the matched classical arm at least as much.
+
+
+REFERENCES
+----------
+[1] Cong I., Choi S., Lukin M.D. "Quantum convolutional neural networks."
+    Nature Physics 15:1273-1278, 2019.
+[2] Dietterich T.G. "Ensemble methods in machine learning." MCS 2000,
+    LNCS 1857:1-15.
