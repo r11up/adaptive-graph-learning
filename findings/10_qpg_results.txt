@@ -1,0 +1,114 @@
+FINDING 10 — QPG RESULTS: THE REDESIGN WORKS, THE QUANTUM EDGES DO NOT
+=======================================================================
+Status: measured, three cohorts, 52 folds total
+Date:   2026-08-28
+Raw:    results/ABIDE_popgraph, results/MDD_popgraph, results/ADHD200_popgraph
+
+
+RESULTS
+-------
+Population graph, subjects as nodes, 128-d connectivity node features, 8-qubit
+edge kernel, identical folds and identical GCN across edge definitions.
+
+  ABIDE I (20 folds)          F1              accuracy        AUC
+  -------------------------   -------------   -------------   -------------
+  quantum edges               0.528 +- 0.055  0.537 +- 0.036  0.576 +- 0.033
+  correlation edges           0.587 +- 0.037  0.589 +- 0.038  0.639 +- 0.056
+  RBF edges                   0.589 +- 0.046  0.601 +- 0.041  0.630 +- 0.056
+  NO-GRAPH MLP                0.641 +- 0.039  0.662 +- 0.031  0.729 +- 0.037
+
+  REST-meta-MDD (25 folds)
+  quantum edges               0.528 +- 0.049  0.526 +- 0.043  0.550 +- 0.052
+  correlation edges           0.610 +- 0.048  0.585 +- 0.046  0.602 +- 0.057
+  RBF edges                   0.612 +- 0.045  0.573 +- 0.042  0.601 +- 0.054
+  NO-GRAPH MLP                0.632 +- 0.050  0.608 +- 0.049  0.652 +- 0.050
+
+  ADHD-200 (7 folds)
+  quantum edges               0.363 +- 0.081  0.526 +- 0.043  0.558 +- 0.061
+  correlation edges           0.285 +- 0.061  0.503 +- 0.060  0.495 +- 0.069
+  RBF edges                   0.308 +- 0.100  0.524 +- 0.042  0.493 +- 0.071
+  no-graph MLP                0.234 +- 0.088  0.535 +- 0.078  0.522 +- 0.063
+
+  paired Wilcoxon, quantum vs:
+  cohort    correlation        RBF                no-graph MLP
+  -------   ----------------   ----------------   -------------------
+  ABIDE      7/20, p = 0.231    8/20, p = 0.231    3/20, p = 0.0015 **
+  MDD        6/25, p = 0.0046** 9/25, p = 0.0031** 5/25, p = 0.0002 **
+  ADHD-200   5/7,  p = 0.219    4/7,  p = 0.375    6/7,  p = 0.078
+
+  ** quantum significantly WORSE
+
+
+WHAT THE REDESIGN ACHIEVED
+--------------------------
+Substantial, and worth stating plainly. On ABIDE, held-out AUC across the
+three architectures:
+
+  RQT (region-level quantum topology)      ~0.50   chance
+  SQK (subject-level quantum kernel)        0.693
+  QPG node features, no graph               0.729   best in this study
+
+Moving the informative representation onto the nodes, as FINDING 06 indicated,
+took the pipeline from chance to 0.729 AUC. That is above the ~0.65-0.70 band
+that published leave-site-out ABIDE results occupy. The architectural diagnosis
+was correct and the fix worked.
+
+The gain came from the node features. It did not come from the quantum kernel,
+and it did not come from the graph.
+
+
+THE QUANTUM EDGES UNDERPERFORM
+------------------------------
+On both well-powered cohorts the quantum edge definition is significantly worse
+than classical edge definitions and worse than no graph at all. On MDD, with 25
+folds, it loses all three comparisons at p < 0.005.
+
+ADHD-200 again runs the other way — quantum best on F1 and AUC, 6/7 folds
+against the MLP, p = 0.078. This is the same pattern as FINDING 08: a positive
+result on the smallest cohort, contradicted by the larger ones. Across the two
+studies, every quantum win has appeared on a cohort with 7-10 folds and
+reversed on cohorts with 20-25.
+
+
+THE GRAPH ITSELF DOES NOT HELP
+------------------------------
+The no-graph MLP is the best model on both large cohorts, beating every
+population-graph variant including the classical ones. Under Leave-Site-Out on
+these data, propagating information between subjects does not improve on
+treating them independently.
+
+This is why the MLP control mattered. Without it the comparison would have been
+"quantum edges versus classical edges", and correlation edges at 0.587 would
+have looked like a reasonable baseline to beat. The control shows the entire
+graph stage is costing performance, which changes what the study concludes.
+
+
+STATUS OF THE CENTRAL CLAIM
+---------------------------
+Three architectures, four cohorts, and every lever tested. No configuration
+shows a reproducible quantum advantage over matched classical baselines. Two
+positive results appeared, both on small cohorts, and both reversed on larger
+ones with more folds.
+
+What the work does establish, and what is defensible to publish:
+
+1. A measured design constraint: fidelity's usable range collapses as the
+   register widens (FINDING 01), with the operating window quantified.
+2. A diagnosis of why region-level quantum topology fails on fMRI, isolated to
+   the node features by direct measurement (FINDING 06).
+3. A corrected architecture reaching 0.729 AUC under leave-site-out, above the
+   published band for this protocol.
+4. A negative result on quantum advantage that is well-powered, pre-specified
+   in its comparisons, paired-tested, and replicated across four cohorts.
+
+
+REFERENCES
+----------
+[1] Parisot S. et al. "Disease prediction using graph convolutional networks."
+    Medical Image Analysis 48:117-130, 2018.
+[2] Kipf T.N., Welling M. "Semi-supervised classification with graph
+    convolutional networks." ICLR 2017.
+[3] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data." NeuroImage 147:736-745, 2017.
+[4] Thanasilp S. et al. "Exponential concentration in quantum kernel methods."
+    Nature Communications 15:5200, 2024.

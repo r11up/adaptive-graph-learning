@@ -1,0 +1,113 @@
+FINDING 11 — MATCHED COMPARISON: QUANTUM IS EQUIVALENT, NOT WORSE, AND NOT BETTER
+=================================================================================
+Status: measured, four cohorts, 62 folds, supervised feature pipeline
+Date:   2026-08-28
+Raw:    results/{ABIDE,ADHD200,MDD,UCLA}_benchmark
+
+
+THE PIPELINE CHANGE THAT MATTERED
+---------------------------------
+Earlier studies (FINDINGS 08, 10) reduced the connectivity vector with
+UNSUPERVISED PCA. PCA maximises variance, not class separation, so it can
+discard the directions that distinguish groups. Replacing it with SUPERVISED
+selection — top-k connections by absolute t-statistic, fit on the training
+sites only — lifted ABIDE held-out AUC from 0.729 to 0.738 and, more
+importantly, changed the quantum comparison from "significantly worse" to
+"statistically indistinguishable".
+
+Selection is fit inside each training fold. Applying it to the full cohort
+would leak held-out labels into feature selection, which is a common and
+serious error in this literature.
+
+
+RESULTS
+-------
+  cohort          model                acc     F1      AUC
+  -------------   ------------------   -----   -----   -----
+  ABIDE-I         quantum kernel       0.622   0.560   0.663
+  (20 folds)      SVM RBF (matched)    0.616   0.559   0.662
+                  SVM (RBF)            0.649   0.632   0.738
+                  SVM (linear)         0.629   0.624   0.692
+                  MLP                  0.642   0.637   0.732
+
+  ADHD-200        quantum kernel       0.529   0.492   0.559
+  (7 folds)       SVM RBF (matched)    0.571   0.448   0.573
+                  SVM (RBF)            0.561   0.264   0.555
+                  MLP                  0.543   0.316   0.531
+
+  REST-meta-MDD   quantum kernel       0.522   0.513   0.547
+  (25 folds)      SVM RBF (matched)    0.526   0.499   0.561
+                  SVM (RBF)            0.590   0.604   0.651
+                  MLP                  0.603   0.630   0.641
+
+  UCLA-CNP        quantum kernel       0.562   0.608   0.578
+  (10 folds)      SVM RBF (matched)    0.540   0.570   0.569
+                  SVM (RBF)            0.567   0.608   0.591
+                  SVM (linear)         0.557   0.627   0.629
+
+
+THE CENTRAL RESULT: EQUIVALENCE UNDER MATCHED FEATURES
+------------------------------------------------------
+"Matched" means the classical RBF sees exactly the n_qubits features the
+quantum kernel sees. Without that control a quantum loss cannot be attributed:
+the register caps the quantum kernel at 8 features while full models get 2000,
+so any gap would measure dimensionality rather than the kernel.
+
+  cohort          quantum vs matched classical
+  -------------   -----------------------------
+  ABIDE-I          9/20 wins, p = 0.510
+  ADHD-200         2/7  wins, p = 0.562
+  REST-meta-MDD   10/25 wins, p = 0.590
+  UCLA-CNP         4/10 wins, p = 0.250
+
+No cohort shows a significant difference in either direction, across 62 folds.
+The quantum fidelity kernel is statistically indistinguishable from a classical
+RBF kernel on the same inputs.
+
+This is a more precise and more defensible statement than the earlier
+"quantum is worse" (FINDING 10). That conclusion was an artefact of comparing
+8 quantum features against 128 classical ones. With the comparison properly
+matched, the quantum kernel neither gains nor loses.
+
+Where quantum does lose — against the full 2000-feature models on ABIDE and
+MDD — the cause is the register limit, not the kernel. FINDING 01 explains why
+the register cannot simply be widened.
+
+
+POSITION AGAINST PUBLISHED RESULTS
+----------------------------------
+Reported under comparable leave-one-site-out protocols:
+
+  cohort          published                                    ours
+  -------------   ------------------------------------------   ---------
+  ABIDE-I         0.51-0.56 traditional ML (LOSO)               0.649
+                  ~0.67 Abraham et al. 2017
+                  0.82 multimodal cross-attention (2026)
+  ADHD-200        0.615 competition best, imaging               0.571
+                  0.625 phenotypic data alone
+                  0.637 social-network method
+  REST-meta-MDD   0.73 ensemble GNN (LOSO)                      0.603
+                  0.776 MMDD multimodal
+
+Our pipeline is mid-range: competitive on ABIDE, below the best published on
+ADHD-200 and MDD. It is a deliberately simple pipeline — supervised selection,
+a standard classifier, no multimodal fusion, no learned harmonisation, no
+architecture search — and it is not tuned to win a leaderboard. It exists to
+give the quantum comparison a well-tuned classical baseline rather than a weak
+one, which it now does.
+
+Reported ABIDE figures above ~0.85 almost always use random splits rather than
+site-held-out splits and are not comparable to any number in this table.
+
+
+REFERENCES
+----------
+[1] Abraham A. et al. NeuroImage 147:736-745, 2017.
+[2] ADHD-200 Consortium. Front. Syst. Neurosci. 6:62, 2012.
+[3] Brown C. et al. "ADHD-200 Global Competition: diagnosing ADHD using
+    personal characteristic data can outperform resting state fMRI
+    measurements." Front. Syst. Neurosci. 6:69, 2012.
+[4] Yan C.-G. et al. PNAS 116:9078-9083, 2019.
+[5] Parisot S. et al. Medical Image Analysis 48:117-130, 2018.
+[6] Havlicek V. et al. Nature 567:209-212, 2019.
+[7] Thanasilp S. et al. Nature Communications 15:5200, 2024.

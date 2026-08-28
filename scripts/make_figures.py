@@ -289,6 +289,75 @@ def fig_cross_cohort(out_dir: Path, paper_dir: Path | None) -> None:
     save(fig, "fig_cross_cohort", out_dir, paper_dir)
 
 
+def fig_benchmark(out_dir: Path, paper_dir: Path | None) -> None:
+    """Matched-feature comparison across all four cohorts.
+
+    The left panel shows that the quantum kernel tracks a classical kernel on
+    the same inputs; the right shows the per-cohort paired test, none of which
+    separates them. The full-dimensional model is drawn separately because it
+    is not a matched comparator — it answers a different question.
+    """
+    runs = [
+        ("ABIDE-I", "results/ABIDE_benchmark"),
+        ("ADHD-200", "results/ADHD200_benchmark"),
+        ("REST-meta-MDD", "results/MDD_benchmark"),
+        ("UCLA-CNP", "results/UCLA_benchmark"),
+    ]
+    loaded = []
+    for label, path in runs:
+        f = Path(path) / "benchmark_results.json"
+        if f.exists():
+            loaded.append((label, json.loads(f.read_text())))
+    if not loaded:
+        print("  (skipped fig_benchmark: no results)")
+        return
+
+    fig, axes = plt.subplots(1, 2, figsize=(7.8, 3.1))
+    x = np.arange(len(loaded))
+    width = 0.27
+    series = [
+        ("quantum kernel", QUANTUM, "quantum kernel"),
+        ("SVM RBF (matched)", CLASSICAL, "classical, matched features"),
+        ("SVM (RBF)", ACCENT, "classical, all features"),
+    ]
+    for i, (key, colour, label) in enumerate(series):
+        vals = [d["summary"][key]["accuracy"][0] for _, d in loaded]
+        errs = [d["summary"][key]["accuracy"][1] for _, d in loaded]
+        axes[0].bar(x + (i - 1) * width, vals, width, yerr=errs, label=label,
+                    color=colour, error_kw={"lw": 1, "ecolor": "#4a5568"})
+    axes[0].axhline(0.5, color="grey", ls=":", lw=1)
+    axes[0].set_xticks(x)
+    axes[0].set_xticklabels([lab for lab, _ in loaded], fontsize=7, rotation=12)
+    axes[0].set_ylabel("accuracy")
+    axes[0].set_ylim(0, 0.8)
+    axes[0].legend(fontsize=6.5, frameon=False, loc="upper right")
+    axes[0].set_title("Quantum tracks classical on matched features", fontsize=9)
+
+    labels, wins, folds, ps = [], [], [], []
+    for label, data in loaded:
+        test = data.get("paired_tests", {}).get("SVM RBF (matched)")
+        if test:
+            labels.append(label)
+            wins.append(test["wins"] / test["folds"])
+            folds.append(test["folds"])
+            ps.append(test["p_value"])
+    y = np.arange(len(labels))
+    axes[1].barh(y, wins, color=QUANTUM, height=0.55)
+    axes[1].axvline(0.5, color=ACCENT, ls="--", lw=1.2)
+    axes[1].set_yticks(y)
+    axes[1].set_yticklabels(labels, fontsize=8)
+    axes[1].set_xlabel("fraction of folds quantum wins")
+    axes[1].set_xlim(0, 1)
+    axes[1].set_title("No cohort separates them", fontsize=9)
+    for i, (w, n, pv) in enumerate(zip(wins, folds, ps, strict=True)):
+        axes[1].text(min(w + 0.03, 0.72), i, f"{int(w * n)}/{n}, p={pv:.2f}",
+                     va="center", fontsize=7)
+    axes[1].text(0.505, len(labels) - 0.35, "parity", fontsize=7, color=ACCENT)
+
+    fig.tight_layout()
+    save(fig, "fig_benchmark", out_dir, paper_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lso-json", type=Path, default=Path("results/abide_lso_results.json"))
@@ -323,6 +392,7 @@ def main() -> int:
         fig_topology_ablation(sweep, out_dir, args.paper_dir)
 
     fig_cross_cohort(out_dir, args.paper_dir)
+    fig_benchmark(out_dir, args.paper_dir)
     print("done")
     return 0
 
