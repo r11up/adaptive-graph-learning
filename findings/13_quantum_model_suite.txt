@@ -1,0 +1,116 @@
+FINDING 13 — QISKIT QUANTUM MODEL SUITE ACROSS FOUR COHORTS
+============================================================
+Status: measured, 4 cohorts, 62 folds, 9 models per fold
+Date:   2026-08-28
+Raw:    results/20260828-042703Z_qmodels/
+
+
+WHAT WAS RUN
+------------
+Five quantum models from the Qiskit Machine Learning tutorials, each against
+the classical comparator it is naturally matched to, on identical features
+(8 supervised-selected connections) and identical folds.
+
+  QCNN          Quantum CNN, Qiskit reference circuits (Cong et al. 2019),
+                validated gate-for-gate against Qiskit to 1e-6
+  VQC           ZZFeatureMap + RealAmplitudes + parity read-out
+  QSVM-fixed    Fidelity kernel SVM, bandwidth by alignment
+  QSVM-Pegasos  Qiskit PegasosQSVC on the same precomputed kernel
+  TQEK          Trainable quantum embedding kernel (alignment-optimised)
+
+  matched against: CNN (1-D), MLP, SVM-RBF, SVM-RBF, Trainable-RBF
+
+
+RESULTS (accuracy)
+------------------
+  model            ABIDE-I  ADHD-200  MDD    UCLA-CNP
+  --------------   -------  --------  -----  --------
+  QCNN              0.610    0.540    0.534   0.571
+  VQC               0.575    0.503    0.490   0.531
+  QSVM-fixed        0.622    0.546    0.522   0.554
+  QSVM-Pegasos      0.579    0.561    0.523   0.561
+  TQEK              0.610    0.549    0.519   0.558
+  --------------   -------  --------  -----  --------
+  CNN (1-D)         0.589    0.495    0.540   0.544
+  MLP               0.600    0.540    0.523   0.597
+  SVM-RBF           0.616    0.571    0.526   0.540
+  Trainable-RBF     0.581    0.562    0.571   0.602
+
+
+PAIRED TESTS (quantum vs its matched classical, Wilcoxon)
+----------------------------------------------------------
+  comparison                ABIDE-I      ADHD-200    MDD         UCLA-CNP
+  -----------------------   ----------   ---------   ---------   ---------
+  QCNN vs CNN               +.020 .122   +.035 .156  +.000 .820  +.044 .570
+  VQC vs MLP                -.028 .355   -.038 .375  -.024 .040* -.112 .141
+  TQEK vs Trainable-RBF     +.028 .049*  +.000 .438  -.013 .274  -.045 .088
+  QSVM-fixed vs SVM-RBF     +.000 .510   -.009 .313  +.000 .590  +.000 .406
+  QSVM-Pegasos vs SVM-RBF   -.029 .039*  -.064 .688  +.000 .833  +.000 .813
+
+  (median delta-accuracy, p-value; * p < 0.05 uncorrected)
+
+
+THE RESULT
+----------
+Twenty paired comparisons. Three reach p < 0.05 uncorrected, and they do not
+agree:
+
+  TQEK beats its classical comparator on ABIDE (p = 0.049)
+  QSVM-Pegasos LOSES on ABIDE (p = 0.039)
+  VQC LOSES on MDD (p = 0.040)
+
+With 20 tests, one expects roughly one false positive at alpha = 0.05 by
+chance; three, in inconsistent directions, is consistent with noise. None
+survives Bonferroni correction (0.05/20 = 0.0025). The largest observed
+effect in either direction is 0.11 accuracy, on the smallest cohort.
+
+The TQEK result is the study's best case for a quantum advantage and it does
+not hold up: +0.028 on ABIDE (p = 0.049, right at threshold), but -0.013 on
+MDD and -0.045 on UCLA. The same pattern as FINDINGS 08 and 10 — a positive
+result on one cohort contradicted by others, with the larger cohorts
+disagreeing.
+
+QCNN is the most consistent quantum model, positive on three of four cohorts
+(+0.020, +0.035, +0.044) and flat on the fourth, but no comparison approaches
+significance and the effects are small.
+
+
+TWO OBSERVATIONS WORTH RECORDING
+--------------------------------
+1. QSVM-Pegasos reports no AUC. PegasosQSVC exposes no decision function, so
+   only its thresholded predictions are available. On ADHD-200 it returns
+   F1 = 0.000 — it predicts a single class on every fold there. Its accuracy of
+   0.561 on that cohort is therefore the majority-class rate, not a result.
+   Reporting Pegasos accuracy without checking F1 would have been misleading.
+
+2. Runtime differs by three orders of magnitude and favours the classical side
+   in every case: QCNN 31 s/fold on MDD against 24 s for the classical CNN, but
+   QSVM-fixed 0.6 s against SVM-RBF at 0.1 s, and TQEK 3.5 s against 0.1 s.
+   Since accuracy is statistically indistinguishable, the classical models
+   dominate on cost.
+
+
+STATUS OF THE CENTRAL CLAIM
+---------------------------
+Five quantum model families, four cohorts, 62 folds, matched features, matched
+folds, matched training budgets, paired testing. No quantum model shows a
+reproducible advantage over its classical counterpart.
+
+Combined with FINDINGS 08, 10 and 11, that is now four independent experimental
+families reaching the same conclusion on the same data.
+
+
+REFERENCES
+----------
+[1] Cong I., Choi S., Lukin M.D. "Quantum convolutional neural networks."
+    Nature Physics 15:1273-1278, 2019.
+[2] Havlicek V. et al. "Supervised learning with quantum-enhanced feature
+    spaces." Nature 567:209-212, 2019.
+[3] Hubregtsen T. et al. "Training quantum embedding kernels on near-term
+    quantum computers." Physical Review A 106:042431, 2022.
+[4] Gentinetta G. et al. "The complexity of quantum support vector machines."
+    Quantum 8:1225, 2024.  [Pegasos QSVC]
+[5] Perez-Salinas A. et al. "Data re-uploading for a universal quantum
+    classifier." Quantum 4:226, 2020.
+[6] Canatar A. et al. "Bandwidth enables generalization in quantum kernel
+    models." TMLR, 2023.

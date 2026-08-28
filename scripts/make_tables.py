@@ -34,13 +34,15 @@ QUANTUM_MODELS = {
     "quantum kernel", "quantum",
 }
 
+# Aliases that would duplicate a suite model are mapped onto its name, so
+# merge() collapses them instead of listing the same measurement twice.
 DISPLAY = {
-    "quantum kernel": "QSVM (fidelity)",
+    "quantum kernel": "QSVM-fixed",
+    "SVM RBF (matched)": "SVM-RBF",
     "quantum": "QPG (quantum edges)",
     "correlation": "PG (correlation edges)",
     "rbf": "PG (RBF edges)",
     "no-graph MLP": "MLP (no graph)",
-    "SVM RBF (matched)": "SVM-RBF (matched)",
     "SVM (RBF)": "SVM-RBF (all feat.)",
     "SVM (linear)": "SVM-linear (all feat.)",
     "MLP": "MLP",
@@ -52,9 +54,53 @@ def load(path: Path) -> dict | None:
     return json.loads(path.read_text()) if path.exists() else None
 
 
+def summarise_fold(folds: list[dict], key: str) -> list[float] | None:
+    """Mean and 95% half-width for a metric held only in the per-fold records."""
+    import statistics
+
+    values = [f[key] for f in folds
+              if isinstance(f.get(key), (int, float)) and f[key] == f[key]]
+    if not values:
+        return None
+    if len(values) < 2:
+        return [float(values[0]), 0.0]
+    half = 1.96 * statistics.stdev(values) / (len(values) ** 0.5)
+    return [float(statistics.fmean(values)), float(half)]
+
+
+def merge(bucket: dict, payload: dict) -> None:
+    """Fold one result file into a cohort's model table.
+
+    Specificity lives only in the per-fold records, so it is summarised here
+    rather than read from the stored summary. Where two experiment families
+    produced the same model under different names, the first writer wins: they
+    are the same measurement, and overwriting would silently prefer whichever
+    file happened to load last.
+    """
+    per_fold = payload.get("per_fold", {})
+    for model, metrics in payload.get("summary", {}).items():
+        name = DISPLAY.get(model, model)
+        if name in bucket:
+            continue
+        entry = dict(metrics)
+        spec = summarise_fold(per_fold.get(model, []), "specificity")
+        if spec:
+            entry["specificity"] = spec
+        bucket[name] = entry
+
+
 def collect(results_root: Path) -> dict[str, dict[str, dict]]:
     """Gather every model's summary metrics, keyed by cohort then model."""
     cohorts: dict[str, dict[str, dict]] = {}
+
+    # Suite first: it is the primary experiment, and merge() keeps the first
+    # writer, so its naming takes precedence over overlapping older entries.
+    suites = sorted(results_root.glob("*_qmodels"))
+    if suites:
+        for cohort_dir in sorted(suites[-1].iterdir()):
+            payload = load(cohort_dir / "quantum_models_results.json")
+            if payload:
+                merge(cohorts.setdefault(cohort_dir.name, {}), payload)
 
     sources = [
         # (cohort, path, filename, suffix for disambiguation)
@@ -70,20 +116,8 @@ def collect(results_root: Path) -> dict[str, dict[str, dict]]:
         payload = load(results_root / folder / filename)
         if not payload:
             continue
-        bucket = cohorts.setdefault(cohort, {})
-        for model, metrics in payload.get("summary", {}).items():
-            bucket[DISPLAY.get(model, model)] = metrics
+        merge(cohorts.setdefault(cohort, {}), payload)
 
-    # The quantum model suite writes into a timestamped directory.
-    suites = sorted(results_root.glob("*_qmodels"))
-    if suites:
-        for cohort_dir in sorted(suites[-1].iterdir()):
-            payload = load(cohort_dir / "quantum_models_results.json")
-            if not payload:
-                continue
-            bucket = cohorts.setdefault(cohort_dir.name, {})
-            for model, metrics in payload.get("summary", {}).items():
-                bucket[DISPLAY.get(model, model)] = metrics
     return cohorts
 
 

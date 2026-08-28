@@ -746,15 +746,28 @@ def fig_quantum_delta(out_dir: Path, paper_dir: Path | None,
 
     ax.axhline(0, color="black", lw=1)
     ax.set_xticks(np.arange(len(cohorts)))
-    ax.set_xticklabels(cohorts, fontsize=8)
+    ax.set_xticklabels(cohorts, fontsize=8.5)
     ax.set_ylabel("median $\\Delta$accuracy (quantum $-$ classical)")
     ax.set_title("Signed difference per cohort; * marks $p < 0.05$ (paired Wilcoxon)",
                  fontsize=9)
-    for model in models:
-        ax.plot([], [], "s", color=QUANTUM, label=model)
-    ax.legend(fontsize=7, frameon=False, ncol=len(models), loc="upper center")
-    ax.text(0.01, 0.02, "above zero: quantum better", transform=ax.transAxes,
-            fontsize=7, color=QUANTUM)
+
+    # Bars are coloured by sign, so a per-model colour legend would be wrong.
+    # Each bar is instead labelled with its model name beneath the axis.
+    low, high = ax.get_ylim()
+    ax.set_ylim(low - (high - low) * 0.18, high)
+    for i, model in enumerate(models):
+        for j, cohort in enumerate(cohorts):
+            if any(r[0] == cohort and r[1] == model for r in rows):
+                ax.text(j - 0.4 + slot * (i + 0.5), ax.get_ylim()[0] * 0.97,
+                        model, rotation=90, ha="center", va="bottom", fontsize=5.6,
+                        color="#4a5568")
+
+    legend = [
+        plt.Rectangle((0, 0), 1, 1, color=QUANTUM),
+        plt.Rectangle((0, 0), 1, 1, color=ACCENT),
+    ]
+    ax.legend(legend, ["quantum better", "classical better"],
+              fontsize=7, frameon=False, ncol=2, loc="upper right")
     fig.tight_layout()
     save(fig, "fig_quantum_delta", out_dir, paper_dir)
 
