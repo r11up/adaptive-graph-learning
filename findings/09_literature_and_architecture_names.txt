@@ -1,0 +1,112 @@
+FINDING 09 — LITERATURE SURVEY AND ARCHITECTURE TAXONOMY
+=========================================================
+Date: 2026-08-28
+Purpose: name the approaches evaluated here, and situate them against what is
+         actually published on these cohorts.
+
+
+WHAT THE LITERATURE ACTUALLY CONTAINS
+-------------------------------------
+A targeted search for quantum machine learning applied to the ABIDE connectome
+returns nothing. There is no published quantum method operating on ABIDE
+functional connectivity that we could find, and therefore no positive quantum
+result on this cohort to reproduce or exceed.
+
+Adjacent work exists, and it is worth being precise about what it is:
+
+1. "Lightweight quantized CNNs ... on ABIDE-1" (Mathematics 12:2886, 2024).
+   QUANTIZED, not quantum — integer weight quantisation for efficiency. This
+   is frequently miscited as a quantum result. It is not one.
+
+2. CQ-CNN, hybrid classical-quantum CNN for Alzheimer's from 3-D structural
+   MRI, reporting 97.5% with 13.7K parameters. Structural MRI, different
+   disorder, no connectome, no site-held-out protocol.
+
+3. Quantum kernel SVM on UCLA-CNP morphometric and EEG features, reporting
+   AUC 0.957 for ADHD vs control. Not connectivity, and not ABIDE.
+
+4. Choi et al. (KBS 310:112922, 2025) and Park et al. (arXiv:2509.00711)
+   apply quantum circuits to per-region rs-fMRI time series directly, with no
+   inter-regional graph.
+
+The strong ABIDE numbers are all classical, and they come from one family of
+architectures: POPULATION GRAPHS. Parisot et al. (MICCAI 2017; MedIA 48:117,
+2018) place SUBJECTS on the graph rather than brain regions — node features
+from imaging, edges from phenotypic and imaging similarity — and report
+accuracy around 0.70 under proper evaluation. Reported figures above ~0.85 on
+ABIDE almost always use random splits rather than site-held-out splits and are
+not comparable to the protocol used here.
+
+
+TAXONOMY OF APPROACHES IN THIS STUDY
+------------------------------------
+Three architectures are evaluated. They are named here so that the negative
+results remain attributable to the specific design that produced them.
+
+RQT — Region-level Quantum Topology
+    nodes    200 brain regions of a single subject
+    features per-region temporal PCA of the BOLD signal
+    edges    quantum fidelity between regional states
+    read-out pooling over regions
+    This is the architecture of the original filing and manuscript.
+    Result: chance (FINDINGS 02, 05, 06). Root cause is the node features,
+    which carry no diagnostic signal (AUC 0.459 across all 200 regions).
+
+SQK — Subject-level Quantum Kernel
+    no graph; quantum fidelity between subjects forms an SVM kernel
+    Result: no reproducible advantage over classical kernels across four
+    cohorts, and the single positive result reverses sign on the largest
+    (FINDING 08).
+
+QPG — Quantum Population Graph                                    [new]
+    nodes    subjects
+    features that subject's full connectivity profile — the representation
+             measured to carry signal (AUC 0.693)
+    edges    quantum fidelity between subjects, optionally gated by
+             phenotypic agreement
+    task     transductive node classification over the population
+    Motivated directly by the two measured failures: it moves the informative
+    representation onto the nodes, and confines the quantum kernel to the
+    edges, where the narrow register FINDING 01 requires is natural.
+
+
+WHY QPG IS THE RIGHT NEXT ARCHITECTURE
+--------------------------------------
+It is the only one of the three whose design follows from the measurements
+rather than from the original assumption:
+
+- FINDING 06 showed node features were the binding constraint. QPG gives nodes
+  the connectivity profile, which is the representation that separates classes.
+- FINDING 01 showed fidelity needs a narrow register. QPG uses 8 qubits for
+  edges only, so node capacity is not limited by qubit count.
+- FINDING 08 showed dimensionality compression dominated every quantum effect.
+  QPG node features are 128-dimensional, not 8.
+
+It is also the architecture with the strongest classical track record on these
+cohorts, which makes the comparison meaningful: a quantum edge definition is
+tested against classical edge definitions inside a design that is known to work.
+
+The comparison includes a NO-GRAPH MLP control on identical features. Without
+it, a graph method can appear to succeed when the features alone were doing the
+work.
+
+
+REFERENCES
+----------
+[1] Parisot S. et al. "Spectral graph convolutions for population-based disease
+    prediction." MICCAI 2017, LNCS 10435:177-185.
+[2] Parisot S. et al. "Disease prediction using graph convolutional networks:
+    Application to Autism Spectrum Disorder and Alzheimer's disease."
+    Medical Image Analysis 48:117-130, 2018.
+[3] Kipf T.N., Welling M. "Semi-supervised classification with graph
+    convolutional networks." ICLR 2017.
+[4] Abraham A. et al. "Deriving reproducible biomarkers from multi-site
+    resting-state data: an autism-based example." NeuroImage 147:736-745, 2017.
+[5] Havlicek V. et al. "Supervised learning with quantum-enhanced feature
+    spaces." Nature 567:209-212, 2019.
+[6] Ahmed S. et al. "Enhancing autism spectrum disorder classification with
+    lightweight quantized CNNs and federated learning on the ABIDE-1 dataset."
+    Mathematics 12:2886, 2024.  [quantized, NOT quantum]
+[7] Choi J. et al. "Early-stage detection of cognitive impairment by hybrid
+    quantum-classical algorithm using resting-state functional MRI time-series."
+    Knowledge-Based Systems 310:112922, 2025.
