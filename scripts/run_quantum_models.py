@@ -62,6 +62,7 @@ from qagta.quantum.trainable_kernel import (
     gram_matrix,
     train_kernel,
 )
+from qagta.quantum.variational import VQC
 
 
 def select_features(x_train, y_train, k):
@@ -166,8 +167,8 @@ def main() -> int:
     labels, sites = dataset.labels, dataset.sites
     print(f"connectivity: {connectivity.shape}\n")
 
-    names = ["QCNN", "QSVM-Pegasos", "QSVM-fixed", "TQEK",
-             "CNN (1-D)", "SVM-RBF", "Trainable-RBF"]
+    names = ["QCNN", "VQC", "QSVM-Pegasos", "QSVM-fixed", "TQEK",
+             "CNN (1-D)", "MLP", "SVM-RBF", "Trainable-RBF"]
     per_fold: dict[str, list[dict]] = {n: [] for n in names}
     timing: dict[str, float] = dict.fromkeys(names, 0.0)
 
@@ -211,6 +212,25 @@ def main() -> int:
             a_train, y_train, a_test, epochs=args.epochs, seed=args.seed,
         )
         record("QCNN", preds, scores, time.perf_counter() - t0)
+
+        # ---- VQC: ZZ feature map + RealAmplitudes + parity ---------------
+        t0 = time.perf_counter()
+        preds, scores = train_torch_classifier(
+            VQC(n_qubits=args.qubits, reps=2, seed=args.seed),
+            a_train, y_train, a_test, epochs=args.epochs, seed=args.seed,
+        )
+        record("VQC", preds, scores, time.perf_counter() - t0)
+
+        # ---- classical MLP, matched budget --------------------------------
+        t0 = time.perf_counter()
+        mlp = torch.nn.Sequential(
+            torch.nn.Linear(args.qubits, 32), torch.nn.ReLU(),
+            torch.nn.Dropout(0.2), torch.nn.Linear(32, 2),
+        )
+        preds, scores = train_torch_classifier(
+            mlp, x_train, y_train, x_test, epochs=args.epochs, seed=args.seed
+        )
+        record("MLP", preds, scores, time.perf_counter() - t0)
 
         # ---- classical CNN, matched budget -------------------------------
         t0 = time.perf_counter()
@@ -305,7 +325,7 @@ def main() -> int:
         print(row)
 
     # Paired tests: each quantum model against its natural classical counterpart.
-    pairs = [("QCNN", "CNN (1-D)"), ("TQEK", "Trainable-RBF"),
+    pairs = [("QCNN", "CNN (1-D)"), ("VQC", "MLP"), ("TQEK", "Trainable-RBF"),
              ("QSVM-fixed", "SVM-RBF"), ("QSVM-Pegasos", "SVM-RBF")]
     tests = {}
     print()
