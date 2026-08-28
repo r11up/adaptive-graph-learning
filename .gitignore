@@ -46,3 +46,12 @@ paper-tex/
 
 # Encoded caches inside timestamped run dirs
 results/**/encoded.pt
+
+# LaTeX build artefacts
+paper-tex/*.aux
+paper-tex/*.log
+paper-tex/*.out
+paper-tex/*.synctex.gz
+paper-tex/*.fls
+paper-tex/*.fdb_latexmk
+paper-tex/main.pdf
