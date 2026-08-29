@@ -202,8 +202,15 @@ no regional prior, and the graph configurations sit at chance
 
 ![Networks reported disrupted in MDD](docs/figures/networks_mdd.png)
 
-UCLA-CNP is omitted: its three diagnostic groups (schizophrenia, bipolar
-disorder, ADHD) do not share a single consensus network profile.
+### UCLA-CNP — transdiagnostic, shown as the parcellation itself
+
+UCLA-CNP (ds000030) spans schizophrenia, bipolar disorder, ADHD and controls,
+so no single disorder profile applies. Its panel instead shows the CC200/Yeo
+parcellation coloured by network identity — which doubles as the atlas
+reference for all four cohorts, since every cohort here uses the same
+parcellation.
+
+![CC200/Yeo parcellation, all networks](docs/figures/networks_ucla.png)
 
 Renderings produced with **BrainPainter**:
 
