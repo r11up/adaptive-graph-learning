@@ -1,0 +1,12 @@
+--- small cohorts first, so a config error surfaces in minutes ---
+[06:33:27Z] start ucla
+[06:33:27Z] start adhd
+[06:37:01Z] done  ucla (rc=0)
+[06:40:54Z] done  adhd (rc=0)
+--- large cohorts ---
+[06:40:54Z] start abide
+[06:40:54Z] start mdd
+[07:16:55Z] done  abide (rc=0)
+./scripts/run_qgt_all.sh: line 17: 40312 Terminated: 15          "$@" > "results/qgt/$tag.log" 2>&1
+[07:34:08Z] done  mdd (rc=0)
+=== QGT ALL FOUR COHORTS COMPLETE ===

@@ -1,0 +1,207 @@
+FINDING 17 — PLAN C (DATA RE-UPLOADING): NO EFFECT, ON TWO COHORTS
+===================================================================
+Status: measured, all four cohorts, full, 62 folds / 4,456 subjects
+Date:   2026-08-28
+Code:   scripts/run_reupload.py
+Raw:    results/superseded-prefix/planC/{abide,adhd,mdd,ucla}/reupload_results.json
+
+
+THE IDEA
+--------
+FINDING 16 showed the QCNN underfitting: training accuracy never exceeded 0.65
+at any register width, and widening the register cost 163x the runtime for
++0.017 accuracy. That points at capacity rather than width.
+
+Data re-uploading (Perez-Salinas et al., Quantum 4:226, 2020) re-injects the
+features between convolution stages, each with its own trainable gain, raising
+the order of Fourier terms the circuit can express in the data. The register
+stays at 8 qubits. Depths 1 and 2 were compared against a plain QCNN and the
+three established matched classical heads.
+
+Training accuracy was recorded alongside test accuracy, because the claim being
+tested is specifically about capacity, and capacity that does not generalise is
+invisible in test accuracy alone.
+
+
+RESULT — ABIDE-I, 20 folds
+--------------------------
+  model      params  train   test    AUC     gap
+  --------   ------  -----   -----   -----   ------
+  Q-Plain      62    0.643   0.604   0.647   +0.039
+  Q-Reup1      66    0.648   0.614   0.641   +0.034
+  Q-Reup2      68    0.652   0.602   0.630   +0.050
+  C-CNN       242    0.651   0.599   0.653   +0.053
+  C-MLP       354    0.684   0.602   0.639   +0.082
+  C-Linear     18    0.639   0.616   0.679   +0.023
+
+  Q-Reup1 vs Q-Plain:  +0.016  wins 11/20  p = 0.67
+  Q-Reup2 vs Q-Plain:  -0.007  wins  6/20  p = 0.98
+
+
+RESULT — REST-meta-MDD, 25 folds
+--------------------------------
+  model      params  train   test    AUC     gap
+  --------   ------  -----   -----   -----   ------
+  Q-Plain      62    0.588   0.535   0.570   +0.053
+  Q-Reup1      66    0.593   0.532   0.563   +0.061
+  Q-Reup2      68    0.594   0.531   0.564   +0.062
+  C-CNN       242    0.581   0.532   0.582   +0.048
+  C-MLP       354    0.607   0.527   0.549   +0.081
+  C-Linear     18    0.577   0.533   0.561   +0.044
+
+  every paired test: median dAcc = +0.000, p = 0.57 to 0.99
+
+
+RESULT — ADHD-200, 7 folds
+--------------------------
+  model      params  train   test    AUC     gap
+  --------   ------  -----   -----   -----   ------
+  Q-Plain      62    0.670   0.515   0.514   +0.155
+  Q-Reup1      66    0.673   0.507   0.512   +0.166
+  Q-Reup2      68    0.670   0.517   0.520   +0.152
+  C-CNN       242    0.678   0.482   0.510   +0.195
+  C-MLP       354    0.716   0.513   0.556   +0.203
+  C-Linear     18    0.666   0.537   0.563   +0.129
+
+
+RESULT — UCLA-CNP, 10 stratified folds
+--------------------------------------
+  model      params  train   test    AUC     gap
+  --------   ------  -----   -----   -----   ------
+  Q-Plain      62    0.666   0.598   0.596   +0.068
+  Q-Reup1      66    0.687   0.579   0.561   +0.108
+  Q-Reup2      68    0.684   0.593   0.581   +0.091
+  C-CNN       242    0.746   0.500   0.489   +0.246
+  C-MLP       354    0.854   0.584   0.583   +0.270
+  C-Linear     18    0.747   0.593   0.603   +0.154
+
+
+THE SIX "SIGNIFICANT" RESULTS ARE ONE WEAK COMPARATOR
+------------------------------------------------------
+Across four cohorts, 60 pairwise tests give 6 at p < 0.05 uncorrected against
+an expectation of 3.0 by chance. None survives Bonferroni (0.05/60 = 0.00083;
+smallest p anywhere = 0.008).
+
+All six are on the two smallest cohorts, and every one has C-CNN losing:
+
+  UCLA-CNP    Q-Plain  > C-CNN   +0.087  8/10  p = 0.0234
+              Q-Reup1  > C-CNN   +0.091  8/10  p = 0.0078
+              Q-Reup2  > C-CNN   +0.087  8/10  p = 0.0215
+              C-MLP    > C-CNN   +0.087  9/10  p = 0.0137
+              C-Linear > C-CNN   +0.111  9/10  p = 0.0137
+  ADHD-200    C-Linear > C-CNN   +0.062  7/7   p = 0.0312
+
+Reported alone, "all three quantum models beat the classical CNN on UCLA-CNP
+at p < 0.025" is a quantum-advantage headline. The matched classical arms kill
+it: C-MLP and C-Linear beat C-CNN by the same margin at the same p-values.
+
+The cause is that the 1-D CNN does not train at these sample sizes. Its
+accuracy by cohort: 0.599 (ABIDE, n=1035), 0.532 (MDD, n=2428), 0.500 (UCLA,
+n=226), 0.482 (ADHD, n=767) — at or below chance on both small cohorts, with
+the largest overfit gap of any model there (+0.246 UCLA, +0.195 ADHD).
+
+THIS IS THE STUDY'S CLEANEST DEMONSTRATION of why unmatched comparators
+manufacture quantum advantage, and why every comparison here carries more than
+one classical arm. It should be reported as such.
+
+
+MECHANISM ACROSS ALL FOUR
+-------------------------
+  train accuracy vs overfit gap
+    ABIDE-I         r = +0.949   p = 0.0038  **
+    REST-meta-MDD   r = +0.991   p = 0.0001  ***
+    UCLA-CNP        r = +0.900   p = 0.0145  *
+    ADHD-200        r = +0.781   p = 0.0666  (7 folds)
+
+Positive on all four, significant on three; the marginal case is the smallest
+fold count. The mechanism is the most robust thing Plan C produced.
+
+
+THE NULL IS COMPLETE AND IT REPLICATES
+--------------------------------------
+On the two best-powered cohorts, ALL 15 pairwise comparisons among the six
+models are non-significant even uncorrected. Smallest p is 0.136 on ABIDE and
+0.339 on MDD. Three quantum and three classical models spanning 18 to 354
+parameters are statistically indistinguishable on 45 folds and 3,463 subjects.
+The two smaller cohorts add six nominal hits, all attributable to C-CNN
+(above), and none surviving correction.
+
+Re-uploading specifically does nothing. Depth 1 gains +0.016 on ABIDE at
+p = 0.67 (a coin flip at 11/20 wins) and exactly 0.000 on MDD. Depth 2 is
+negative on both.
+
+
+THE MECHANISM REPLICATES, AND STRENGTHENS
+-----------------------------------------
+Recording training accuracy turns the null into a mechanism:
+
+                                    ABIDE-I          REST-meta-MDD
+  train accuracy vs overfit gap   r = +0.949 **     r = +0.991 ***
+                                  (p = 0.0038)      (p = 0.0001)
+  train accuracy vs test accuracy r = -0.482        r = -0.765
+                                  (p = 0.33)        (p = 0.077)
+
+On MDD the six models rank IDENTICALLY by training accuracy and by overfit gap
+-- a perfect ordering. Whatever a model manages to fit beyond the shared signal
+becomes variance, and this holds regardless of whether the mechanism supplying
+the capacity is quantum or classical.
+
+Re-uploading did what its theory claims: training accuracy rose 0.643 -> 0.652
+on ABIDE and 0.588 -> 0.594 on MDD. The added Fourier capacity is real and
+usable. It simply bought nothing on held-out data.
+
+
+TWO THINGS THAT DO NOT REPLICATE — DO NOT REPORT THESE AS GENERAL
+-----------------------------------------------------------------
+1. PARAMETER COUNT IS A WEAKER PREDICTOR THAN ACHIEVED TRAINING FIT.
+   Parameters vs overfit gap is rho = +0.943 (p = 0.005) on ABIDE but only
+   rho = +0.657 (p = 0.156) on MDD. The robust predictor across both cohorts
+   is training accuracy actually achieved, not capacity nominally available.
+   This is the more sensible quantity anyway: an unused parameter costs
+   nothing, and C-MLP's 354 parameters overfit while C-CNN's 242 do not.
+
+2. "AN 18-PARAMETER LINEAR LAYER IS BEST" IS ABIDE-SPECIFIC.
+   C-Linear wins on ABIDE (0.616 accuracy, 0.679 AUC, smallest gap). On MDD
+   the nominal best is Q-Plain at 0.535, with all six models inside a 0.008
+   band and 0/15 tests significant. The honest statement for MDD is that
+   everything ties; the linear-layer result should be reported as an ABIDE
+   observation, not a general claim.
+
+
+COST
+----
+Q-Plain 26.2 s/fold on MDD against 0.2 s/fold for C-Linear -- 131x -- for
+0.002 lower accuracy. On ABIDE, 11.1 s against 0.1 s.
+
+
+CUMULATIVE POSITION
+-------------------
+Six architectural families now: fidelity kernels, population graphs, the Qiskit
+model suite, learned projections (FINDING 14), block ensembles (FINDING 15),
+and data re-uploading. In every one, each intervention that helps the quantum
+arm helps its matched classical twin at least as much.
+
+Plan C differs from Plans A and B in one respect worth noting: A and B produced
+significant results AGAINST the quantum arm, while C produces no signal in
+either direction. That is consistent with the capacity account -- A and B
+changed the representation, whereas C only added expressive capacity to a model
+that was not short of it in a way that mattered.
+
+
+A NOTE ON SUBSETS
+-----------------
+Unlike Plans A and B, no misleading subset result preceded this one. The UCLA
+smoke test (226 subjects, 10 folds) was run for correctness only and its
+numbers were never treated as a result, following the protocol adopted after
+FINDINGS 14 and 15 were each misjudged on six-fold subsets.
+
+
+REFERENCES
+----------
+[1] Perez-Salinas A. et al. "Data re-uploading for a universal quantum
+    classifier." Quantum 4:226, 2020.
+[2] Schuld M., Sweke R., Meyer J.J. "Effect of data encoding on the expressive
+    power of variational quantum machine learning models." Physical Review A
+    103:032430, 2021.
+[3] Cong I., Choi S., Lukin M.D. "Quantum convolutional neural networks."
+    Nature Physics 15:1273-1278, 2019.

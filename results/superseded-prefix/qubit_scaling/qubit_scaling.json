@@ -1,0 +1,50 @@
+{
+  "config": {
+    "data_root": "data/ABIDE-I",
+    "atlas": "rois_cc200",
+    "widths": [
+      4,
+      8,
+      16
+    ],
+    "subjects": 300,
+    "epochs": 40,
+    "lr": 0.05,
+    "hold_out_site": "NYU",
+    "seed": 0,
+    "out": "results/qubit_scaling"
+  },
+  "rows": [
+    {
+      "qubits": 4,
+      "params": 29,
+      "train_acc": 0.64,
+      "test_acc": 0.49142857142857144,
+      "gap": 0.14857142857142858,
+      "auc": 0.49413333333333337,
+      "seconds": 0.19078762500430457,
+      "statevector_gb": 3.84e-05
+    },
+    {
+      "qubits": 8,
+      "params": 65,
+      "train_acc": 0.65,
+      "test_acc": 0.5028571428571429,
+      "gap": 0.14714285714285713,
+      "auc": 0.5646666666666667,
+      "seconds": 4.206432999999379,
+      "statevector_gb": 0.0006144
+    },
+    {
+      "qubits": 16,
+      "params": 137,
+      "train_acc": 0.63,
+      "test_acc": 0.52,
+      "gap": 0.10999999999999999,
+      "auc": 0.5637333333333334,
+      "seconds": 685.5445891670097,
+      "statevector_gb": 0.1572864
+    }
+  ],
+  "timestamp": "20260828-092057Z"
+}

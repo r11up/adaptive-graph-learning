@@ -1,0 +1,95 @@
+FINDING 20 — EXTERNAL ARCHITECTURE SUGGESTIONS: WHAT SURVIVED VERIFICATION
+==========================================================================
+Status: citations verified against sources; two suggestions already answered by
+        our own data; one genuinely actionable
+Date:   2026-08-29
+
+
+1. DAGMNet "91.5% on ABIDE-I LOSO" — THE PROTOCOL IS WRONG
+-----------------------------------------------------------
+Verified against the paper (PMC12467520). DAGMNet is real and reports 91.59%
+accuracy / 96.80% AUC on ABIDE-I. But:
+
+  - it uses 10-FOLD CROSS-VALIDATION, not leave-one-site-out;
+  - it is MULTIMODAL: sMRI + fMRI + phenotypic;
+  - the phenotypic inputs include STUDY LOCATION, gender, age and IQ, used to
+    build the population graph;
+  - 871 subjects, three atlases (Harvard-Oxford, EZ, AAL), not CC200.
+
+Site identity is therefore an input feature under random 10-fold splits, so
+subjects from a site appear in both train and test. That is exactly the leakage
+leave-site-out exists to prevent, and exactly the artefact mechanism our own
+Section on apparent advantage documents.
+
+DAGMNet is not a comparable benchmark for a unimodal, connectivity-only,
+site-held-out model. It IS an excellent worked example for the artefact
+section, and should be cited there rather than in the results comparison.
+
+Related precedent already in the paper: the ADHD-200 competition's best imaging
+entry (0.615) was beaten by phenotypic data ALONE (0.625).
+
+
+2. HIERARCHICAL / ATTENTION POOLING — ALREADY TESTED, DOES NOT HELP
+-------------------------------------------------------------------
+The suggestion to replace global mean pooling with attention or Top-K pooling
+is already answered by our read-out ablation (Table tab:readout):
+
+  read-out            F1      accuracy   specificity
+  ----------------   -----    --------   -----------
+  Mean pooling       0.292     0.495       0.550
+  Mean/max/std       0.295     0.500       0.554
+  Attention pooling  0.133     0.512       0.800
+  Ordered flatten    0.192     0.497       0.700
+
+Every read-out sits at chance. Attention pooling gives the highest accuracy
+(0.512) and the WORST F1 (0.133) -- it collapses toward a single class, which
+the high specificity (0.800) confirms. Preserving regional identity is not the
+binding constraint.
+
+This matters for how the diagnosis is stated: the read-out was a reasonable
+hypothesis, we tested four of them, and none moved accuracy off chance.
+
+
+3. CONNECTIVITY-PROFILE NODE FEATURES — GENUINELY UNTESTED, AND INDICATED
+--------------------------------------------------------------------------
+This one is right, and it is the single most promising untested change.
+
+FINDING 06 established that per-region temporal PCA components carry no
+diagnostic signal. The graph path still uses them as node features. Meanwhile
+the SQK / model-suite path uses CONNECTIVITY features (correlation rows) and
+reaches 0.649-0.671 on the same cohort and folds.
+
+So the graph has never been given the features that demonstrably carry the
+signal. Replacing PCA node features with compressed connectivity profiles is
+directly indicated by our own diagnosis and has not been run. -> Experiment 3.
+
+
+4. QUANTUM TIME-SERIES TRANSFORMER — REAL, RELEVANT, NOT REPLICABLE HERE
+------------------------------------------------------------------------
+Verified: "Resting-state fMRI Analysis using Quantum Time-series Transformer"
+(arXiv:2509.00711), also IEEE Xplore 11250368. Uses LCU and QSVT for attention
+at polylogarithmic complexity, evaluated on ABCD and UK Biobank, reports
+"especially pronounced gains in small-sample scenarios" and SHAP-identified
+ADHD biomarkers. Built on Quixer (arXiv:2406.04305, Quantinuum).
+
+Directly relevant, and worth citing prominently: it targets the same constraint
+we measured (static pairwise fidelity concentrating) with a different mechanism.
+
+NOTE THE TENSION WITH OUR OWN RESULT: QTT claims gains in small-sample
+scenarios. Our low-data experiment (FINDING 21) found no such crossover for a
+QCNN across seven training sizes on two cohorts. Different architecture, same
+claimed regime -- worth stating as an open question rather than a contradiction.
+
+Implementing LCU + QSVT attention faithfully is weeks of work and out of scope
+for this paper. Cite and discuss; do not claim to have evaluated it.
+
+
+VERDICT
+-------
+  suggestion                        status
+  ------------------------------    ------------------------------------------
+  Connectivity node features        ACTIONABLE -> Experiment 3
+  Attention / Top-K pooling         ALREADY TESTED, negative (tab:readout)
+  DAGMNet as SOTA benchmark         REJECT as benchmark; USE in artefact section
+  QTT / QGT / EQGNN                 CITE and discuss; implementation out of scope
+  Sub-graph motif encoding          Plausible, unscheduled

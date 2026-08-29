@@ -1,0 +1,30 @@
+--- resume wave 2 (the two that died) ---
+[05:29:57Z] start planA-MDD
+[05:29:57Z] start planC-MDD
+[05:29:57Z] start planC-ADHD
+[05:29:57Z] start planC-UCLA
+[05:31:02Z] done  planC-UCLA (rc=0)
+[05:32:14Z] done  planC-ADHD (rc=0)
+[05:46:18Z] done  planA-MDD (rc=0)
+[05:54:52Z] done  planC-MDD (rc=0)
+--- wave 3 ---
+[05:54:52Z] start planB-ABIDE
+[05:54:52Z] start planA-ADHD
+[05:54:52Z] start planA-UCLA
+[05:54:52Z] start qubit-scaling
+[05:55:41Z] done  planA-UCLA (rc=0)
+[05:56:27Z] done  planA-ADHD (rc=0)
+[06:06:28Z] done  planB-ABIDE (rc=0)
+[06:08:55Z] done  qubit-scaling (rc=0)
+--- wave 4 ---
+[06:08:55Z] start planB-MDD
+[06:08:55Z] start qgt-ABIDE
+[06:08:55Z] start lowdata-ABIDE
+[06:08:55Z] start qgt-MDD
+[06:22:28Z] done  lowdata-ABIDE (rc=0)
+./scripts/resume_rerun22.sh: line 5: 39193 Terminated: 15          "$@" > "$R/$tag.log" 2>&1
+./scripts/resume_rerun22.sh: line 5: 39191 Terminated: 15          "$@" > "$R/$tag.log" 2>&1
+[06:33:15Z] done  qgt-ABIDE (rc=0)
+[06:33:15Z] done  qgt-MDD (rc=0)
+[06:43:12Z] done  planB-MDD (rc=0)
+=== RESUME COMPLETE ===

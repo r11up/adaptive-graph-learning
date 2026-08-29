@@ -1,8 +1,8 @@
 FINDING 15 — PLAN B (BLOCK ENSEMBLE): HELPS CLASSICAL, NOT QUANTUM
 ===================================================================
-Status: measured, ABIDE-I, 20 folds, full cohort
+Status: measured, all four cohorts, 62 folds, 4,456 subjects
 Date:   2026-08-28
-Raw:    results/ABIDE_ensemble/ensemble_results.json
+Raw:    results/superseded-prefix/ABIDE_ensemble/, results/superseded-prefix/planB/{ADHD-200,REST-meta-MDD,UCLA-CNP}/
 
 
 THE IDEA
@@ -81,3 +81,25 @@ REFERENCES
     Nature Physics 15:1273-1278, 2019.
 [2] Dietterich T.G. "Ensemble methods in machine learning." MCS 2000,
     LNCS 1857:1-15.
+
+
+=== ADDENDUM 2026-08-28: EXTENDED TO ALL FOUR COHORTS ===
+
+  cohort           Q-Ensemble  C-Ensemble  C-Single
+  ABIDE-I               0.592       0.622     0.603
+  ADHD-200              0.505       0.560     0.529
+  REST-meta-MDD         0.541       0.542     0.564
+  UCLA-CNP              0.555       0.575     0.570
+
+C-Ensemble exceeds Q-Ensemble on ALL FOUR cohorts, so the direction is
+consistent. The evidence is not: of 12 pairwise tests only the original ABIDE-I
+comparison reaches p < 0.05 (against 0.6 expected by chance), and none survives
+Bonferroni.
+
+REVISED READING: Plan B is a NULL with a consistently negative trend, not a
+demonstration that the quantum ensemble is worse. The original FINDING 15 text
+above leaned harder on the single ABIDE result than four cohorts support.
+
+Block weights stay near-even on both large cohorts (ABIDE-I 0.326/0.207/0.257/
+0.211; MDD 0.246/0.236/0.233/0.284), so the ensemble is genuinely using its
+wider feature set on both.

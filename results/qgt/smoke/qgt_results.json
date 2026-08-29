@@ -1,0 +1,105 @@
+{
+  "config": {
+    "data_root": "data/UCLA-CNP-cc200",
+    "atlas": "rois_cc200",
+    "features": 8,
+    "node_qubits": 3,
+    "k": 8,
+    "epochs": 8,
+    "lr": 0.01,
+    "batch": 16,
+    "cv": "stratified",
+    "folds": 5,
+    "min_test_size": 10,
+    "seed": 0,
+    "limit": null,
+    "out": "results/qgt/smoke"
+  },
+  "per_fold": {
+    "Q-Attention": [
+      {
+        "site": "fold1",
+        "n": 46,
+        "accuracy": 0.5,
+        "f1": 0.30303030303030304,
+        "specificity": 0.8571428571428571,
+        "auc": 0.44952380952380955
+      },
+      {
+        "site": "fold2",
+        "n": 45,
+        "accuracy": 0.5333333333333333,
+        "f1": 0.6557377049180327,
+        "specificity": 0.19047619047619047,
+        "auc": 0.4523809523809524
+      },
+      {
+        "site": "fold3",
+        "n": 45,
+        "accuracy": 0.4888888888888889,
+        "f1": 0.6349206349206349,
+        "specificity": 0.1,
+        "auc": 0.442
+      },
+      {
+        "site": "fold4",
+        "n": 45,
+        "accuracy": 0.5777777777777777,
+        "f1": 0.7076923076923077,
+        "specificity": 0.15,
+        "auc": 0.452
+      },
+      {
+        "site": "fold5",
+        "n": 45,
+        "accuracy": 0.5111111111111111,
+        "f1": 0.5925925925925926,
+        "specificity": 0.35,
+        "auc": 0.528
+      }
+    ],
+    "C-Attention": [
+      {
+        "site": "fold1",
+        "n": 46,
+        "accuracy": 0.5652173913043478,
+        "f1": 0.7142857142857143,
+        "specificity": 0.047619047619047616,
+        "auc": 0.45904761904761904
+      },
+      {
+        "site": "fold2",
+        "n": 45,
+        "accuracy": 0.4666666666666667,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.4126984126984127
+      },
+      {
+        "site": "fold3",
+        "n": 45,
+        "accuracy": 0.4444444444444444,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.44799999999999995
+      },
+      {
+        "site": "fold4",
+        "n": 45,
+        "accuracy": 0.6,
+        "f1": 0.7272727272727273,
+        "specificity": 0.15,
+        "auc": 0.46599999999999997
+      },
+      {
+        "site": "fold5",
+        "n": 45,
+        "accuracy": 0.4444444444444444,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.29000000000000004
+      }
+    ]
+  },
+  "timestamp": "20260829-043311Z"
+}

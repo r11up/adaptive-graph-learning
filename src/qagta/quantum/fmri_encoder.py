@@ -189,10 +189,123 @@ class PennyLaneRingEncoder(nn.Module):
         return self.forward(x, return_state=return_state)
 
 
+class InterleavedEncoder(nn.Module):
+    """Encoder whose trainable parameters survive into the fidelity kernel.
+
+    FINDING 19 established the constraint this class exists to satisfy. For a
+    fidelity graph the state is compared pairwise, so any operator applied
+    identically to both states cancels:
+
+        F_ij = |<0| V(x_i)^dag U^dag U V(x_j) |0>|^2 = |<0| V(x_i)^dag V(x_j) |0>|^2
+
+    In :class:`RingEntangledEncoder` the entangling ring and the variational
+    rotations both sit *after* the data-dependent encoding, so they vanish from
+    the graph entirely and only ``encode_scale`` -- one gain per qubit -- is
+    learnable through it. Eight parameters govern a 200-node topology.
+
+    The fix is not more depth but different placement. Writing the circuit as
+
+        V(x) = R_L(x) . A_{L-1} . R_{L-1}(x) ... A_1 . R_1(x)
+
+    with data-dependent rotations ``R_l(x)`` *interleaved* between trainable
+    entangling blocks ``A_l``, the product V(x_i)^dag V(x_j) no longer telescopes:
+    each A_l is sandwiched between data-dependent factors that differ between i
+    and j, so it cannot cancel. Every parameter here is therefore visible to the
+    fidelity, which ``tests/test_encoder_gradients.py`` asserts numerically
+    rather than assuming.
+
+    This is the same reason data re-uploading raises expressivity in a
+    variational classifier (Perez-Salinas et al., Quantum 4:226, 2020), applied
+    to a kernel rather than to a read-out: repetition of the data interleaved
+    with trainable structure is what buys capacity.
+    """
+
+    supports_statevector = True
+
+    def __init__(self, n_qubits: int = 8, layers: int = 3,
+                 input_scale: float = math.pi) -> None:
+        super().__init__()
+        if n_qubits < 2:
+            raise ValueError("the entangling ring needs at least 2 qubits")
+        if layers < 1:
+            raise ValueError("at least one encoding layer is required")
+        self.n_qubits, self.layers = n_qubits, layers
+        self.dim = 2**n_qubits
+        self.input_scale = input_scale
+
+        # One data-dependent rotation layer per repetition, each with its own
+        # trainable gain and offset, so successive layers can encode different
+        # functions of the same features rather than repeating one.
+        self.gain = nn.Parameter(torch.ones(layers, n_qubits))
+        self.offset = nn.Parameter(0.01 * torch.randn(layers, n_qubits))
+        # Trainable single-qubit rotations between the data layers. These sit
+        # *inside* the encoding, so unlike the ansatz of RingEntangledEncoder
+        # they do not cancel in the fidelity.
+        self.between = nn.Parameter(0.01 * torch.randn(max(layers - 1, 1), n_qubits))
+
+        for k in range(n_qubits):
+            self.register_buffer(
+                f"_ring_{k}",
+                _cnot_permutation(n_qubits, k, (k + 1) % n_qubits, torch.device("cpu")),
+            )
+
+    def _ring(self, state: torch.Tensor) -> torch.Tensor:
+        for k in range(self.n_qubits):
+            state = state.index_select(1, getattr(self, f"_ring_{k}"))
+        return state
+
+    def prepare_state(self, x: torch.Tensor) -> torch.Tensor:
+        if x.dim() != 2 or x.shape[1] != self.n_qubits:
+            raise ValueError(f"expected (batch, {self.n_qubits}), got {tuple(x.shape)}")
+        batch = x.shape[0]
+        state = torch.zeros((batch, self.dim), dtype=torch.complex64, device=x.device)
+        state[:, 0] = 1.0
+
+        for layer in range(self.layers):
+            for q in range(self.n_qubits):
+                angle = self.input_scale * self.gain[layer, q] * x[:, q] + self.offset[layer, q]
+                state = _apply_ry(state, self.n_qubits, q, angle)
+            if layer < self.layers - 1:
+                state = self._ring(state)
+                for q in range(self.n_qubits):
+                    state = _apply_rz(
+                        state, self.n_qubits, q,
+                        self.between[layer, q].expand(batch),
+                    )
+        return state
+
+    def expectations(self, state: torch.Tensor) -> torch.Tensor:
+        probs = state.real**2 + state.imag**2
+        out = []
+        for q in range(self.n_qubits):
+            sign = 1.0 - 2.0 * ((torch.arange(self.dim, device=state.device)
+                                 >> (self.n_qubits - q - 1)) & 1).float()
+            out.append(probs @ sign)
+        return torch.stack(out, dim=1)
+
+    def forward(self, x: torch.Tensor, return_state: bool = False):
+        state = self.prepare_state(x)
+        z = self.expectations(state)
+        return (z, state) if return_state else z
+
+
 def build_encoder(backend: str = "torch", n_qubits: int = 16) -> nn.Module:
-    """Construct the per-region encoder for the requested backend."""
+    """Construct the per-region encoder for the requested backend.
+
+    ``torch``        ring-entangled encoder; trainable ansatz sits after the
+                     encoding and is therefore invisible to a fidelity graph
+                     (FINDING 19). Retained because every earlier result used it.
+    ``interleaved``  data layers interleaved with trainable blocks, so every
+                     parameter reaches the fidelity.
+    ``pennylane``    reference implementation of ``torch``.
+    """
     if backend == "torch":
         return RingEntangledEncoder(n_qubits=n_qubits)
+    if backend == "interleaved":
+        return InterleavedEncoder(n_qubits=n_qubits)
     if backend == "pennylane":
         return PennyLaneRingEncoder(n_qubits=n_qubits)
-    raise ValueError(f"unknown quantum backend: {backend!r} (expected 'torch' or 'pennylane')")
+    raise ValueError(
+        f"unknown quantum backend: {backend!r} "
+        "(expected 'torch', 'interleaved' or 'pennylane')"
+    )

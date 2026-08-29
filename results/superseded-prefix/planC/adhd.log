@@ -1,0 +1,33 @@
+re-uploading study (Plan C) -> results/planC/adhd
+skipped 1 subjects: too_short=1
+767 subjects | 280 ASD / 487 control | 9 sites
+nodes=190  features=8  T range=72-257  mean explained variance=93.0%
+quantum trainable parameters: Q-Plain=62  Q-Reup1=66  Q-Reup2=68
+
+  KKI          n=83   Q-Plain=0.458  Q-Reup1=0.602  Q-Reup2=0.518  C-CNN=0.446  C-MLP=0.422  C-Linear=0.518
+  NYU          n=216  Q-Plain=0.537  Q-Reup1=0.551  Q-Reup2=0.556  C-CNN=0.509  C-MLP=0.532  C-Linear=0.528
+  NeuroIMAGE   n=48   Q-Plain=0.458  Q-Reup1=0.417  Q-Reup2=0.521  C-CNN=0.354  C-MLP=0.417  C-Linear=0.417
+  OHSU         n=78   Q-Plain=0.474  Q-Reup1=0.397  Q-Reup2=0.423  C-CNN=0.474  C-MLP=0.538  C-Linear=0.513
+  Peking_1     n=85   Q-Plain=0.624  Q-Reup1=0.600  Q-Reup2=0.576  C-CNN=0.518  C-MLP=0.541  C-Linear=0.612
+  Peking_2     n=67   Q-Plain=0.507  Q-Reup1=0.507  Q-Reup2=0.552  C-CNN=0.552  C-MLP=0.522  C-Linear=0.552
+  Peking_3     n=42   Q-Plain=0.548  Q-Reup1=0.476  Q-Reup2=0.476  C-CNN=0.524  C-MLP=0.619  C-Linear=0.619
+
+======================================================================================
+PLAN C — data re-uploading at 8 qubits, depths [1, 2]
+======================================================================================
+model           train       accuracy             F1            AUC      gap  sec/fold
+-------------------------------------------------------------------------------------
+Q-Plain         0.670    0.515+-0.044    0.376+-0.120    0.514+-0.035   +0.155       7.8
+Q-Reup1         0.673    0.507+-0.061    0.351+-0.124    0.512+-0.058   +0.166       8.0
+Q-Reup2         0.670    0.517+-0.039    0.381+-0.061    0.520+-0.044   +0.152       8.1
+C-CNN           0.678    0.482+-0.049    0.393+-0.094    0.510+-0.049   +0.195       2.5
+C-MLP           0.716    0.513+-0.053    0.418+-0.099    0.556+-0.055   +0.203       0.1
+C-Linear        0.666    0.537+-0.051    0.421+-0.090    0.563+-0.054   +0.129       0.1
+
+Q-Reup1 vs Q-Plain: median dAcc = -0.024, wins 2/7, p = 0.5625
+Q-Reup2 vs Q-Plain: median dAcc = +0.019, wins 4/7, p = 1.0000
+Q-Reup2 vs C-CNN: median dAcc = +0.046, wins 4/7, p = 0.3125
+Q-Reup2 vs C-MLP: median dAcc = +0.030, wins 5/7, p = 0.9375
+Q-Reup2 vs C-Linear: median dAcc = +0.000, wins 2/7, p = 0.6250
+
+saved: results/planC/adhd/reupload_results.json

@@ -1,0 +1,24 @@
+==============================================================================
+ABIDE connectome study: quantum-adaptive graph vs classical baselines
+==============================================================================
+1035 subjects | 505 ASD / 530 control | 20 sites
+nodes=200  features=8  T range=78-316  mean explained variance=91.1%
+
+encoding 1035 subjects x 200 regions (8 qubits, 64 circuit parameters, backend=interleaved)
+Traceback (most recent call last):
+  File "/Users/utsav/Desktop/adaptive-edge-learning/scripts/run_abide_study.py", line 228, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/utsav/Desktop/adaptive-edge-learning/scripts/run_abide_study.py", line 114, in main
+    cohort = encode_cohort(dataset, encoder, k_neighbors=args.k_neighbors,
+                           topology=args.topology)
+  File "/Users/utsav/Desktop/adaptive-edge-learning/.venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/Users/utsav/Desktop/adaptive-edge-learning/src/qagta/pipelines/connectome_pipeline.py", line 121, in encode_cohort
+    z, states = encoder.encode(x, return_state=True)
+                ^^^^^^^^^^^^^^
+  File "/Users/utsav/Desktop/adaptive-edge-learning/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1967, in __getattr__
+    raise AttributeError(
+        f"'{type(self).__name__}' object has no attribute '{name}'"
+    )
+AttributeError: 'InterleavedEncoder' object has no attribute 'encode'

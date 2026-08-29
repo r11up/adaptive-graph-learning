@@ -1,0 +1,87 @@
+FINDING 21 — NO LOW-DATA CROSSOVER: REGULARISATION WITHOUT ADVANTAGE
+=====================================================================
+Status: measured, controlled subsampling, ABIDE-I (4 sizes) + REST-meta-MDD (3)
+Date:   2026-08-29
+Code:   scripts/run_lowdata.py
+Raw:    results/superseded-prefix/lowdata/{abide,mdd}/lowdata_results.json
+
+
+THE PREDICTION BEING TESTED
+---------------------------
+FINDING 18 measured a quantum advantage in overfitting resistance whose margin
+grew as cohorts shrank, and at the smallest cohort (UCLA-CNP, n=226) the
+quantum arms led on BOTH gap and accuracy. That implied a crossover: below some
+training size, quantum should win on accuracy too.
+
+The test holds leave-site-out folds fixed and subsamples only the TRAINING
+pool, three draws per fold per size. Test sets are unchanged, so the comparison
+is clean.
+
+Interpretation was fixed in advance: a crossover on both cohorts is a real
+low-data effect; on one cohort only it is noise; none falsifies the FINDING 18
+extrapolation.
+
+
+RESULT
+------
+  cohort     n      Quantum  C-MLP  C-Linear   Q gap   MLP gap   ratio
+  --------  -----   -------  -----  --------   -----   -------   -----
+  ABIDE-I     100    0.528   0.551   0.545     0.172    0.353     2.1x
+  ABIDE-I     200    0.548   0.568   0.587     0.124    0.258     2.1x
+  ABIDE-I     400    0.560   0.578   0.597     0.102    0.149     1.5x
+  ABIDE-I     800    0.597   0.603   0.609     0.053    0.094     1.8x
+  MDD         100    0.519   0.531   0.526     0.167    0.362     2.2x
+  MDD         200    0.518   0.529   0.531     0.150    0.286     1.9x
+  MDD         400    0.539   0.539   0.553     0.106    0.177     1.7x
+
+  paired tests, ABIDE-I, quantum vs C-Linear:
+    n=100  -0.007  p = 0.306
+    n=200  -0.049  p = 0.006 **
+    n=400  -0.031  p = 0.000 **
+    n=800  -0.014  p = 0.158
+
+
+THE TWO HALVES COME APART
+-------------------------
+CONFIRMED: quantum has the smaller overfitting gap at EVERY size on BOTH
+cohorts, 1.5x to 2.2x, and the margin widens as n falls. This reproduces
+FINDING 18 by controlled subsampling rather than by comparing cohorts of
+different size -- the stronger form of the evidence.
+
+FALSIFIED: quantum is best on accuracy at NONE of the seven sizes, and is
+significantly worse than an 18-parameter linear model at two of them. There is
+no crossover and no trend toward one; the accuracy gap narrows as n GROWS,
+the opposite of what a low-data quantum advantage predicts.
+
+
+WHAT TO CONCLUDE
+----------------
+Structural regularisation from a bounded read-out is real, quantum-specific,
+and strongest exactly where classical models struggle most. It is still not an
+advantage, because the classical models that overfit most (C-MLP) are not the
+ones worth beating. A linear classifier is better regularised AND more accurate
+at every size tested.
+
+This is a sharper result than either outcome alone would have been. "Quantum
+wins in the low-data regime" would have been the more attractive headline and
+is not what the data says; "nothing happens" is also not what the data says.
+The precise statement is a dissociation between a real mechanism and an absent
+benefit.
+
+
+PROCEDURAL NOTE
+---------------
+The MDD run was stopped after n=400 of a planned {100,200,400,800,1600}. This
+was sound rather than merely convenient: the hypothesis concerned SMALL n, the
+small-n end was complete on both cohorts and uniformly negative, and the
+remaining points were the large-n end where FINDING 17 already showed a tie.
+The untested sizes could not have rescued the hypothesis. Three sizes on MDD
+and four on ABIDE-I are what is reported.
+
+
+REFERENCES
+----------
+[1] Caro M.C. et al. "Generalization in quantum machine learning from few
+    training data." Nature Communications 13:4919, 2022.
+[2] Abbas A. et al. "The power of quantum neural networks." Nature
+    Computational Science 1:403-409, 2021.

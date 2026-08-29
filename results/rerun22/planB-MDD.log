@@ -1,0 +1,46 @@
+ensemble study (Plan B) -> results/rerun22/planB_mdd
+4 blocks x 8 features = 32 total
+
+2428 subjects | 1300 ASD / 1128 control | 25 sites
+nodes=200  features=8  T range=90-240  mean explained variance=92.7%
+  S1           n=148  Q-Ensemble=0.507  C-Ensemble=0.520  C-Single=0.507
+  S10          n=83   Q-Ensemble=0.482  C-Ensemble=0.494  C-Single=0.518
+  S11          n=61   Q-Ensemble=0.639  C-Ensemble=0.508  C-Single=0.508
+  S12          n=38   Q-Ensemble=0.789  C-Ensemble=0.658  C-Single=0.632
+  S13          n=42   Q-Ensemble=0.476  C-Ensemble=0.405  C-Single=0.571
+  S14          n=96   Q-Ensemble=0.656  C-Ensemble=0.583  C-Single=0.698
+  S15          n=100  Q-Ensemble=0.500  C-Ensemble=0.510  C-Single=0.460
+  S16          n=62   Q-Ensemble=0.532  C-Ensemble=0.597  C-Single=0.516
+  S17          n=91   Q-Ensemble=0.516  C-Ensemble=0.505  C-Single=0.516
+  S18          n=41   Q-Ensemble=0.439  C-Ensemble=0.463  C-Single=0.439
+  S19          n=87   Q-Ensemble=0.736  C-Ensemble=0.724  C-Single=0.678
+  S2           n=60   Q-Ensemble=0.483  C-Ensemble=0.567  C-Single=0.500
+  S20          n=533  Q-Ensemble=0.527  C-Ensemble=0.527  C-Single=0.523
+  S21          n=156  Q-Ensemble=0.558  C-Ensemble=0.577  C-Single=0.583
+  S22          n=50   Q-Ensemble=0.680  C-Ensemble=0.560  C-Single=0.640
+  S23          n=62   Q-Ensemble=0.419  C-Ensemble=0.548  C-Single=0.597
+  S24          n=63   Q-Ensemble=0.476  C-Ensemble=0.508  C-Single=0.508
+  S25          n=152  Q-Ensemble=0.566  C-Ensemble=0.592  C-Single=0.605
+  S3           n=64   Q-Ensemble=0.375  C-Ensemble=0.469  C-Single=0.469
+  S4           n=48   Q-Ensemble=0.562  C-Ensemble=0.708  C-Single=0.729
+  S5           n=24   Q-Ensemble=0.583  C-Ensemble=0.542  C-Single=0.750
+  S6           n=30   Q-Ensemble=0.433  C-Ensemble=0.533  C-Single=0.600
+  S7           n=87   Q-Ensemble=0.506  C-Ensemble=0.494  C-Single=0.552
+  S8           n=150  Q-Ensemble=0.480  C-Ensemble=0.493  C-Single=0.467
+  S9           n=100  Q-Ensemble=0.580  C-Ensemble=0.460  C-Single=0.540
+
+==============================================================================
+PLAN B — 4 disjoint blocks of 8 features
+==============================================================================
+model                accuracy             F1            AUC  sec/fold
+---------------------------------------------------------------------
+Q-Ensemble        0.540+-0.039    0.540+-0.056    0.576+-0.043      80.7
+C-Ensemble        0.542+-0.029    0.537+-0.044    0.577+-0.038       0.4
+C-Single          0.564+-0.034    0.567+-0.044    0.596+-0.039       0.2
+
+mean learned block weight (strongest features first): 0.188  0.273  0.260  0.279
+
+Q-Ensemble vs C-Ensemble: median dAcc = -0.012, wins 10/25, p = 0.6476
+Q-Ensemble vs C-Single: median dAcc = -0.017, wins 9/25, p = 0.1778
+
+saved: results/rerun22/planB_mdd/ensemble_results.json

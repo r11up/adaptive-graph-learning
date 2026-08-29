@@ -1,0 +1,36 @@
+quantum model suite -> results/rerun22/qmodels_adhd
+skipped 1 subjects: too_short=1
+767 subjects | 280 ASD / 487 control | 9 sites
+nodes=190  features=8  T range=72-257  mean explained variance=93.0%
+connectivity: (767, 17955)
+
+  KKI          n=83   QCNN=0.482  VQC=0.518  QSVM-=0.723  QSVM-=0.542  TQEK=0.566  CNN=0.373  MLP=0.494  SVM-R=0.518  Train=0.590
+  NYU          n=216  QCNN=0.569  VQC=0.468  QSVM-=0.454  QSVM-=0.532  TQEK=0.588  CNN=0.523  MLP=0.537  SVM-R=0.542  Train=0.574
+  NeuroIMAGE   n=48   QCNN=0.375  VQC=0.417  QSVM-=0.479  QSVM-=0.458  TQEK=0.438  CNN=0.500  MLP=0.438  SVM-R=0.438  Train=0.438
+  OHSU         n=78   QCNN=0.538  VQC=0.603  QSVM-=0.526  QSVM-=0.551  TQEK=0.526  CNN=0.513  MLP=0.551  SVM-R=0.590  Train=0.500
+  Peking_1     n=85   QCNN=0.529  VQC=0.506  QSVM-=0.718  QSVM-=0.506  TQEK=0.612  CNN=0.541  MLP=0.612  SVM-R=0.647  Train=0.647
+  Peking_2     n=67   QCNN=0.567  VQC=0.463  QSVM-=0.478  QSVM-=0.567  TQEK=0.567  CNN=0.537  MLP=0.552  SVM-R=0.597  Train=0.567
+  Peking_3     n=42   QCNN=0.524  VQC=0.548  QSVM-=0.548  QSVM-=0.667  TQEK=0.548  CNN=0.476  MLP=0.595  SVM-R=0.667  Train=0.619
+
+==============================================================================
+QUANTUM MODEL SUITE — 8 qubits / 8 matched features
+==============================================================================
+model                  accuracy             F1            AUC  sec/fold
+-----------------------------------------------------------------------
+QCNN                0.512+-0.050    0.408+-0.096    0.551+-0.048      13.7
+VQC                 0.503+-0.045    0.426+-0.114    0.538+-0.043       6.1
+QSVM-Pegasos        0.561+-0.084    0.000+-0.000      nan+-nan         0.0
+QSVM-fixed          0.546+-0.047    0.458+-0.096    0.561+-0.052       0.2
+TQEK                0.549+-0.042    0.421+-0.080    0.551+-0.059       2.8
+CNN (1-D)           0.495+-0.043    0.385+-0.082    0.504+-0.030       2.5
+MLP                 0.540+-0.044    0.437+-0.091    0.548+-0.050       0.0
+SVM-RBF             0.571+-0.059    0.448+-0.122    0.573+-0.030       0.0
+Trainable-RBF       0.562+-0.053    0.430+-0.092    0.554+-0.043       0.1
+
+QCNN vs CNN (1-D): median dAcc = +0.030, wins 5/7, p = 0.3750
+VQC vs MLP: median dAcc = -0.048, wins 2/7, p = 0.2188
+TQEK vs Trainable-RBF: median dAcc = +0.000, wins 2/7, p = 0.4375
+QSVM-fixed vs SVM-RBF: median dAcc = -0.009, wins 2/7, p = 0.3125
+QSVM-Pegasos vs SVM-RBF: median dAcc = -0.064, wins 3/7, p = 0.6875
+
+saved: results/rerun22/qmodels_adhd/quantum_models_results.json

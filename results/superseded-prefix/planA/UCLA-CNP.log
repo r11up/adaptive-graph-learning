@@ -1,0 +1,33 @@
+hybrid study (Plan A) -> results/planA/UCLA-CNP
+226 subjects | 124 ASD / 102 control | 2 sites
+nodes=190  features=8  T range=128-152  mean explained variance=97.2%
+connectivity: (226, 17955)  ->  projection sees top-2000
+
+  fold1        n=23   H-QCNN=0.478  H-VQC=0.478  H-MLP=0.696  H-CNN=0.609  H-Linear=0.609
+  fold2        n=23   H-QCNN=0.435  H-VQC=0.522  H-MLP=0.522  H-CNN=0.565  H-Linear=0.478
+  fold3        n=23   H-QCNN=0.609  H-VQC=0.522  H-MLP=0.565  H-CNN=0.478  H-Linear=0.609
+  fold4        n=23   H-QCNN=0.522  H-VQC=0.522  H-MLP=0.565  H-CNN=0.522  H-Linear=0.522
+  fold5        n=23   H-QCNN=0.391  H-VQC=0.435  H-MLP=0.609  H-CNN=0.609  H-Linear=0.565
+  fold6        n=23   H-QCNN=0.478  H-VQC=0.565  H-MLP=0.522  H-CNN=0.652  H-Linear=0.652
+  fold7        n=22   H-QCNN=0.500  H-VQC=0.409  H-MLP=0.727  H-CNN=0.591  H-Linear=0.773
+  fold8        n=22   H-QCNN=0.409  H-VQC=0.591  H-MLP=0.545  H-CNN=0.545  H-Linear=0.545
+  fold9        n=22   H-QCNN=0.500  H-VQC=0.500  H-MLP=0.682  H-CNN=0.591  H-Linear=0.727
+  fold10       n=22   H-QCNN=0.636  H-VQC=0.727  H-MLP=0.455  H-CNN=0.409  H-Linear=0.318
+
+==============================================================================
+PLAN A — learned projection (2000 -> 8), shared by all arms
+==============================================================================
+model              accuracy             F1            AUC  sec/fold
+-------------------------------------------------------------------
+H-QCNN          0.496+-0.049    0.521+-0.070    0.504+-0.037       3.3
+H-VQC           0.527+-0.055    0.550+-0.066    0.527+-0.070       1.8
+H-MLP           0.589+-0.055    0.632+-0.054    0.622+-0.066       0.1
+H-CNN           0.557+-0.044    0.615+-0.043    0.595+-0.057       0.9
+H-Linear        0.580+-0.080    0.615+-0.085    0.622+-0.070       0.1
+
+H-QCNN vs H-CNN: median dAcc = -0.111, wins 2/10, p = 0.3203
+H-VQC vs H-MLP: median dAcc = -0.043, wins 3/10, p = 0.3516
+H-QCNN vs H-Linear: median dAcc = -0.133, wins 1/10, p = 0.1953
+H-VQC vs H-Linear: median dAcc = -0.087, wins 3/10, p = 0.2344
+
+saved: results/planA/UCLA-CNP/hybrid_results.json

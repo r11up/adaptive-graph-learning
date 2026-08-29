@@ -1,0 +1,74 @@
+\begin{table*}[t]
+\caption{Comprehensive results across all cohorts and models. Quantum models are grouped above their matched classical comparators. Every model within a cohort sees identical features and identical folds. Dashes mark configurations not run on that cohort.}
+\label{tab:comprehensive}
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|l|l|c|c|c|c|}
+\hline
+\textbf{Cohort} & \textbf{Model} & \textbf{Acc} & \textbf{F1} & \textbf{AUC} & \textbf{Spec} \\
+\hline
+ \multirow{15}{*}{ABIDE-I} & QCNN$\dagger$ & $0.610$ & $0.575$ & $0.648$ & $0.665$ \\
+  & QPG (quantum edges)$\dagger$ & $0.537$ & $0.528$ & $0.576$ & $0.514$ \\
+  & QSVM-Pegasos$\dagger$ & $0.579$ & $0.475$ & --- & $0.750$ \\
+  & QSVM-fixed$\dagger$ & $0.622$ & $0.560$ & $0.663$ & $0.717$ \\
+  & TQEK$\dagger$ & $0.610$ & $0.534$ & $0.686$ & $0.724$ \\
+  & VQC$\dagger$ & $0.575$ & $0.487$ & $0.631$ & $0.727$ \\
+  & CNN (1-D) & $0.589$ & $0.538$ & $0.638$ & $0.652$ \\
+  & MLP & $0.600$ & $0.550$ & $0.629$ & $0.674$ \\
+  & MLP (no graph) & $0.662$ & $0.641$ & $0.729$ & $0.688$ \\
+  & PG (RBF edges) & $0.601$ & $0.589$ & $0.630$ & $0.593$ \\
+  & PG (correlation edges) & $0.589$ & $0.587$ & $0.639$ & $0.574$ \\
+  & SVM-RBF & $0.616$ & $0.559$ & $0.662$ & $0.702$ \\
+  & SVM-RBF (all feat.) & $0.649$ & $0.632$ & $0.738$ & $0.642$ \\
+  & SVM-linear (all feat.) & $0.629$ & $0.624$ & $0.692$ & $0.618$ \\
+  & Trainable-RBF & $0.581$ & $0.562$ & $0.606$ & $0.586$ \\
+\hline
+ \multirow{15}{*}{ADHD-200} & QCNN$\dagger$ & $0.540$ & $0.403$ & $0.565$ & $0.664$ \\
+  & QPG (quantum edges)$\dagger$ & $0.526$ & $0.363$ & $0.558$ & $0.694$ \\
+  & QSVM-Pegasos$\dagger$ & $0.561$ & $0.000$ & --- & $0.998$ \\
+  & QSVM-fixed$\dagger$ & $0.546$ & $0.458$ & $0.561$ & $0.625$ \\
+  & TQEK$\dagger$ & $0.549$ & $0.421$ & $0.551$ & $0.674$ \\
+  & VQC$\dagger$ & $0.503$ & $0.457$ & $0.483$ & $0.517$ \\
+  & CNN (1-D) & $0.495$ & $0.385$ & $0.504$ & $0.609$ \\
+  & MLP & $0.540$ & $0.437$ & $0.548$ & $0.619$ \\
+  & MLP (no graph) & $0.535$ & $0.234$ & $0.522$ & $0.824$ \\
+  & PG (RBF edges) & $0.524$ & $0.308$ & $0.493$ & $0.730$ \\
+  & PG (correlation edges) & $0.503$ & $0.285$ & $0.495$ & $0.726$ \\
+  & SVM-RBF & $0.571$ & $0.448$ & $0.573$ & $0.683$ \\
+  & SVM-RBF (all feat.) & $0.561$ & $0.264$ & $0.555$ & $0.841$ \\
+  & SVM-linear (all feat.) & $0.508$ & $0.331$ & $0.489$ & $0.702$ \\
+  & Trainable-RBF & $0.562$ & $0.430$ & $0.554$ & $0.688$ \\
+\hline
+ \multirow{15}{*}{REST-meta-MDD} & QCNN$\dagger$ & $0.534$ & $0.520$ & $0.570$ & $0.586$ \\
+  & QPG (quantum edges)$\dagger$ & $0.526$ & $0.528$ & $0.550$ & $0.557$ \\
+  & QSVM-Pegasos$\dagger$ & $0.523$ & $0.508$ & --- & $0.573$ \\
+  & QSVM-fixed$\dagger$ & $0.522$ & $0.513$ & $0.547$ & $0.577$ \\
+  & TQEK$\dagger$ & $0.519$ & $0.454$ & $0.570$ & $0.665$ \\
+  & VQC$\dagger$ & $0.490$ & $0.426$ & $0.519$ & $0.653$ \\
+  & CNN (1-D) & $0.540$ & $0.514$ & $0.568$ & $0.619$ \\
+  & MLP & $0.523$ & $0.496$ & $0.553$ & $0.599$ \\
+  & MLP (no graph) & $0.608$ & $0.632$ & $0.652$ & $0.578$ \\
+  & PG (RBF edges) & $0.573$ & $0.612$ & $0.601$ & $0.494$ \\
+  & PG (correlation edges) & $0.585$ & $0.610$ & $0.602$ & $0.545$ \\
+  & SVM-RBF & $0.526$ & $0.499$ & $0.561$ & $0.603$ \\
+  & SVM-RBF (all feat.) & $0.590$ & $0.604$ & $0.651$ & $0.567$ \\
+  & SVM-linear (all feat.) & $0.576$ & $0.593$ & $0.594$ & $0.562$ \\
+  & Trainable-RBF & $0.571$ & $0.682$ & $0.566$ & $0.238$ \\
+\hline
+ \multirow{11}{*}{UCLA-CNP} & QCNN$\dagger$ & $0.571$ & $0.593$ & $0.573$ & $0.541$ \\
+  & QSVM-Pegasos$\dagger$ & $0.561$ & $0.652$ & --- & $0.324$ \\
+  & QSVM-fixed$\dagger$ & $0.554$ & $0.584$ & $0.579$ & $0.519$ \\
+  & TQEK$\dagger$ & $0.558$ & $0.594$ & $0.569$ & $0.507$ \\
+  & VQC$\dagger$ & $0.531$ & $0.526$ & $0.549$ & $0.569$ \\
+  & CNN (1-D) & $0.544$ & $0.569$ & $0.555$ & $0.518$ \\
+  & MLP & $0.597$ & $0.630$ & $0.611$ & $0.539$ \\
+  & SVM-RBF & $0.540$ & $0.570$ & $0.569$ & $0.506$ \\
+  & SVM-RBF (all feat.) & $0.567$ & $0.608$ & $0.591$ & $0.508$ \\
+  & SVM-linear (all feat.) & $0.557$ & $0.627$ & $0.629$ & $0.408$ \\
+  & Trainable-RBF & $0.602$ & $0.634$ & $0.610$ & $0.557$ \\
+\hline
+\end{tabular}
+\\[2pt]
+\footnotesize $\dagger$ denotes a quantum model.
+\end{table*}

@@ -1,0 +1,10 @@
+qubit scaling -> results/rerun22/qubit_scaling
+train 300 subjects | test 175 (held-out site NYU)
+
+qubits  params  train    test     gap      AUC     sec     GB    
+-----------------------------------------------------------------
+4       29      0.700    0.594    +0.106   0.648   0.2     0.00  
+8       65      0.713    0.589    +0.125   0.662   2.7     0.00  
+16      137     0.713    0.600    +0.113   0.688   818.5   0.16  
+
+saved: results/rerun22/qubit_scaling/qubit_scaling.json

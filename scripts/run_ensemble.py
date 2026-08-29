@@ -206,10 +206,12 @@ def main() -> int:
             c_train.append(torch.as_tensor(tr, dtype=torch.float32))
             c_test.append(torch.as_tensor(te, dtype=torch.float32))
 
-            angle = MinMaxScaler((0, np.pi)).fit(tr)
+            # FINDING 22: [0, pi] spans a full phase period in RZ(2x); use [0, pi/2].
+            angle = MinMaxScaler((0, np.pi / 2)).fit(tr)
             q_train.append(torch.as_tensor(angle.transform(tr), dtype=torch.float32))
             q_test.append(
-                torch.as_tensor(np.clip(angle.transform(te), 0, np.pi), dtype=torch.float32)
+                torch.as_tensor(np.clip(angle.transform(te), 0, np.pi / 2),
+                                dtype=torch.float32)
             )
 
         # --- quantum ensemble ---------------------------------------------

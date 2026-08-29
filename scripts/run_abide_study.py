@@ -70,7 +70,8 @@ def main() -> int:
                         choices=["mean", "attention", "flatten", "stats"],
                         help="graph read-out; mean discards regional identity")
     parser.add_argument("--limit", type=int, help="use only the first N subjects")
-    parser.add_argument("--backend", default="torch", choices=["torch", "pennylane"])
+    parser.add_argument("--backend", default="torch",
+                        choices=["torch", "interleaved", "pennylane"])
     parser.add_argument("--permutations", type=int, default=0)
     parser.add_argument("--skip-baselines", action="store_true")
     parser.add_argument("--cache", type=Path, default=Path("results/abide_encoded.pt"))

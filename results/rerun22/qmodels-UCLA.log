@@ -1,0 +1,38 @@
+quantum model suite -> results/rerun22/qmodels_ucla
+226 subjects | 124 ASD / 102 control | 2 sites
+nodes=190  features=8  T range=128-152  mean explained variance=97.2%
+connectivity: (226, 17955)
+
+  fold1        n=23   QCNN=0.652  VQC=0.652  QSVM-=0.565  QSVM-=0.696  TQEK=0.696  CNN=0.522  MLP=0.609  SVM-R=0.609  Train=0.609
+  fold2        n=23   QCNN=0.522  VQC=0.565  QSVM-=0.565  QSVM-=0.522  TQEK=0.522  CNN=0.609  MLP=0.565  SVM-R=0.522  Train=0.609
+  fold3        n=23   QCNN=0.609  VQC=0.435  QSVM-=0.522  QSVM-=0.478  TQEK=0.478  CNN=0.609  MLP=0.609  SVM-R=0.522  Train=0.565
+  fold4        n=23   QCNN=0.435  VQC=0.522  QSVM-=0.565  QSVM-=0.478  TQEK=0.565  CNN=0.478  MLP=0.565  SVM-R=0.478  Train=0.609
+  fold5        n=23   QCNN=0.565  VQC=0.304  QSVM-=0.609  QSVM-=0.391  TQEK=0.478  CNN=0.348  MLP=0.522  SVM-R=0.391  Train=0.522
+  fold6        n=23   QCNN=0.609  VQC=0.609  QSVM-=0.652  QSVM-=0.652  TQEK=0.565  CNN=0.652  MLP=0.739  SVM-R=0.652  Train=0.696
+  fold7        n=22   QCNN=0.636  VQC=0.500  QSVM-=0.545  QSVM-=0.591  TQEK=0.545  CNN=0.818  MLP=0.636  SVM-R=0.636  Train=0.591
+  fold8        n=22   QCNN=0.636  VQC=0.409  QSVM-=0.545  QSVM-=0.727  TQEK=0.591  CNN=0.591  MLP=0.727  SVM-R=0.591  Train=0.682
+  fold9        n=22   QCNN=0.545  VQC=0.273  QSVM-=0.545  QSVM-=0.500  TQEK=0.545  CNN=0.455  MLP=0.545  SVM-R=0.545  Train=0.591
+  fold10       n=22   QCNN=0.636  VQC=0.591  QSVM-=0.500  QSVM-=0.500  TQEK=0.591  CNN=0.364  MLP=0.455  SVM-R=0.455  Train=0.545
+
+==============================================================================
+QUANTUM MODEL SUITE — 8 qubits / 8 matched features
+==============================================================================
+model                  accuracy             F1            AUC  sec/fold
+-----------------------------------------------------------------------
+QCNN                0.585+-0.042    0.610+-0.043    0.589+-0.049       7.3
+VQC                 0.486+-0.080    0.509+-0.068    0.528+-0.108       3.3
+QSVM-Pegasos        0.561+-0.027    0.652+-0.031      nan+-nan         0.0
+QSVM-fixed          0.554+-0.067    0.584+-0.070    0.579+-0.072       0.1
+TQEK                0.558+-0.039    0.594+-0.045    0.569+-0.060       2.7
+CNN (1-D)           0.544+-0.088    0.569+-0.087    0.555+-0.095       1.1
+MLP                 0.597+-0.055    0.630+-0.064    0.611+-0.055       0.0
+SVM-RBF             0.540+-0.052    0.570+-0.052    0.569+-0.055       0.0
+Trainable-RBF       0.602+-0.034    0.634+-0.037    0.610+-0.058       0.1
+
+QCNN vs CNN (1-D): median dAcc = +0.023, wins 5/10, p = 0.3594
+VQC vs MLP: median dAcc = -0.133, wins 2/10, p = 0.0586
+TQEK vs Trainable-RBF: median dAcc = -0.045, wins 2/10, p = 0.0879
+QSVM-fixed vs SVM-RBF: median dAcc = +0.000, wins 3/10, p = 0.4062
+QSVM-Pegasos vs SVM-RBF: median dAcc = +0.000, wins 4/10, p = 0.8125
+
+saved: results/rerun22/qmodels_ucla/quantum_models_results.json

@@ -1,0 +1,9 @@
+low-data crossover -> results/lowdata/mdd
+2428 subjects | 1300 ASD / 1128 control | 25 sites
+nodes=200  features=8  T range=90-240  mean explained variance=92.7%
+
+n_train      Quantum      C-MLP   C-Linear   Q-best
+---------------------------------------------------
+100            0.519      0.531      0.526       no
+200            0.518      0.529      0.531       no
+400            0.539      0.539      0.553       no

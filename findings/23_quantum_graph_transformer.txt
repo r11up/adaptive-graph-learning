@@ -1,0 +1,112 @@
+FINDING 23 — QUANTUM GRAPH TRANSFORMER: TRAINS ON SYNTHETIC, FAILS ON COHORTS
+==============================================================================
+Status: implemented, debugged, evaluated; EXCLUDED from the paper as a
+        comparison arm and reported only as confirmation of FINDING 06
+Date:   2026-08-29
+Code:   src/qagta/quantum/graph_transformer.py, scripts/run_graph_transformer.py
+Raw:    results/qgt/{abide,adhd,ucla,ucla_fixed}/qgt_results.json
+
+
+WHY IT WAS BUILT
+----------------
+Every quantum construct evaluated earlier scores a region pair by the overlap
+of two separately prepared states. That form has two measured limitations:
+concentration as the register widens (FINDING 01) and invariance to anything
+applied after the encoding (FINDING 19).
+
+A graph transformer avoids both. Query and key are encoded into ONE register
+and interact through entangling gates before measurement, so the logit is
+<psi(x_i,x_j)| Z_0 Z_n |psi(x_i,x_j)> rather than |<psi_i|psi_j>|^2. The
+trainable layers sit between data-dependent operations on both nodes, so
+neither cancellation nor pairwise concentration applies.
+
+
+FOUR DEFECTS FOUND BY MEASUREMENT, NOT INSPECTION
+-------------------------------------------------
+Diagnostic: can the model learn synthetic graph tasks it should?
+
+  1. INERT SECOND DATA LAYER. RZ, CZ and the Z observable are all diagonal in
+     the computational basis, so a diagonal layer placed immediately before a Z
+     measurement is exactly inert. Gradients measured 1e-10. Fixed by using RY
+     for the second data layer and adding a basis-change rotation before
+     read-out.
+
+  2. KEY BARELY REACHED THE READ-OUT. Measuring Z_0 alone (a query qubit) left
+     the key influencing the score only through the entangling ring: logit
+     spread across different keys was 0.006. Fixed by measuring the correlator
+     Z_0 Z_n, one qubit from each node. Spread rose to 0.114 (19x).
+
+  3. READ-OUT COLLAPSED THE GRAPH. mean(dim=1) reduced 200 nodes to
+     node_qubits numbers, dividing any localised signal by the node count.
+     Synthetic evidence: a task whose label is the mean over regions trained
+     fine (0.827); a task whose label depends on ONE region sat at chance
+     (0.493) for BOTH arms. Fixed with a mean/max/std read-out, self-loops, and
+     a residual connection.
+
+  4. PERMUTATION SYMMETRY. Even with the above, "region k carries the signal"
+     is inexpressible when all regions are interchangeable. Added learned
+     per-region embeddings; the localised task went from unlearnable
+     (train 0.713) to fitted but not generalising (train 0.850, test 0.527).
+
+After the fixes the architecture demonstrably trains: on the global synthetic
+task the quantum arm reaches 0.833 against 0.853 classical.
+
+
+THE COHORT RESULT
+-----------------
+  cohort      Q-Attention   C-Attention   majority   verdict
+  ---------   -----------   -----------   --------   -------------------
+  ABIDE-I         0.488         0.516      0.512     both at chance
+  ADHD-200        0.562         0.562      0.561     both F1 = 0.000
+  UCLA-CNP        0.451         0.446      0.549     both below majority
+  UCLA (fixed)    0.447         0.521      0.549     both below majority
+
+On ADHD-200 both arms return F1 exactly 0.000 with accuracy exactly the
+majority rate: single-class prediction on every fold, identically. No paired
+test is even computable.
+
+
+WHY IT IS NOT REPORTED AS A COMPARISON ARM
+------------------------------------------
+BOTH arms fail, together, on every cohort. A quantum-specific defect cannot
+produce that. Where neither arm classifies, the comparison carries no
+information about quantum against classical, and reporting it as a tie would
+be misleading.
+
+This is the distinction that matters: PLAN B is a genuine null -- both arms
+train, neither wins -- and it belongs in the paper. QGT is a failed
+experiment, and it does not.
+
+
+WHAT IT IS WORTH
+----------------
+It is the strongest confirmation of FINDING 06 in the study. A seventh
+architecture, whose attention mechanism provably trains on synthetic graphs,
+and which avoids BOTH measured limitations of the fidelity construction, still
+sits at chance on these node features. Every graph-based model tested now
+agrees: GCN+Pearson 0.494, GCN+RBF 0.508, Quantum+GAT 0.506, Quantum+GCN
+0.508, Q-Attention 0.488.
+
+That is what a binding constraint on the INPUT looks like. The node features,
+not the graph model, are what limits this pipeline.
+
+Reported in the paper as one subsection under FINDING 06's section, not as a
+seventh architectural family.
+
+
+A NOTE ON COST AND A MISTAKE
+-----------------------------
+The first cohort runs used k=4 neighbours and 12 epochs, reduced from k=8 and
+20 to fit an eight-hour REST-meta-MDD run into three. That reduction probably
+made a failing configuration worse: the UCLA smoke test at k=8 had reached
+0.522, above chance, while k=4 gave 0.451. The re-test after the fixes used
+k=8 and still failed, so the conclusion stands, but the intermediate runs at
+k=4 should not be quoted.
+
+
+REFERENCES
+----------
+[1] Khatri N., Matos G., Coopmans L. et al. "Quixer: A quantum transformer
+    model." arXiv:2406.04305, 2024.
+[2] "Resting-state fMRI analysis using quantum time-series transformer."
+    arXiv:2509.00711, 2025.

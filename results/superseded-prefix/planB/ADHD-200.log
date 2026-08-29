@@ -1,0 +1,29 @@
+ensemble study (Plan B) -> results/planB/ADHD-200
+4 blocks x 8 features = 32 total
+
+skipped 1 subjects: too_short=1
+767 subjects | 280 ASD / 487 control | 9 sites
+nodes=190  features=8  T range=72-257  mean explained variance=93.0%
+  KKI          n=83   Q-Ensemble=0.434  C-Ensemble=0.639  C-Single=0.602
+  NYU          n=216  Q-Ensemble=0.519  C-Ensemble=0.528  C-Single=0.500
+  NeuroIMAGE   n=48   Q-Ensemble=0.479  C-Ensemble=0.562  C-Single=0.458
+  OHSU         n=78   Q-Ensemble=0.487  C-Ensemble=0.590  C-Single=0.590
+  Peking_1     n=85   Q-Ensemble=0.565  C-Ensemble=0.529  C-Single=0.659
+  Peking_2     n=67   Q-Ensemble=0.597  C-Ensemble=0.522  C-Single=0.418
+  Peking_3     n=42   Q-Ensemble=0.452  C-Ensemble=0.548  C-Single=0.476
+
+==============================================================================
+PLAN B — 4 disjoint blocks of 8 features
+==============================================================================
+model                accuracy             F1            AUC  sec/fold
+---------------------------------------------------------------------
+Q-Ensemble        0.505+-0.044    0.392+-0.096    0.542+-0.052      31.0
+C-Ensemble        0.560+-0.031    0.409+-0.081    0.553+-0.045       0.2
+C-Single          0.529+-0.065    0.359+-0.043    0.509+-0.053       0.1
+
+mean learned block weight (strongest features first): 0.322  0.239  0.204  0.235
+
+Q-Ensemble vs C-Ensemble: median dAcc = -0.083, wins 2/7, p = 0.1562
+Q-Ensemble vs C-Single: median dAcc = -0.024, wins 3/7, p = 0.5781
+
+saved: results/planB/ADHD-200/ensemble_results.json

@@ -1,0 +1,41 @@
+ensemble study (Plan B) -> results/rerun22/planB_abide
+4 blocks x 8 features = 32 total
+
+1035 subjects | 505 ASD / 530 control | 20 sites
+nodes=200  features=8  T range=78-316  mean explained variance=91.1%
+  CALTECH      n=37   Q-Ensemble=0.541  C-Ensemble=0.514  C-Single=0.622
+  CMU          n=27   Q-Ensemble=0.593  C-Ensemble=0.667  C-Single=0.741
+  KKI          n=48   Q-Ensemble=0.500  C-Ensemble=0.500  C-Single=0.542
+  LEUVEN_1     n=29   Q-Ensemble=0.621  C-Ensemble=0.690  C-Single=0.655
+  LEUVEN_2     n=34   Q-Ensemble=0.647  C-Ensemble=0.676  C-Single=0.735
+  MAX_MUN      n=52   Q-Ensemble=0.596  C-Ensemble=0.558  C-Single=0.481
+  NYU          n=175  Q-Ensemble=0.651  C-Ensemble=0.669  C-Single=0.657
+  OHSU         n=26   Q-Ensemble=0.500  C-Ensemble=0.500  C-Single=0.385
+  OLIN         n=34   Q-Ensemble=0.647  C-Ensemble=0.676  C-Single=0.735
+  PITT         n=56   Q-Ensemble=0.589  C-Ensemble=0.625  C-Single=0.625
+  SBL          n=30   Q-Ensemble=0.567  C-Ensemble=0.500  C-Single=0.467
+  SDSU         n=36   Q-Ensemble=0.667  C-Ensemble=0.750  C-Single=0.667
+  STANFORD     n=39   Q-Ensemble=0.538  C-Ensemble=0.564  C-Single=0.641
+  TRINITY      n=47   Q-Ensemble=0.745  C-Ensemble=0.681  C-Single=0.681
+  UCLA_1       n=72   Q-Ensemble=0.653  C-Ensemble=0.625  C-Single=0.528
+  UCLA_2       n=26   Q-Ensemble=0.692  C-Ensemble=0.577  C-Single=0.462
+  UM_1         n=106  Q-Ensemble=0.651  C-Ensemble=0.679  C-Single=0.660
+  UM_2         n=34   Q-Ensemble=0.559  C-Ensemble=0.588  C-Single=0.500
+  USM          n=71   Q-Ensemble=0.662  C-Ensemble=0.690  C-Single=0.620
+  YALE         n=56   Q-Ensemble=0.732  C-Ensemble=0.714  C-Single=0.661
+
+==============================================================================
+PLAN B — 4 disjoint blocks of 8 features
+==============================================================================
+model                accuracy             F1            AUC  sec/fold
+---------------------------------------------------------------------
+Q-Ensemble        0.618+-0.031    0.585+-0.042    0.683+-0.037      33.6
+C-Ensemble        0.622+-0.035    0.602+-0.037    0.677+-0.042       0.2
+C-Single          0.603+-0.045    0.590+-0.049    0.658+-0.049       0.1
+
+mean learned block weight (strongest features first): 0.276  0.244  0.271  0.209
+
+Q-Ensemble vs C-Ensemble: median dAcc = -0.021, wins 7/20, p = 0.4458
+Q-Ensemble vs C-Single: median dAcc = -0.003, wins 9/20, p = 0.5460
+
+saved: results/rerun22/planB_abide/ensemble_results.json

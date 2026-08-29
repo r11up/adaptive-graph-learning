@@ -1,0 +1,16 @@
+quantum kernel study -> results/20260815-120140Z_qkernel_sweep/q8_full
+1035 subjects | 505 ASD / 530 control | 20 sites
+nodes=200  features=8  T range=78-316  mean explained variance=59.9%
+subject descriptors: (1035, 19900)
+  CALTECH      n=37   Q f1=0.400  RBF f1=0.000
+  CMU          n=27   Q f1=0.571  RBF f1=0.000
+  KKI          n=48   Q f1=0.500  RBF f1=0.000
+  LEUVEN_1     n=29   Q f1=0.261  RBF f1=0.000
+  LEUVEN_2     n=34   Q f1=0.516  RBF f1=0.000
+  MAX_MUN      n=52   Q f1=0.311  RBF f1=0.000
+  NYU          n=175  Q f1=0.122  RBF f1=0.000
+  OHSU         n=26   Q f1=0.545  RBF f1=0.000
+  OLIN         n=34   Q f1=0.632  RBF f1=0.000
+  PITT         n=56   Q f1=0.286  RBF f1=0.000
+  SBL          n=30   Q f1=0.516  RBF f1=0.000
+  SDSU         n=36   Q f1=0.452  RBF f1=0.000

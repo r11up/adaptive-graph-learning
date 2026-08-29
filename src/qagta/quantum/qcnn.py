@@ -51,7 +51,8 @@ class QCNN(nn.Module):
     pool(2->1) and reads out qubit 7.
     """
 
-    def __init__(self, n_qubits: int = 8, feature_reps: int = 2, seed: int = 0) -> None:
+    def __init__(self, n_qubits: int = 8, feature_reps: int = 2, seed: int = 0,
+                 reupload: int = 0) -> None:
         super().__init__()
         if n_qubits & (n_qubits - 1) or n_qubits < 2:
             raise ValueError("n_qubits must be a power of two and at least 2")
@@ -60,6 +61,13 @@ class QCNN(nn.Module):
         self.n_qubits = n_qubits
         self.feature_reps = feature_reps
         self.dim = 2**n_qubits
+        # Data re-uploading (Perez-Salinas et al., Quantum 4:226, 2020):
+        # re-inject the features between convolution stages, each time with its
+        # own trainable scale. Each re-upload raises the order of Fourier terms
+        # the circuit can express in the data, which is capacity a single
+        # encoding at the input cannot reach. It also deepens the circuit, so
+        # trainability degrades and depth is a parameter rather than a default.
+        self.reupload = reupload
 
         # Qiskit numbers qubit 0 as the least significant bit; this simulator
         # numbers qubit 0 as the most significant. Every index below is written
@@ -90,6 +98,12 @@ class QCNN(nn.Module):
             params.append(nn.Parameter(0.1 * torch.randn(len(active) * 3)))  # conv
             params.append(nn.Parameter(0.1 * torch.randn(len(sources) * 3)))  # pool
         self.weights = nn.ParameterList(params)
+
+        # One trainable gain per re-upload, per qubit. Initialised small so a
+        # re-uploading model starts close to the plain QCNN and can only depart
+        # from it if that helps.
+        if reupload > 0:
+            self.reupload_scale = nn.Parameter(0.1 * torch.ones(reupload, n_qubits))
 
         # Reference observable is Z on the highest-numbered Qiskit qubit.
         indices = torch.arange(self.dim)
@@ -160,6 +174,16 @@ class QCNN(nn.Module):
             conv_w = self.weights[2 * stage]
             pool_w = self.weights[2 * stage + 1]
 
+            # Re-inject the data before each stage after the first, on the
+            # qubits still active at that depth.
+            if self.reupload > 0 and 0 < stage <= self.reupload:
+                gains = self.reupload_scale[stage - 1]
+                for q in active:
+                    internal = self._q(q, self.n_qubits)
+                    state = _apply_rz(
+                        state, self.n_qubits, internal, 2.0 * gains[q] * x[:, q]
+                    )
+
             index = 0
             for q0, q1 in zip(active[0::2], active[1::2], strict=False):
                 state = self._conv_block(state, perms, q0, q1, conv_w[index : index + 3])
@@ -188,9 +212,9 @@ class QCNNClassifier(nn.Module):
     weighting, matching how the classical baselines are trained.
     """
 
-    def __init__(self, n_qubits: int = 8, seed: int = 0) -> None:
+    def __init__(self, n_qubits: int = 8, seed: int = 0, reupload: int = 0) -> None:
         super().__init__()
-        self.qcnn = QCNN(n_qubits=n_qubits, seed=seed)
+        self.qcnn = QCNN(n_qubits=n_qubits, seed=seed, reupload=reupload)
         self.scale = nn.Parameter(torch.tensor(1.0))
         self.bias = nn.Parameter(torch.tensor(0.0))
 

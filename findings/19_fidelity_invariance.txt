@@ -1,0 +1,95 @@
+FINDING 19 — THE VARIATIONAL LAYER IS INVISIBLE TO THE FIDELITY GRAPH
+======================================================================
+Status: measured, algebraic identity confirmed numerically to float32 precision
+Date:   2026-08-29
+Code:   src/qagta/quantum/fmri_encoder.py
+Origin: raised in an external methodology review (To Do List Docs, 2026-08-27);
+        the claim did not reproduce on first attempt because of an error in our
+        own test, then reproduced exactly once the test was corrected.
+
+
+THE CLAIM
+---------
+A unitary applied identically to both states in a fidelity computation cancels:
+
+    F_ij = |<psi_i|psi_j>|^2
+         = |<0| V(x_i)^dag U^dag U V(x_j) |0>|^2
+         = |<0| V(x_i)^dag V(x_j) |0>|^2          since U^dag U = I
+
+So everything after the data-dependent encoding V(x) leaves the fidelity kernel
+exactly invariant, and receives exactly zero gradient from the graph.
+
+
+VERIFICATION
+------------
+Our encoder is  |psi(x)> = RX(phi_x) RZ(phi_z) . CNOT_ring . RY(encode_scale * x) |0>
+with phi_z, phi_x, encode_scale shared across all 200 regions.
+
+  parameter        grad from fidelity     grad from <Z> read-out
+  --------------   -------------------    ----------------------
+  encode_scale        5.149e+01              1.227e+01
+  phi_z               1.013e-07              1.281e-01
+  phi_x               3.795e-08              2.978e-01
+
+Perturbing phi_z by +1.3 and phi_x by -0.7 changes the fidelity Gram matrix by
+max |dF| = 1.19e-06 -- float32 roundoff.
+
+CONFIRMED. phi_z and phi_x are algebraically invisible to the graph.
+encode_scale is not, because it sits INSIDE V(x).
+
+A NOTE ON HOW THIS WAS VERIFIED: the first test returned non-zero gradients
+(5.9e-02, 1.9e-01) and appeared to refute the claim. That test was wrong --
+forward() returns Z-expectations unless return_state=True, so it computed an
+"overlap" between real expectation vectors rather than statevectors. External
+claims should be checked, but so should the check.
+
+
+WHAT IT MEANS
+-------------
+The graph-construction stage is trainable through exactly ONE parameter vector:
+encode_scale, of length n_qubits. Not through the entangling ring, and not
+through the variational layer. At 8 qubits that is 8 trainable parameters
+governing a 200-node topology, against the ~24 in the full encoder and far more
+in the manuscript's description of an end-to-end trainable measurement process.
+
+This does NOT invalidate the empirical results. The pipeline still trains, the
+graph still adapts, and every reported number stands -- the classifier and the
+GAT are unaffected, and the <Z> read-out path (used by QCNN, VQC and the whole
+model suite) has full gradient flow. What changes is the mechanism: the
+"adaptive" graph has an order of magnitude less capacity than the architecture
+implies.
+
+It is also a third, independent reason the graph pipeline sits at chance,
+alongside fidelity collapse (FINDING 01) and the read-out bottleneck
+(FINDING 06). Those are about information reaching the graph and information
+leaving it; this one is about how little of the graph can be learned at all.
+
+
+THE TRANSFERABLE RULE
+---------------------
+For any fidelity-based (state-overlap) graph construction:
+
+    Trainable parameters must sit INSIDE the data-dependent encoding.
+    Anything applied after it -- ansatz, entangler, however deep -- cancels.
+
+This is a design constraint on the whole family of quantum-fidelity graph
+methods, not a property of our implementation. Published architectures that
+place a variational ansatz after the feature map and describe the resulting
+fidelity graph as "trainable" are training only whatever lies inside the map.
+
+
+WHY IT STRENGTHENS THE PAPER
+----------------------------
+The honest version of the architecture claim is narrower and more defensible:
+the fidelity graph is trainable through the encoding gains, and the deeper
+variational structure serves the read-out path rather than the graph. Stating
+this pre-empts exactly the objection an informed reviewer would raise, and it
+converts a latent correctness problem into a design rule other groups can use.
+
+
+REFERENCES
+----------
+[1] Chan A., Smith B., Gabriel R. "Quantum state fidelity for functional
+    network construction." arXiv:2508.16895, 2025.
+[2] Havlicek V. et al. "Supervised learning with quantum-enhanced feature
+    spaces." Nature 567:209-212, 2019.

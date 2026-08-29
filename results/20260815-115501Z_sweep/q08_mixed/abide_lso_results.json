@@ -1,0 +1,428 @@
+{
+  "n_subjects": 1035,
+  "n_sites": 20,
+  "config": {
+    "data_root": "data/abide",
+    "pipeline": "cpac",
+    "strategy": "filt_noglobal",
+    "atlas": "rois_cc200",
+    "n_qubits": 8,
+    "k_neighbors": 20,
+    "topology": "mixed",
+    "epochs": 30,
+    "lr": 0.01,
+    "hidden_dim": 32,
+    "heads": 4,
+    "dropout": 0.6,
+    "limit": null,
+    "backend": "torch",
+    "permutations": 0,
+    "skip_baselines": true,
+    "cache": "results/20260815-115501Z_sweep/q08_mixed/encoded.pt",
+    "refresh_cache": true,
+    "out": "results/20260815-115501Z_sweep/q08_mixed",
+    "seed": 0
+  },
+  "results": {
+    "Proposed (quantum + GAT)": {
+      "f1": {
+        "mean": 0.2917128552914014,
+        "ci95": 0.1453818314167526
+      },
+      "accuracy": {
+        "mean": 0.4952369585113071,
+        "ci95": 0.027841600248994673
+      },
+      "specificity": {
+        "mean": 0.55,
+        "ci95": 0.22370045761428853
+      },
+      "sensitivity": {
+        "mean": 0.45,
+        "ci95": 0.22370045761428853
+      },
+      "folds": [
+        {
+          "site": "CALTECH",
+          "n_test": 37,
+          "f1": 0.0,
+          "accuracy": 0.4864864864864865,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 2.6470851821613905e-07
+        },
+        {
+          "site": "CMU",
+          "n_test": 27,
+          "f1": 0.0,
+          "accuracy": 0.48148148148148145,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 7.682709468603832e-10
+        },
+        {
+          "site": "KKI",
+          "n_test": 48,
+          "f1": 0.0,
+          "accuracy": 0.5833333333333334,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.2764839828014374
+        },
+        {
+          "site": "LEUVEN_1",
+          "n_test": 29,
+          "f1": 0.0,
+          "accuracy": 0.5172413793103449,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.0017923777922987938
+        },
+        {
+          "site": "LEUVEN_2",
+          "n_test": 34,
+          "f1": 0.6122448979591837,
+          "accuracy": 0.4411764705882353,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 0.04804943005243937
+        },
+        {
+          "site": "MAX_MUN",
+          "n_test": 52,
+          "f1": 0.631578947368421,
+          "accuracy": 0.46153846153846156,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 3.269192166044377e-05
+        },
+        {
+          "site": "NYU",
+          "n_test": 175,
+          "f1": 0.6,
+          "accuracy": 0.42857142857142855,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 0.0020056253362616353
+        },
+        {
+          "site": "OHSU",
+          "n_test": 26,
+          "f1": 0.631578947368421,
+          "accuracy": 0.46153846153846156,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 8.08421667386483e-08
+        },
+        {
+          "site": "OLIN",
+          "n_test": 34,
+          "f1": 0.7169811320754716,
+          "accuracy": 0.5588235294117647,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 0.11446138719717662
+        },
+        {
+          "site": "PITT",
+          "n_test": 56,
+          "f1": 0.6823529411764706,
+          "accuracy": 0.5178571428571429,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 0.02755933301523328
+        },
+        {
+          "site": "SBL",
+          "n_test": 30,
+          "f1": 0.6666666666666666,
+          "accuracy": 0.5,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 5.148343689143076e-06
+        },
+        {
+          "site": "SDSU",
+          "n_test": 36,
+          "f1": 0.0,
+          "accuracy": 0.6111111111111112,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 5.37340364796061e-08
+        },
+        {
+          "site": "STANFORD",
+          "n_test": 39,
+          "f1": 0.6551724137931034,
+          "accuracy": 0.48717948717948717,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 0.3931531508763631
+        },
+        {
+          "site": "TRINITY",
+          "n_test": 47,
+          "f1": 0.6376811594202898,
+          "accuracy": 0.46808510638297873,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 7.187515317734021e-05
+        },
+        {
+          "site": "UCLA_1",
+          "n_test": 72,
+          "f1": 0.0,
+          "accuracy": 0.4305555555555556,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 2.036801500793217e-08
+        },
+        {
+          "site": "UCLA_2",
+          "n_test": 26,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 5.557815711654257e-06
+        },
+        {
+          "site": "UM_1",
+          "n_test": 106,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.2997064504004032e-08
+        },
+        {
+          "site": "UM_2",
+          "n_test": 34,
+          "f1": 0.0,
+          "accuracy": 0.6176470588235294,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": -3.6349846984270094e-08
+        },
+        {
+          "site": "USM",
+          "n_test": 71,
+          "f1": 0.0,
+          "accuracy": 0.352112676056338,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": -3.814697313586634e-09
+        },
+        {
+          "site": "YALE",
+          "n_test": 56,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.0
+        }
+      ]
+    },
+    "Ablation (quantum + GCN)": {
+      "f1": {
+        "mean": 0.13264539527654245,
+        "ci95": 0.1194821664817865
+      },
+      "accuracy": {
+        "mean": 0.5116046594378314,
+        "ci95": 0.027431974272094574
+      },
+      "specificity": {
+        "mean": 0.8,
+        "ci95": 0.1798619353545204
+      },
+      "sensitivity": {
+        "mean": 0.2,
+        "ci95": 0.17986193535452044
+      },
+      "folds": [
+        {
+          "site": "CALTECH",
+          "n_test": 37,
+          "f1": 0.0,
+          "accuracy": 0.4864864864864865,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "CMU",
+          "n_test": 27,
+          "f1": 0.0,
+          "accuracy": 0.48148148148148145,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "KKI",
+          "n_test": 48,
+          "f1": 0.0,
+          "accuracy": 0.5833333333333334,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "LEUVEN_1",
+          "n_test": 29,
+          "f1": 0.0,
+          "accuracy": 0.5172413793103449,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "LEUVEN_2",
+          "n_test": 34,
+          "f1": 0.0,
+          "accuracy": 0.5588235294117647,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.0
+        },
+        {
+          "site": "MAX_MUN",
+          "n_test": 52,
+          "f1": 0.0,
+          "accuracy": 0.5384615384615384,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "NYU",
+          "n_test": 175,
+          "f1": 0.0,
+          "accuracy": 0.5714285714285714,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.0
+        },
+        {
+          "site": "OHSU",
+          "n_test": 26,
+          "f1": 0.631578947368421,
+          "accuracy": 0.46153846153846156,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 0.0
+        },
+        {
+          "site": "OLIN",
+          "n_test": 34,
+          "f1": 0.7169811320754716,
+          "accuracy": 0.5588235294117647,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 0.0
+        },
+        {
+          "site": "PITT",
+          "n_test": 56,
+          "f1": 0.0,
+          "accuracy": 0.48214285714285715,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "SBL",
+          "n_test": 30,
+          "f1": 0.6666666666666666,
+          "accuracy": 0.5,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 1.0
+        },
+        {
+          "site": "SDSU",
+          "n_test": 36,
+          "f1": 0.0,
+          "accuracy": 0.6111111111111112,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "STANFORD",
+          "n_test": 39,
+          "f1": 0.0,
+          "accuracy": 0.5128205128205128,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "TRINITY",
+          "n_test": 47,
+          "f1": 0.6376811594202898,
+          "accuracy": 0.46808510638297873,
+          "specificity": 0.0,
+          "sensitivity": 1.0,
+          "mad": 1.0
+        },
+        {
+          "site": "UCLA_1",
+          "n_test": 72,
+          "f1": 0.0,
+          "accuracy": 0.4305555555555556,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "UCLA_2",
+          "n_test": 26,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "UM_1",
+          "n_test": 106,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "UM_2",
+          "n_test": 34,
+          "f1": 0.0,
+          "accuracy": 0.6176470588235294,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "USM",
+          "n_test": 71,
+          "f1": 0.0,
+          "accuracy": 0.352112676056338,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "YALE",
+          "n_test": 56,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.21655702590942383
+        }
+      ]
+    }
+  }
+}

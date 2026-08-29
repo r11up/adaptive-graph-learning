@@ -1,0 +1,18 @@
+low-data crossover -> results/lowdata/abide
+1035 subjects | 505 ASD / 530 control | 20 sites
+nodes=200  features=8  T range=78-316  mean explained variance=91.1%
+
+n_train      Quantum      C-MLP   C-Linear   Q-best
+---------------------------------------------------
+100            0.528      0.551      0.545       no
+200            0.548      0.568      0.587       no
+400            0.560      0.578      0.597       no
+800            0.597      0.603      0.609       no
+
+paired tests, quantum against each classical arm, per training size
+  n=100     vs C-MLP: -0.019 (p=0.143)   vs C-Linear: -0.007 (p=0.306)
+  n=200     vs C-MLP: -0.025 (p=0.087)   vs C-Linear: -0.049 (p=0.006)
+  n=400     vs C-MLP: -0.018 (p=0.119)   vs C-Linear: -0.031 (p=0.000)
+  n=800     vs C-MLP: +0.000 (p=0.505)   vs C-Linear: -0.014 (p=0.158)
+
+saved: results/lowdata/abide/lowdata_results.json

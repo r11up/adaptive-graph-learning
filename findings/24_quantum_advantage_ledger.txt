@@ -1,0 +1,123 @@
+FINDING 24 — LEDGER OF EVERY QUANTUM ADVANTAGE, AFTER FILTERING
+================================================================
+Status: complete sweep of post-fix results, all matched pairs, all metrics
+Date:   2026-08-29
+Raw:    results/rerun22/*/  and results/full_metrics.json
+Code:   scripts/analyse_plans.py, scripts/make_metrics.py
+
+
+THE SWEEP
+---------
+Every matched quantum/classical pair in the corrected runs, on four metrics:
+
+  metric        comparisons   quantum ahead   significant (p<0.05)
+  -----------   -----------   -------------   --------------------
+  accuracy           72             24                 5
+  F1                 72             34                 4
+  AUC                68             34                15
+  specificity        72             21                 5
+  -----------   -----------   -------------   --------------------
+  TOTAL             284            113                29
+
+Two things are immediately visible. Quantum is ahead in 113 of 284 comparisons
+-- fewer than half, so there is no broad advantage. And AUC is the metric where
+it leads most often (15 significant of 68), which matters: AUC is
+threshold-free, so it measures ranking quality rather than where a decision
+boundary happened to fall.
+
+
+THE FILTER THAT MATTERS
+-----------------------
+A win against a comparator that is not classifying is not a quantum advantage.
+Screening every classical arm for degeneracy (either sensitivity or specificity
+below 0.30, or |MCC| < 0.02):
+
+  planC_ucla      C-CNN            sens 0.524  spec 0.471  MCC -0.005
+  planC_adhd      C-MLP            sens 0.425  spec 0.590  MCC +0.015
+  qmodels_adhd    CNN (1-D)        sens 0.404  spec 0.581  MCC -0.015
+  qmodels_mdd     Trainable-RBF    sens 0.797  spec 0.276  MCC +0.085
+  qmodels_adhd    VQC (quantum)    sens 0.486  spec 0.507  MCC -0.007
+  adhd            C-Attention      sens 0.000  spec 1.000  MCC  nan
+
+Of the 29 significant quantum wins:
+  - 14 are against C-CNN, which sits at or below majority on the small cohorts
+  - 2 are QSVM-Pegasos wins on specificity, which it earns by predicting a
+    single class (0 true positives on ADHD-200)
+  - 1 is TQEK's +0.471 specificity on REST-meta-MDD, against a Trainable-RBF
+    that is near-all-positive there (specificity 0.276)
+
+That leaves TWELVE wins that are not explained by a broken baseline.
+
+
+WHAT SURVIVES — THE DEFENSIBLE LEDGER
+--------------------------------------
+1. QCNN AGAINST ITS MATCHED CLASSICAL CNN, ON RANKING QUALITY.
+     AUC  ABIDE-I    +0.037  p = 0.033
+     AUC  ADHD-200   +0.059  p = 0.047
+     specificity ABIDE-I  +0.038  p = 0.030
+     accuracy ABIDE-I     +0.044  p = 0.058 (near miss)
+   Two cohorts, same direction, on a threshold-free metric. The ADHD-200
+   comparator is weak (MCC -0.015) so that cohort is discounted; the ABIDE-I
+   result stands on a fully functional comparator.
+
+2. TQEK AGAINST A TRAINABLE CLASSICAL KERNEL, ON ABIDE-I.
+     AUC          +0.064  p = 0.0012
+     specificity  +0.111  p = 0.0006
+     accuracy     +0.028  p = 0.049
+   The strongest single-cohort result in the study, on a comparator that is
+   NOT degenerate on ABIDE-I. It does not replicate: -0.013 on REST-meta-MDD,
+   -0.045 on UCLA-CNP.
+
+3. PLAN C RE-UPLOADING AGAINST C-MLP ON ABIDE-I, ON AUC.
+     Q-Reup2  +0.053  p = 0.0032
+     Q-Plain  +0.055  p = 0.0094
+   C-MLP is functional on ABIDE-I (MCC 0.216), so this is clean.
+
+4. H-QCNN AGAINST THE LINEAR CONTROL, ON AUC.
+     ABIDE-I  +0.017  p = 0.024
+
+5. RESISTANCE TO OVERFITTING, ALL FOUR COHORTS.
+   Quantum overfits less than BOTH neural comparators everywhere:
+     cohort           Q gap   C-CNN   C-MLP     p (vs MLP)
+     ABIDE-I          0.038   0.053   0.082     0.001
+     ADHD-200         0.160   0.195   0.203     0.047
+     REST-meta-MDD    0.047   0.048   0.081    <0.001
+     UCLA-CNP         0.219   0.246   0.270     0.193
+   Significant on three of four. The most robust quantum-specific effect
+   measured. Mechanism: a bounded Pauli-Z read-out caps expressible capacity,
+   so the circuit regularises structurally rather than by tuning.
+
+6. BEST MATTHEWS CORRELATION AND BALANCED ACCURACY ON ABIDE-I.
+   QCNN MCC 0.253 and balanced accuracy 0.626, the highest of any model
+   tested, quantum or classical (MLP 0.216, CNN 0.207).
+
+
+WHAT THIS DOES AND DOES NOT SUPPORT
+-----------------------------------
+SUPPORTED: the corrected quantum arm is competitive, not deficient. On ABIDE-I
+it leads on AUC, MCC and balanced accuracy against matched comparators, and it
+resists overfitting better than any neural comparator on every cohort.
+
+NOT SUPPORTED: a general quantum advantage. Quantum is ahead in fewer than half
+of all comparisons (113/284). Nothing survives Bonferroni correction at the
+scale of the sweep. The accuracy advantage never reaches significance on a
+non-degenerate comparator. And the pattern is cohort-specific: almost every
+clean win is on ABIDE-I, the cohort with the most extractable signal
+(headroom +0.104 against +0.036 for MDD and +0.010 for ADHD).
+
+THE HONEST ONE-LINE SUMMARY: quantum ranks as well or better than matched
+classical models on the cohort with real signal, generalises with less
+overfitting everywhere, and converts neither into a significant accuracy
+advantage anywhere.
+
+
+A NOTE ON METRIC CHOICE
+-----------------------
+That quantum leads far more often on AUC (34/68) than on accuracy (24/72) is
+itself informative. AUC measures ranking; accuracy measures ranking plus
+threshold placement. A model whose scores rank well but whose decision
+threshold is poorly calibrated will look worse on accuracy than it deserves.
+The QCNN reads out a bounded Pauli-Z expectation mapped to logits by a
+two-parameter affine layer, which is a weak calibration mechanism. This
+suggests threshold calibration as a cheap and untested improvement, and it is
+the most promising remaining direction the results point to.

@@ -1,0 +1,62 @@
+  KKI          n=48   f1=0.000 acc=0.583
+  LEUVEN_1     n=29   f1=0.000 acc=0.517
+  LEUVEN_2     n=34   f1=0.000 acc=0.559
+  MAX_MUN      n=52   f1=0.000 acc=0.538
+  NYU          n=175  f1=0.000 acc=0.571
+  OHSU         n=26   f1=0.632 acc=0.462
+  OLIN         n=34   f1=0.717 acc=0.559
+  PITT         n=56   f1=0.000 acc=0.482
+  SBL          n=30   f1=0.667 acc=0.500
+  SDSU         n=36   f1=0.000 acc=0.611
+  STANFORD     n=39   f1=0.000 acc=0.513
+  TRINITY      n=47   f1=0.638 acc=0.468
+  UCLA_1       n=72   f1=0.000 acc=0.431
+  UCLA_2       n=26   f1=0.000 acc=0.500
+  UM_1         n=106  f1=0.247 acc=0.425
+  UM_2         n=34   f1=0.000 acc=0.618
+  USM          n=71   f1=0.000 acc=0.352
+  YALE         n=56   f1=0.000 acc=0.500
+
+------------------------------------------------------------------------------
+proposed: quantum fidelity topology + adaptive edges + GAT
+------------------------------------------------------------------------------
+  CALTECH      n=37   f1=0.000 acc=0.486 spec=1.000
+  CMU          n=27   f1=0.000 acc=0.481 spec=1.000
+  KKI          n=48   f1=0.000 acc=0.583 spec=1.000
+  LEUVEN_1     n=29   f1=0.000 acc=0.517 spec=1.000
+  LEUVEN_2     n=34   f1=0.612 acc=0.441 spec=0.000
+  MAX_MUN      n=52   f1=0.000 acc=0.538 spec=1.000
+  NYU          n=175  f1=0.000 acc=0.571 spec=1.000
+  OHSU         n=26   f1=0.632 acc=0.462 spec=0.000
+  OLIN         n=34   f1=0.717 acc=0.559 spec=0.000
+  PITT         n=56   f1=0.682 acc=0.518 spec=0.000
+  SBL          n=30   f1=0.667 acc=0.500 spec=0.000
+  SDSU         n=36   f1=0.000 acc=0.611 spec=1.000
+  STANFORD     n=39   f1=0.655 acc=0.487 spec=0.000
+  TRINITY      n=47   f1=0.638 acc=0.468 spec=0.000
+  UCLA_1       n=72   f1=0.000 acc=0.431 spec=1.000
+  UCLA_2       n=26   f1=0.000 acc=0.500 spec=1.000
+  UM_1         n=106  f1=0.000 acc=0.500 spec=1.000
+  UM_2         n=34   f1=0.000 acc=0.618 spec=1.000
+  USM          n=71   f1=0.000 acc=0.352 spec=1.000
+  YALE         n=56   f1=0.000 acc=0.500 spec=1.000
+
+ablation: quantum topology + GCN (isolates the attention mechanism)
+
+==============================================================================
+LEAVE-SITE-OUT RESULTS (mean +- 95% CI across site folds)
+==============================================================================
+model                                     F1        accuracy     specificity
+----------------------------------------------------------------------------
+SVM (linear)                     0.653+-0.039     0.671+-0.036     0.689+-0.067
+SVM (rbf)                        0.627+-0.054     0.642+-0.042     0.634+-0.088
+GCN + Pearson                    0.252+-0.118     0.494+-0.029     0.664+-0.185
+GCN + RBF                        0.145+-0.119     0.508+-0.029     0.783+-0.179
+Proposed (quantum + GAT)         0.230+-0.141     0.506+-0.028     0.650+-0.214
+Ablation (quantum + GCN)         0.164+-0.128     0.508+-0.028     0.750+-0.195
+
+over-smoothing diagnostic (MAD, higher = more distinct): 0.003
+
+saved: results/abide_lso_results.json
+
+[exited with code 0]

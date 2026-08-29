@@ -1,0 +1,45 @@
+re-uploading study (Plan C) -> results/planC/abide
+1035 subjects | 505 ASD / 530 control | 20 sites
+nodes=200  features=8  T range=78-316  mean explained variance=91.1%
+quantum parameter counts: Q-Plain=65  Q-Reup1=73  Q-Reup2=81
+
+  CALTECH      n=37   Q-Plain=0.676  Q-Reup1=0.703  Q-Reup2=0.730  C-CNN=0.757  C-MLP=0.595  C-Linear=0.649
+  CMU          n=27   Q-Plain=0.519  Q-Reup1=0.704  Q-Reup2=0.556  C-CNN=0.519  C-MLP=0.444  C-Linear=0.556
+  KKI          n=48   Q-Plain=0.583  Q-Reup1=0.625  Q-Reup2=0.583  C-CNN=0.667  C-MLP=0.583  C-Linear=0.604
+  LEUVEN_1     n=29   Q-Plain=0.690  Q-Reup1=0.586  Q-Reup2=0.655  C-CNN=0.586  C-MLP=0.690  C-Linear=0.621
+  LEUVEN_2     n=34   Q-Plain=0.529  Q-Reup1=0.529  Q-Reup2=0.529  C-CNN=0.559  C-MLP=0.618  C-Linear=0.618
+  MAX_MUN      n=52   Q-Plain=0.615  Q-Reup1=0.654  Q-Reup2=0.577  C-CNN=0.635  C-MLP=0.635  C-Linear=0.615
+  NYU          n=175  Q-Plain=0.617  Q-Reup1=0.566  Q-Reup2=0.617  C-CNN=0.606  C-MLP=0.674  C-Linear=0.669
+  OHSU         n=26   Q-Plain=0.577  Q-Reup1=0.577  Q-Reup2=0.538  C-CNN=0.577  C-MLP=0.423  C-Linear=0.538
+  OLIN         n=34   Q-Plain=0.706  Q-Reup1=0.618  Q-Reup2=0.765  C-CNN=0.559  C-MLP=0.647  C-Linear=0.588
+  PITT         n=56   Q-Plain=0.500  Q-Reup1=0.518  Q-Reup2=0.589  C-CNN=0.554  C-MLP=0.518  C-Linear=0.607
+  SBL          n=30   Q-Plain=0.533  Q-Reup1=0.567  Q-Reup2=0.500  C-CNN=0.533  C-MLP=0.567  C-Linear=0.567
+  SDSU         n=36   Q-Plain=0.722  Q-Reup1=0.639  Q-Reup2=0.639  C-CNN=0.667  C-MLP=0.667  C-Linear=0.667
+  STANFORD     n=39   Q-Plain=0.410  Q-Reup1=0.538  Q-Reup2=0.410  C-CNN=0.410  C-MLP=0.487  C-Linear=0.410
+  TRINITY      n=47   Q-Plain=0.660  Q-Reup1=0.617  Q-Reup2=0.596  C-CNN=0.638  C-MLP=0.638  C-Linear=0.681
+  UCLA_1       n=72   Q-Plain=0.639  Q-Reup1=0.653  Q-Reup2=0.611  C-CNN=0.569  C-MLP=0.625  C-Linear=0.667
+  UCLA_2       n=26   Q-Plain=0.692  Q-Reup1=0.731  Q-Reup2=0.731  C-CNN=0.654  C-MLP=0.731  C-Linear=0.769
+  UM_1         n=106  Q-Plain=0.660  Q-Reup1=0.689  Q-Reup2=0.642  C-CNN=0.670  C-MLP=0.670  C-Linear=0.698
+  UM_2         n=34   Q-Plain=0.441  Q-Reup1=0.441  Q-Reup2=0.500  C-CNN=0.588  C-MLP=0.500  C-Linear=0.471
+  USM          n=71   Q-Plain=0.662  Q-Reup1=0.704  Q-Reup2=0.648  C-CNN=0.690  C-MLP=0.662  C-Linear=0.746
+  YALE         n=56   Q-Plain=0.643  Q-Reup1=0.625  Q-Reup2=0.625  C-CNN=0.536  C-MLP=0.661  C-Linear=0.589
+
+======================================================================================
+PLAN C — data re-uploading at 8 qubits, depths [1, 2]
+======================================================================================
+model           train       accuracy             F1            AUC      gap  sec/fold
+-------------------------------------------------------------------------------------
+Q-Plain         0.643    0.604+-0.039    0.572+-0.050    0.647+-0.042   +0.039      11.1
+Q-Reup1         0.648    0.614+-0.033    0.575+-0.049    0.641+-0.040   +0.034      11.5
+Q-Reup2         0.652    0.602+-0.037    0.576+-0.051    0.630+-0.036   +0.050      11.7
+C-CNN           0.651    0.599+-0.033    0.524+-0.066    0.653+-0.042   +0.053       3.7
+C-MLP           0.684    0.602+-0.038    0.544+-0.066    0.639+-0.035   +0.082       0.1
+C-Linear        0.639    0.616+-0.037    0.573+-0.054    0.679+-0.037   +0.023       0.1
+
+Q-Reup1 vs Q-Plain: median dAcc = +0.016, wins 11/20, p = 0.6700
+Q-Reup2 vs Q-Plain: median dAcc = -0.007, wins 6/20, p = 0.9794
+Q-Reup2 vs C-CNN: median dAcc = -0.027, wins 8/20, p = 0.9039
+Q-Reup2 vs C-MLP: median dAcc = -0.021, wins 5/20, p = 0.8684
+Q-Reup2 vs C-Linear: median dAcc = -0.024, wins 5/20, p = 0.1359
+
+saved: results/planC/abide/reupload_results.json

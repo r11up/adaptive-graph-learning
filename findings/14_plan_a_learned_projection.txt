@@ -1,8 +1,8 @@
 FINDING 14 — PLAN A (LEARNED PROJECTION): RAISES CLASSICAL, LOWERS QUANTUM
 ===========================================================================
-Status: measured, ABIDE-I, 20 folds, full cohort
+Status: measured, all four cohorts, 62 folds, 4,456 subjects
 Date:   2026-08-28
-Raw:    results/ABIDE_hybrid/hybrid_results.json
+Raw:    results/superseded-prefix/ABIDE_hybrid/, results/superseded-prefix/planA/{ADHD-200,REST-meta-MDD,UCLA-CNP}/
 
 
 THE IDEA
@@ -107,3 +107,37 @@ REFERENCES
     resting-state data." NeuroImage 147:736-745, 2017.
 [3] McClean J.R. et al. "Barren plateaus in quantum neural network training
     landscapes." Nature Communications 9:4812, 2018.
+
+
+=== ADDENDUM 2026-08-28: EXTENDED TO ALL FOUR COHORTS ===
+
+It replicates on the other well-powered cohort. REST-meta-MDD, 25 folds:
+
+  H-QCNN vs H-CNN     -0.047  5/25  p = 0.0244 *
+  H-VQC  vs H-MLP     -0.033  7/25  p = 0.0553
+  H-QCNN vs H-Linear  -0.069  8/25  p = 0.0025 **
+  H-VQC  vs H-Linear  -0.034  7/25  p = 0.0255 *
+
+Seven of eight tests across ABIDE-I and REST-meta-MDD reject, all against the
+quantum arm; the eighth is at p = 0.055.
+
+Four-cohort accuracy:
+  cohort           H-QCNN  H-VQC  H-MLP  H-CNN  H-Linear
+  ABIDE-I           0.549  0.522  0.642  0.632  0.624
+  ADHD-200          0.554  0.494  0.540  0.498  0.495
+  REST-meta-MDD     0.542  0.559  0.594  0.583  0.600
+  UCLA-CNP          0.496  0.527  0.589  0.557  0.580
+
+Across 40 pairwise tests: 10 significant against 2.0 expected by chance (5x the
+chance rate), and ONE SURVIVES BONFERRONI (p = 0.0006 vs threshold 0.00125).
+Losing arm in all ten: H-QCNN x6, H-VQC x4 -- never a classical arm.
+
+This is the strongest statistical result in the study. Contrast FINDING 17,
+where six nominally significant results all shared one broken comparator; here
+the effect survives every comparator including H-Linear, on both cohorts with
+adequate folds. ADHD-200 (7 folds) and UCLA-CNP (10) return nothing
+significant, with point estimates negative in six of eight -- underpowered, not
+contradictory.
+
+Note ADHD-200 is the one cohort where H-QCNN is nominally best (0.554). It is
+also the smallest fold count in the study and nothing there is significant.

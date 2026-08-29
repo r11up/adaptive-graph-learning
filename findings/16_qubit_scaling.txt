@@ -1,0 +1,88 @@
+FINDING 16 — REGISTER WIDTH: A REAL BUT UNAFFORDABLE GAIN, AND AN UNDERFIT
+===========================================================================
+Status: measured, ABIDE-I, 300-subject train pool, held-out site NYU
+Date:   2026-08-28
+Raw:    results/superseded-prefix/qubit_scaling/qubit_scaling.json
+
+Scope note: this is a diagnostic on one held-out site, not a cross-validated
+comparison. It is reported to explain a mechanism, not to rank models, and no
+accuracy figure here should be quoted as a cohort result.
+
+
+THE QUESTION
+------------
+FINDING 01 measured fidelity collapsing as the register widens, and that has
+been the standing reason not to add qubits. But that argument is about
+*kernels*, which compare states pairwise: as dimension grows, |<psi_i|psi_j>|^2
+concentrates and every pair looks equally distant.
+
+A QCNN does not do that. It reads a single Pauli-Z expectation on one surviving
+qubit, so measure concentration need not bite the same way. Whether width helps
+a variational model was therefore still open, and the standing assumption that
+it would not was an extrapolation from the kernel result rather than a measured
+one.
+
+
+RESULT
+------
+  qubits  params  train    test     gap      AUC     sec     statevector GB
+  ------  ------  -----    ----     ---      ---     ---     --------------
+  4       29      0.640    0.491    +0.149   0.494     0.2   0.00004
+  8       65      0.650    0.503    +0.147   0.565     4.2   0.0006
+  16      137     0.630    0.520    +0.110   0.564   685.5   0.157
+
+
+WHAT IT SHOWS
+-------------
+1. Fidelity collapse does not transfer to the variational model. Test accuracy
+   rises monotonically with width (0.491 -> 0.503 -> 0.520) and the overfit gap
+   narrows (+0.149 -> +0.110). The kernel argument in FINDING 01 does not
+   generalise to a Z-expectation read-out, and should not be cited as if it
+   forbids wider variational circuits.
+
+2. The gain is real but unaffordable. Going from 8 to 16 qubits costs 163x the
+   runtime (4.2 s -> 685.5 s) for +0.017 test accuracy. Statevector memory is
+   the binding limit: it doubles per qubit, and a full-cohort 16-qubit run at
+   1035 subjects is what made an earlier attempt intractable — 62 minutes at
+   14 GB producing no output.
+
+3. The more informative number is the training accuracy, which never exceeds
+   0.65 at any width. The QCNN is underfitting: it fails to fit the training
+   set before generalisation is even in question. It simultaneously overfits by
+   +0.11 to +0.15, which is the signature of a model that is both too rigid to
+   capture the signal and flexible enough to memorise noise.
+
+Point 3 is why Plan C targets capacity (data re-uploading) rather than width.
+Adding qubits treats a symptom the measurement says is not the main constraint.
+
+
+A NOTE ON THE PARAMETER COLUMN
+------------------------------
+The counts above are allocated parameters. Three fewer are trainable at every
+width (26, 62, 134), because the final two-qubit convolution layer allocates
+num_qubits * 3 = 6 parameters by the Qiskit reference's layer-sizing rule but
+contains only one two-qubit block, which consumes 3. The unused three never
+receive gradient and stay at their initial value.
+
+This is a property of the reference design, not an error, and it is constant
+across every model in FINDINGS 13 through 16, so no comparison is affected.
+It is recorded so the parameter column is not misread as effective capacity.
+
+
+METHOD NOTE
+-----------
+An earlier version of this run trained on the full cohort at all three widths
+and had to be abandoned. The rewrite subsamples the training pool to 300
+subjects, prints each width before starting the next, and writes JSON
+incrementally, so a run that must be abandoned still leaves its narrower
+results behind. The subsample is why this is a diagnostic and not a result.
+
+
+REFERENCES
+----------
+[1] Cong I., Choi S., Lukin M.D. "Quantum convolutional neural networks."
+    Nature Physics 15:1273-1278, 2019.
+[2] Cerezo M. et al. "Cost function dependent barren plateaus in shallow
+    parametrized quantum circuits." Nature Communications 12:1791, 2021.
+[3] Thanasilp S. et al. "Exponential concentration in quantum kernel methods."
+    Nature Communications 15:5200, 2024.

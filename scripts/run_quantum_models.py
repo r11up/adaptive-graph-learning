@@ -190,9 +190,22 @@ def main() -> int:
         x_train = scaler.transform(connectivity[train_idx][:, chosen])
         x_test = scaler.transform(connectivity[test_idx][:, chosen])
 
+        # Two angle conventions, deliberately separated (FINDING 22).
+        #
+        # Kernels apply RZ(2*(w*x + b)) with a learnable bandwidth initialised
+        # near 0.15, so [0, pi] gives a phase span of ~0.94 rad and stays
+        # injective. QCNN and VQC apply a fixed RZ(2x) with no bandwidth, so
+        # [0, pi] spans a full 2*pi period and the two ends of every feature
+        # collapse onto the same state. The variational models therefore get
+        # [0, pi/2]; the kernels keep [0, pi] so their published numbers remain
+        # exactly reproducible.
         angle_scaler = MinMaxScaler((0, np.pi)).fit(x_train)
         a_train = angle_scaler.transform(x_train)
         a_test = np.clip(angle_scaler.transform(x_test), 0, np.pi)
+
+        var_scaler = MinMaxScaler((0, np.pi / 2)).fit(x_train)
+        v_train = var_scaler.transform(x_train)
+        v_test = np.clip(var_scaler.transform(x_test), 0, np.pi / 2)
 
         n_test = len(test_idx)
 
@@ -209,7 +222,7 @@ def main() -> int:
         t0 = time.perf_counter()
         preds, scores = train_torch_classifier(
             QCNNClassifier(n_qubits=args.qubits, seed=args.seed),
-            a_train, y_train, a_test, epochs=args.epochs, seed=args.seed,
+            v_train, y_train, v_test, epochs=args.epochs, seed=args.seed,
         )
         record("QCNN", preds, scores, time.perf_counter() - t0)
 
@@ -217,7 +230,7 @@ def main() -> int:
         t0 = time.perf_counter()
         preds, scores = train_torch_classifier(
             VQC(n_qubits=args.qubits, reps=2, seed=args.seed),
-            a_train, y_train, a_test, epochs=args.epochs, seed=args.seed,
+            v_train, y_train, v_test, epochs=args.epochs, seed=args.seed,
         )
         record("VQC", preds, scores, time.perf_counter() - t0)
 

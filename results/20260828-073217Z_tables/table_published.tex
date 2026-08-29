@@ -1,0 +1,28 @@
+\begin{table}[t]
+\caption{Our results against published work on the same cohorts. Only studies using site-held-out or comparable protocols are listed; random-split figures are excluded, as they are not comparable.}
+\label{tab:published-comparison}
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|l|l|c|c|}
+\hline
+\textbf{Cohort} & \textbf{Method} & \textbf{Protocol} & \textbf{Acc} \\
+\hline
+ \multirow{5}{*}{ABIDE-I} & Traditional ML (LDA/SVM/RF)~\cite{eslami2019} & LOSO & 0.51--0.56 \\
+  & Abraham et al., $\ell_2$ SVC~\cite{abraham2017} & LOSO & $\sim$0.67 \\
+  & Population GCN~\cite{parisot2018} & 10-fold & 0.70 \\
+  & Multimodal cross-attention~\cite{fusion2026} & LOSO & 0.82 \\
+  & \textbf{This work} (MLP (no graph)) & LOSO & $\mathbf{0.662}$ \\
+\hline
+ \multirow{3}{*}{ADHD-200} & Competition best (imaging)~\cite{adhd200comp} & held-out & 0.615 \\
+  & Phenotypic data alone~\cite{brown2012} & held-out & 0.625 \\
+  & \textbf{This work} (SVM-RBF (matched)) & LOSO & $\mathbf{0.571}$ \\
+\hline
+ \multirow{3}{*}{REST-meta-MDD} & Ensemble GNN~\cite{mddgnn} & LOSO & 0.73 \\
+  & MMDD multimodal~\cite{mmdd} & LOSO & 0.778 \\
+  & \textbf{This work} (MLP (no graph)) & LOSO & $\mathbf{0.608}$ \\
+\hline
+ \multirow{1}{*}{UCLA-CNP} & \textbf{This work} (Trainable-RBF) & 10-fold & $\mathbf{0.602}$ \\
+\hline
+\end{tabular}
+\end{table}

@@ -1,0 +1,18 @@
+graph transformer study -> results/qgt/mdd
+2428 subjects | 1300 ASD / 1128 control | 25 sites
+nodes=200  features=8  T range=90-240  mean explained variance=92.7%
+graph: 200 nodes, k=4, 800 edges | 6 qubits per pair
+
+  S1           n=148  Q-Attention=0.493  C-Attention=0.500
+  S10          n=83   Q-Attention=0.602  C-Attention=0.482
+  S11          n=61   Q-Attention=0.475  C-Attention=0.475
+  S12          n=38   Q-Attention=0.237  C-Attention=0.842
+  S13          n=42   Q-Attention=0.381  C-Attention=0.452
+  S14          n=96   Q-Attention=0.479  C-Attention=0.667
+  S15          n=100  Q-Attention=0.540  C-Attention=0.500
+  S16          n=62   Q-Attention=0.484  C-Attention=0.516
+  S17          n=91   Q-Attention=0.505  C-Attention=0.484
+  S18          n=41   Q-Attention=0.512  C-Attention=0.512
+  S19          n=87   Q-Attention=0.586  C-Attention=0.586
+  S2           n=60   Q-Attention=0.500  C-Attention=0.500
+  S20          n=533  Q-Attention=0.538  C-Attention=0.499

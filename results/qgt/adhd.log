@@ -1,0 +1,23 @@
+graph transformer study -> results/qgt/adhd
+skipped 1 subjects: too_short=1
+767 subjects | 280 ASD / 487 control | 9 sites
+nodes=190  features=8  T range=72-257  mean explained variance=93.0%
+graph: 190 nodes, k=4, 760 edges | 6 qubits per pair
+
+  KKI          n=83   Q-Attention=0.735  C-Attention=0.735
+  NYU          n=216  Q-Attention=0.454  C-Attention=0.454
+  NeuroIMAGE   n=48   Q-Attention=0.479  C-Attention=0.479
+  OHSU         n=78   Q-Attention=0.526  C-Attention=0.526
+  Peking_1     n=85   Q-Attention=0.718  C-Attention=0.718
+  Peking_2     n=67   Q-Attention=0.478  C-Attention=0.478
+  Peking_3     n=42   Q-Attention=0.548  C-Attention=0.548
+
+========================================================================
+EXPERIMENT 4 — quantum vs classical attention, 6 qubits per pair
+========================================================================
+model                accuracy             F1            AUC    s/fold
+---------------------------------------------------------------------
+Q-Attention       0.562+-0.086    0.000+-0.000    0.447+-0.048      57.1
+C-Attention       0.562+-0.086    0.000+-0.000    0.481+-0.041       5.9
+
+saved: results/qgt/adhd/qgt_results.json

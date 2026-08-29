@@ -1,0 +1,107 @@
+FINDING 22 — ENCODING-RANGE BUG: THE QCNN AND VQC FEATURE MAPS WRAPPED
+=======================================================================
+Status: CONFIRMED BUG. Affects every QCNN and VQC result in the study.
+Date:   2026-08-29
+Found:  after Utsav questioned why our quantum results disagree with the
+        published literature and asked for a full code audit. The audit is
+        what found it; the suspicion was correct.
+
+
+THE BUG
+-------
+The Qiskit ZFeatureMap (QCNN) and ZZFeatureMap (VQC) encode a feature as a
+PHASE, applying RZ(2x). We scaled input features to [0, pi] with
+
+    MinMaxScaler((0, np.pi))
+
+so the encoded phase spans [0, 2*pi] -- exactly one full period. Phase is
+periodic, therefore x = 0 and x = pi produce the SAME quantum state.
+
+Measured directly on the feature map, 4 qubits:
+
+    encoding range [0, pi]    |<psi(min)|psi(max)>|^2 = 1.0000   IDENTICAL
+    encoding range [0, pi/2]  |<psi(min)|psi(max)>|^2 = 0.0000   distinct
+
+The two ends of every feature's range collapsed onto one state. Roughly half
+the dynamic range of every input was destroyed before the circuit began.
+
+
+WHAT IT COST
+------------
+QCNN on a cleanly linearly separable synthetic task (y = 1[x_0 > 0], 8
+features, 400 train / 200 test, 300 epochs), varying only the encoding range:
+
+    range        phase span      test accuracy
+    ---------    ------------    -------------
+    [0, 2pi]     [0, 4pi]            0.555      double wrap
+    [0, pi]      [0, 2pi]            0.735      <-- what we used
+    [0, pi/2]    [0, pi]             0.975      <-- correct
+    [0, 1]       [0, 2]              0.960
+    [0, 0.5]     [0, 1]              0.965
+
+Logistic regression on the same task: 0.985. So with the correct range the
+QCNN is competitive (0.975 vs 0.985); with the bug it is not (0.735).
+
+A 24-point deficit on a task the model should solve almost perfectly.
+
+
+SCOPE — PRECISELY
+-----------------
+AFFECTED (fixed RZ(2x), no bandwidth parameter):
+  - QCNNClassifier, everywhere it is fed MinMaxScaler((0, pi)) angles
+  - VQC (ZZFeatureMap, same 2x factor)
+  - LearnedProjection in hybrid.py, which outputs (tanh+1) * pi/2 = [0, pi]
+  => FINDINGS 13, 14, 15, 16, 17, 18, 21 all involve affected models.
+
+NOT AFFECTED:
+  - TrainableQuantumKernel / TQEK. It applies RZ(2*(w*x + b)) with a LEARNABLE
+    bandwidth initialised at w = 0.15, giving a phase span of [0, 0.94] rad --
+    injective. The bandwidth parameter accidentally protected it.
+  - RingEntangledEncoder and the fidelity graph: RY-based, and cos(theta) is
+    monotonic over [0, pi], so the encoding stays injective.
+  - GraphTransformer (Experiment 4): RY-based, range +-pi/2.
+
+So the KERNEL results stand; the VARIATIONAL results must be re-run.
+
+
+WHY IT WAS NOT CAUGHT
+---------------------
+Three defences existed and none covered this:
+
+1. The Qiskit-equivalence test passes, and correctly so. Our circuit matches
+   the reference to 1e-6. The bug is not in the circuit -- it is in the range
+   of data we feed it. Faithfulness to a reference does not imply the input
+   convention matches.
+2. FINDING 01 diagnosed exactly this failure mode (angle collapse destroying
+   state distinguishability) for the FIDELITY ENCODER, and the fix there was
+   applied there. It was never checked for the QCNN feature map.
+3. Every comparison was matched, so both arms saw the same handicapped
+   features -- but the handicap only applies to the quantum arm, because only
+   the quantum arm encodes them as phases. Matching does not protect against a
+   defect that is asymmetric by construction.
+
+The general lesson: verify that the encoding is INJECTIVE over the input range
+actually used. A feature map that is correct as a circuit can still be wrong
+as a function of your data.
+
+
+THE FIX
+-------
+Scale angle inputs to [0, pi/2] so the encoded phase spans [0, pi]. This keeps
+the circuit gate-for-gate identical to the Qiskit reference -- the equivalence
+test still passes -- and changes only the data convention.
+
+
+WHAT IT MEANS FOR THE CONCLUSIONS
+---------------------------------
+Unknown until re-run, and it must be re-run before any conclusion involving
+QCNN or VQC is restated. Two outcomes are possible:
+
+  (a) the quantum arm improves enough to overturn some comparisons;
+  (b) the quantum arm improves but classical still matches or leads.
+
+Either is publishable and the second would be considerably stronger than what
+we have now, because it would rest on a properly calibrated quantum arm. What
+is NOT defensible is leaving the current numbers in place: they understate the
+quantum models through an implementation defect, and the paper's central claim
+is a matched comparison.

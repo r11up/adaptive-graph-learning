@@ -1,0 +1,40 @@
+quantum kernel study -> results/20260815-120140Z_qkernel_sweep/q6_full
+1035 subjects | 505 ASD / 530 control | 20 sites
+nodes=200  features=6  T range=78-316  mean explained variance=52.2%
+subject descriptors: (1035, 19900)
+  CALTECH      n=37   Q f1=0.718  RBF f1=0.000
+  CMU          n=27   Q f1=0.571  RBF f1=0.000
+  KKI          n=48   Q f1=0.489  RBF f1=0.000
+  LEUVEN_1     n=29   Q f1=0.417  RBF f1=0.000
+  LEUVEN_2     n=34   Q f1=0.500  RBF f1=0.000
+  MAX_MUN      n=52   Q f1=0.489  RBF f1=0.000
+  NYU          n=175  Q f1=0.416  RBF f1=0.000
+  OHSU         n=26   Q f1=0.286  RBF f1=0.000
+  OLIN         n=34   Q f1=0.452  RBF f1=0.000
+  PITT         n=56   Q f1=0.456  RBF f1=0.000
+  SBL          n=30   Q f1=0.467  RBF f1=0.000
+  SDSU         n=36   Q f1=0.323  RBF f1=0.000
+  STANFORD     n=39   Q f1=0.571  RBF f1=0.000
+  TRINITY      n=47   Q f1=0.489  RBF f1=0.000
+  UCLA_1       n=72   Q f1=0.590  RBF f1=0.000
+  UCLA_2       n=26   Q f1=0.519  RBF f1=0.000
+  UM_1         n=106  Q f1=0.614  RBF f1=0.000
+  UM_2         n=34   Q f1=0.400  RBF f1=0.000
+  USM          n=71   Q f1=0.568  RBF f1=0.000
+  YALE         n=56   Q f1=0.383  RBF f1=0.000
+
+==========================================================================
+QUANTUM KERNEL vs CLASSICAL — 6 qubits / 6 PCA components
+==========================================================================
+model                                     F1      accuracy           AUC
+------------------------------------------------------------------------
+quantum kernel                   0.486+-0.045   0.514+-0.028   0.526+-0.035
+classical RBF                    0.000+-0.000   0.511+-0.027   0.486+-0.041
+classical linear                 0.553+-0.048   0.579+-0.033   0.653+-0.041
+reference: RBF on full dim       0.627+-0.054   0.642+-0.042   0.733+-0.038
+
+quantum vs classical RBF: median dF1 = +0.489, wins 20/20, Wilcoxon p = 0.0001
+
+quantum vs classical linear: median dF1 = -0.089, wins 4/20, Wilcoxon p = 0.0196
+
+saved: results/20260815-120140Z_qkernel_sweep/q6_full/quantum_kernel_results.json

@@ -1,0 +1,50 @@
+re-uploading study (Plan C) -> results/rerun22/planC_mdd
+2428 subjects | 1300 ASD / 1128 control | 25 sites
+nodes=200  features=8  T range=90-240  mean explained variance=92.7%
+quantum trainable parameters: Q-Plain=62  Q-Reup1=66  Q-Reup2=68
+
+  S1           n=148  Q-Plain=0.507  Q-Reup1=0.541  Q-Reup2=0.507  C-CNN=0.486  C-MLP=0.534  C-Linear=0.500
+  S10          n=83   Q-Plain=0.518  Q-Reup1=0.494  Q-Reup2=0.506  C-CNN=0.494  C-MLP=0.506  C-Linear=0.578
+  S11          n=61   Q-Plain=0.525  Q-Reup1=0.508  Q-Reup2=0.508  C-CNN=0.525  C-MLP=0.475  C-Linear=0.541
+  S12          n=38   Q-Plain=0.500  Q-Reup1=0.500  Q-Reup2=0.500  C-CNN=0.421  C-MLP=0.526  C-Linear=0.395
+  S13          n=42   Q-Plain=0.405  Q-Reup1=0.405  Q-Reup2=0.405  C-CNN=0.476  C-MLP=0.357  C-Linear=0.333
+  S14          n=96   Q-Plain=0.573  Q-Reup1=0.562  Q-Reup2=0.552  C-CNN=0.552  C-MLP=0.604  C-Linear=0.594
+  S15          n=100  Q-Plain=0.540  Q-Reup1=0.540  Q-Reup2=0.540  C-CNN=0.580  C-MLP=0.590  C-Linear=0.520
+  S16          n=62   Q-Plain=0.548  Q-Reup1=0.532  Q-Reup2=0.532  C-CNN=0.516  C-MLP=0.516  C-Linear=0.597
+  S17          n=91   Q-Plain=0.527  Q-Reup1=0.549  Q-Reup2=0.473  C-CNN=0.462  C-MLP=0.505  C-Linear=0.560
+  S18          n=41   Q-Plain=0.463  Q-Reup1=0.463  Q-Reup2=0.439  C-CNN=0.439  C-MLP=0.439  C-Linear=0.463
+  S19          n=87   Q-Plain=0.701  Q-Reup1=0.701  Q-Reup2=0.667  C-CNN=0.747  C-MLP=0.713  C-Linear=0.701
+  S2           n=60   Q-Plain=0.483  Q-Reup1=0.500  Q-Reup2=0.500  C-CNN=0.500  C-MLP=0.550  C-Linear=0.517
+  S20          n=533  Q-Plain=0.533  Q-Reup1=0.548  Q-Reup2=0.533  C-CNN=0.523  C-MLP=0.518  C-Linear=0.544
+  S21          n=156  Q-Plain=0.526  Q-Reup1=0.532  Q-Reup2=0.558  C-CNN=0.545  C-MLP=0.481  C-Linear=0.551
+  S22          n=50   Q-Plain=0.700  Q-Reup1=0.680  Q-Reup2=0.660  C-CNN=0.720  C-MLP=0.660  C-Linear=0.640
+  S23          n=62   Q-Plain=0.500  Q-Reup1=0.484  Q-Reup2=0.500  C-CNN=0.532  C-MLP=0.500  C-Linear=0.484
+  S24          n=63   Q-Plain=0.476  Q-Reup1=0.413  Q-Reup2=0.429  C-CNN=0.460  C-MLP=0.460  C-Linear=0.444
+  S25          n=152  Q-Plain=0.533  Q-Reup1=0.539  Q-Reup2=0.533  C-CNN=0.533  C-MLP=0.599  C-Linear=0.612
+  S3           n=64   Q-Plain=0.344  Q-Reup1=0.328  Q-Reup2=0.359  C-CNN=0.406  C-MLP=0.375  C-Linear=0.391
+  S4           n=48   Q-Plain=0.604  Q-Reup1=0.583  Q-Reup2=0.583  C-CNN=0.562  C-MLP=0.583  C-Linear=0.604
+  S5           n=24   Q-Plain=0.583  Q-Reup1=0.583  Q-Reup2=0.583  C-CNN=0.625  C-MLP=0.542  C-Linear=0.583
+  S6           n=30   Q-Plain=0.567  Q-Reup1=0.633  Q-Reup2=0.600  C-CNN=0.600  C-MLP=0.600  C-Linear=0.467
+  S7           n=87   Q-Plain=0.483  Q-Reup1=0.506  Q-Reup2=0.506  C-CNN=0.494  C-MLP=0.483  C-Linear=0.506
+  S8           n=150  Q-Plain=0.507  Q-Reup1=0.567  Q-Reup2=0.540  C-CNN=0.520  C-MLP=0.520  C-Linear=0.560
+  S9           n=100  Q-Plain=0.620  Q-Reup1=0.610  Q-Reup2=0.630  C-CNN=0.590  C-MLP=0.530  C-Linear=0.630
+
+======================================================================================
+PLAN C — data re-uploading at 8 qubits, depths [1, 2]
+======================================================================================
+model           train       accuracy             F1            AUC      gap  sec/fold
+-------------------------------------------------------------------------------------
+Q-Plain         0.575    0.531+-0.030    0.498+-0.053    0.566+-0.041   +0.044      18.4
+Q-Reup1         0.577    0.532+-0.032    0.501+-0.049    0.560+-0.042   +0.045      18.9
+Q-Reup2         0.578    0.526+-0.029    0.496+-0.049    0.556+-0.041   +0.052      19.2
+C-CNN           0.581    0.532+-0.032    0.469+-0.060    0.582+-0.041   +0.048       2.3
+C-MLP           0.607    0.527+-0.031    0.478+-0.052    0.549+-0.041   +0.081       0.1
+C-Linear        0.577    0.533+-0.034    0.529+-0.046    0.561+-0.037   +0.044       0.1
+
+Q-Reup1 vs Q-Plain: median dAcc = +0.000, wins 9/25, p = 0.9358
+Q-Reup2 vs Q-Plain: median dAcc = +0.000, wins 7/25, p = 0.3087
+Q-Reup2 vs C-CNN: median dAcc = +0.000, wins 11/25, p = 0.3703
+Q-Reup2 vs C-MLP: median dAcc = +0.000, wins 9/25, p = 0.6292
+Q-Reup2 vs C-Linear: median dAcc = -0.016, wins 8/25, p = 0.1675
+
+saved: results/rerun22/planC_mdd/reupload_results.json

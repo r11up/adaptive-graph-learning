@@ -2,7 +2,7 @@ FINDING 13 — QISKIT QUANTUM MODEL SUITE ACROSS FOUR COHORTS
 ============================================================
 Status: measured, 4 cohorts, 62 folds, 9 models per fold
 Date:   2026-08-28
-Raw:    results/20260828-042703Z_qmodels/
+Raw:    results/superseded-prefix/20260828-042703Z_qmodels/
 
 
 WHAT WAS RUN

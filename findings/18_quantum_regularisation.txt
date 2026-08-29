@@ -1,0 +1,121 @@
+FINDING 18 — WHERE QUANTUM MEASURABLY LEADS: RESISTANCE TO OVERFITTING
+=======================================================================
+Status: measured, all four cohorts, 62 folds, 4,456 subjects
+Date:   2026-08-28
+Code:   scripts/run_reupload.py (train accuracy recorded per fold)
+Raw:    results/superseded-prefix/planC/{abide,adhd,mdd,ucla}/reupload_results.json
+
+
+THE QUESTION
+------------
+Every matched comparison in this study returns a tie or a loss for the quantum
+arm on accuracy. That is the headline, but "no advantage on accuracy" is not
+the same as "no measurable difference." Recording training accuracy alongside
+test accuracy makes a second quantity available -- the overfitting gap -- and
+the quantum and classical arms do NOT behave the same on it.
+
+
+RESULT
+------
+Overfitting gap (train accuracy - test accuracy), quantum arms averaged over
+Q-Plain, Q-Reup1 and Q-Reup2:
+
+  cohort            n      Q gap   C-CNN   C-MLP   C-Linear   Q vs C-MLP
+  --------------  -----    -----   -----   -----   --------   -----------------
+  REST-meta-MDD    2428    0.059   0.048   0.081     0.044    -0.022  p = 0.016
+  ABIDE-I          1035    0.041   0.053   0.082     0.023    -0.041  p = 0.005
+  ADHD-200          767    0.158   0.195   0.203     0.129    -0.045  p = 0.109
+  UCLA-CNP          226    0.089   0.246   0.270     0.154    -0.181  p = 0.002
+
+Paired Wilcoxon, fold by fold, pooled quantum gap against the C-MLP gap.
+Quantum overfits less than the matched-capacity MLP on all four cohorts, and
+significantly on three.
+
+
+THE MECHANISM
+-------------
+A QCNN reads out a single Pauli-Z expectation bounded in [-1, 1], and the
+affine layer that maps it to logits has two parameters. Whatever the circuit
+computes, it must be squeezed through that bounded scalar. This caps what the
+model can express and makes the circuit behave as a strong regulariser --
+structurally, not by tuning.
+
+That is a genuinely quantum-specific property in this comparison: it follows
+from the measurement postulate, not from a hyperparameter.
+
+
+IT SCALES WITH SCARCITY OF DATA
+-------------------------------
+Ranking the cohorts by size against how much less quantum overfits than C-MLP:
+
+  n = 2428   advantage 0.022
+  n = 1035   advantage 0.041
+  n =  767   advantage 0.045
+  n =  226   advantage 0.181
+
+A perfect inverse ordering: the smaller the cohort, the larger the margin. At
+n = 226 the C-MLP overfits three times as much as the quantum arms, and the
+quantum arms have the SMALLEST gap of any model tested there -- beating even
+the 18-parameter linear model (0.089 against 0.154).
+
+STATISTICAL CARE: with four cohorts this ordering CANNOT be given a p < 0.05.
+scipy's spearmanr returns rho = -1.000, p = 0.0000, but that is a t-based
+approximation that is invalid at n = 4. The exact permutation null has 24
+orderings, of which 2 reach |rho| = 1, so the exact two-sided p is 0.083.
+Report the ordering descriptively. Do not quote scipy's p-value.
+
+
+THE LIMIT — AND IT IS THE DECISIVE ONE
+--------------------------------------
+Less overfitting does not become more accuracy.
+
+On the three larger cohorts the 18-parameter linear model has a SMALLER gap
+than the quantum arms (0.023 vs 0.041 on ABIDE; 0.044 vs 0.059 on MDD; 0.129
+vs 0.158 on ADHD) and equal or better accuracy, at roughly 1/100th the
+runtime. Regularisation is easy to obtain classically; a bounded quantum
+read-out is an expensive way to buy it.
+
+UCLA-CNP is the one cohort where the quantum arms lead on both quantities --
+smallest gap (0.089) and nominally best accuracy (Q-Plain 0.598 against
+C-Linear 0.593). The accuracy difference is not significant, and n = 226 with
+10 folds is the least-powered cohort in the study.
+
+*** THIS WAS TESTED AND THE LOW-DATA READING IS FALSIFIED. See FINDING 21. ***
+Controlled subsampling of ABIDE-I and REST-meta-MDD across seven training sizes
+reproduces the REGULARISATION effect at every size (and strengthens it as n
+falls, up to 2.2x) but produces NO accuracy crossover at any size. The UCLA-CNP
+result reflects that cohort, not its sample size.
+
+
+HOW TO STATE THIS
+-----------------
+Defensible: "Quantum circuits act as structural regularisers. They overfit
+significantly less than a matched-capacity MLP on three of four cohorts, and
+the margin grows as data becomes scarce. This does not translate into a
+significant accuracy advantage, because a linear model regularises as well or
+better at a hundredth of the cost."
+
+NOT defensible: "Quantum machine learning offers an advantage in the low-data
+regime." The accuracy comparison that would support that is non-significant on
+every cohort, and the one cohort where quantum leads on both quantities is the
+smallest and least-powered.
+
+
+WHY IT MATTERS ANYWAY
+---------------------
+It is the only quantity in the study on which the quantum arm measurably and
+reproducibly leads, and it identifies the regime where a quantum advantage, if
+one exists for this problem, would be found first: small cohorts where
+classical models cannot be regularised well enough. That is a testable
+direction rather than a general claim, and it is the honest answer to a
+reviewer asking under what conditions quantum would be preferred.
+
+
+REFERENCES
+----------
+[1] Cong I., Choi S., Lukin M.D. "Quantum convolutional neural networks."
+    Nature Physics 15:1273-1278, 2019.
+[2] Caro M.C. et al. "Generalization in quantum machine learning from few
+    training data." Nature Communications 13:4919, 2022.
+[3] Abbas A. et al. "The power of quantum neural networks." Nature
+    Computational Science 1:403-409, 2021.

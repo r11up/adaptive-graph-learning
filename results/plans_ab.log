@@ -1,0 +1,103 @@
+[14:32:09Z] === Plan A / UCLA-CNP ===
+[14:33:15Z] finished Plan A / UCLA-CNP (rc=0)
+PLAN A — learned projection (2000 -> 8), shared by all arms
+==============================================================================
+model              accuracy             F1            AUC  sec/fold
+-------------------------------------------------------------------
+H-QCNN          0.496+-0.049    0.521+-0.070    0.504+-0.037       3.3
+H-VQC           0.527+-0.055    0.550+-0.066    0.527+-0.070       1.8
+H-MLP           0.589+-0.055    0.632+-0.054    0.622+-0.066       0.1
+H-CNN           0.557+-0.044    0.615+-0.043    0.595+-0.057       0.9
+H-Linear        0.580+-0.080    0.615+-0.085    0.622+-0.070       0.1
+
+H-QCNN vs H-CNN: median dAcc = -0.111, wins 2/10, p = 0.3203
+H-VQC vs H-MLP: median dAcc = -0.043, wins 3/10, p = 0.3516
+H-QCNN vs H-Linear: median dAcc = -0.133, wins 1/10, p = 0.1953
+H-VQC vs H-Linear: median dAcc = -0.087, wins 3/10, p = 0.2344
+
+[14:33:15Z] === Plan B / UCLA-CNP ===
+[14:35:04Z] finished Plan B / UCLA-CNP (rc=0)
+PLAN B — 4 disjoint blocks of 8 features
+==============================================================================
+model                accuracy             F1            AUC  sec/fold
+---------------------------------------------------------------------
+Q-Ensemble        0.555+-0.077    0.571+-0.091    0.548+-0.083      10.3
+C-Ensemble        0.575+-0.037    0.613+-0.039    0.573+-0.028       0.1
+C-Single          0.570+-0.039    0.603+-0.046    0.565+-0.054       0.0
+
+mean learned block weight (strongest features first): 0.273  0.263  0.294  0.170
+
+Q-Ensemble vs C-Ensemble: median dAcc = -0.022, wins 4/10, p = 0.9766
+Q-Ensemble vs C-Single: median dAcc = +0.022, wins 5/10, p = 1.0000
+
+saved: results/planB/UCLA-CNP/ensemble_results.json
+
+[14:35:04Z] === Plan A / ADHD-200 ===
+[14:37:17Z] finished Plan A / ADHD-200 (rc=0)
+PLAN A — learned projection (2000 -> 8), shared by all arms
+==============================================================================
+model              accuracy             F1            AUC  sec/fold
+-------------------------------------------------------------------
+H-QCNN          0.554+-0.057    0.470+-0.078    0.564+-0.058       9.6
+H-VQC           0.494+-0.030    0.446+-0.065    0.503+-0.069       5.0
+H-MLP           0.540+-0.036    0.403+-0.041    0.519+-0.040       0.2
+H-CNN           0.498+-0.043    0.342+-0.086    0.504+-0.033       2.7
+H-Linear        0.495+-0.025    0.351+-0.045    0.507+-0.031       0.2
+
+H-QCNN vs H-CNN: median dAcc = +0.000, wins 3/7, p = 0.6875
+H-VQC vs H-MLP: median dAcc = -0.013, wins 1/7, p = 0.0625
+H-QCNN vs H-Linear: median dAcc = +0.024, wins 4/7, p = 0.3750
+H-VQC vs H-Linear: median dAcc = +0.000, wins 3/7, p = 1.0000
+
+[14:37:17Z] === Plan B / ADHD-200 ===
+[14:41:05Z] finished Plan B / ADHD-200 (rc=0)
+PLAN B — 4 disjoint blocks of 8 features
+==============================================================================
+model                accuracy             F1            AUC  sec/fold
+---------------------------------------------------------------------
+Q-Ensemble        0.505+-0.044    0.392+-0.096    0.542+-0.052      31.0
+C-Ensemble        0.560+-0.031    0.409+-0.081    0.553+-0.045       0.2
+C-Single          0.529+-0.065    0.359+-0.043    0.509+-0.053       0.1
+
+mean learned block weight (strongest features first): 0.322  0.239  0.204  0.235
+
+Q-Ensemble vs C-Ensemble: median dAcc = -0.083, wins 2/7, p = 0.1562
+Q-Ensemble vs C-Single: median dAcc = -0.024, wins 3/7, p = 0.5781
+
+saved: results/planB/ADHD-200/ensemble_results.json
+
+[14:41:05Z] === Plan A / REST-meta-MDD ===
+[15:05:40Z] finished Plan A / REST-meta-MDD (rc=0)
+PLAN A — learned projection (2000 -> 8), shared by all arms
+==============================================================================
+model              accuracy             F1            AUC  sec/fold
+-------------------------------------------------------------------
+H-QCNN          0.542+-0.050    0.569+-0.050    0.539+-0.062      30.9
+H-VQC           0.559+-0.031    0.584+-0.037    0.588+-0.044      16.1
+H-MLP           0.594+-0.046    0.617+-0.051    0.624+-0.046       0.8
+H-CNN           0.583+-0.046    0.605+-0.049    0.602+-0.050       9.2
+H-Linear        0.600+-0.041    0.613+-0.046    0.618+-0.049       0.7
+
+H-QCNN vs H-CNN: median dAcc = -0.047, wins 5/25, p = 0.0244
+H-VQC vs H-MLP: median dAcc = -0.033, wins 7/25, p = 0.0553
+H-QCNN vs H-Linear: median dAcc = -0.069, wins 8/25, p = 0.0025
+H-VQC vs H-Linear: median dAcc = -0.034, wins 7/25, p = 0.0255
+
+[15:05:40Z] === Plan B / REST-meta-MDD ===
+[15:48:26Z] finished Plan B / REST-meta-MDD (rc=0)
+PLAN B — 4 disjoint blocks of 8 features
+==============================================================================
+model                accuracy             F1            AUC  sec/fold
+---------------------------------------------------------------------
+Q-Ensemble        0.541+-0.039    0.556+-0.050    0.559+-0.050     100.7
+C-Ensemble        0.542+-0.029    0.537+-0.044    0.577+-0.038       0.6
+C-Single          0.564+-0.034    0.567+-0.044    0.596+-0.039       0.3
+
+mean learned block weight (strongest features first): 0.246  0.236  0.233  0.284
+
+Q-Ensemble vs C-Ensemble: median dAcc = -0.006, wins 12/25, p = 0.9789
+Q-Ensemble vs C-Single: median dAcc = -0.030, wins 8/25, p = 0.0551
+
+saved: results/planB/REST-meta-MDD/ensemble_results.json
+
+=== PLANS A AND B COMPLETE ON ALL COHORTS ===

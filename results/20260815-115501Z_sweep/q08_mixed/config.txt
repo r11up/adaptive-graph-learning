@@ -1,0 +1,3 @@
+tag=q08_mixed qubits=8 topology=mixed epochs=30 extra=--skip-baselines
+started=2026-08-15T12:59:31Z
+finished=2026-08-15T13:23:31Z rc=0

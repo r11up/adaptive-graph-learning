@@ -1,0 +1,16 @@
+--- wave 1 ---
+[04:59:16Z] start qmodels-ABIDE
+[04:59:16Z] start qmodels-MDD
+[04:59:16Z] start planC-ABIDE
+[04:59:16Z] start planA-ABIDE
+[05:05:40Z] done  planA-ABIDE (rc=0)
+[05:09:01Z] done  planC-ABIDE (rc=0)
+[05:10:53Z] done  qmodels-ABIDE (rc=0)
+[05:24:45Z] done  qmodels-MDD (rc=0)
+--- wave 2 ---
+[05:24:45Z] start planC-MDD
+[05:24:45Z] start planA-MDD
+[05:24:45Z] start qmodels-ADHD
+[05:24:45Z] start qmodels-UCLA
+[05:27:16Z] done  qmodels-UCLA (rc=0)
+[05:27:52Z] done  qmodels-ADHD (rc=0)

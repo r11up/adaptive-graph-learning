@@ -1,0 +1,48 @@
+hybrid study (Plan A) -> results/rerun22/planA_mdd
+2428 subjects | 1300 ASD / 1128 control | 25 sites
+nodes=200  features=8  T range=90-240  mean explained variance=92.7%
+connectivity: (2428, 19900)  ->  projection sees top-2000
+
+  S1           n=148  H-QCNN=0.527  H-VQC=0.493  H-MLP=0.534  H-CNN=0.561  H-Linear=0.541
+  S10          n=83   H-QCNN=0.590  H-VQC=0.494  H-MLP=0.627  H-CNN=0.602  H-Linear=0.639
+  S11          n=61   H-QCNN=0.574  H-VQC=0.508  H-MLP=0.541  H-CNN=0.607  H-Linear=0.574
+  S12          n=38   H-QCNN=0.526  H-VQC=0.421  H-MLP=0.447  H-CNN=0.684  H-Linear=0.447
+  S13          n=42   H-QCNN=0.500  H-VQC=0.381  H-MLP=0.429  H-CNN=0.548  H-Linear=0.571
+  S14          n=96   H-QCNN=0.740  H-VQC=0.635  H-MLP=0.833  H-CNN=0.823  H-Linear=0.812
+  S15          n=100  H-QCNN=0.540  H-VQC=0.610  H-MLP=0.550  H-CNN=0.510  H-Linear=0.550
+  S16          n=62   H-QCNN=0.484  H-VQC=0.500  H-MLP=0.548  H-CNN=0.565  H-Linear=0.597
+  S17          n=91   H-QCNN=0.593  H-VQC=0.516  H-MLP=0.593  H-CNN=0.571  H-Linear=0.516
+  S18          n=41   H-QCNN=0.439  H-VQC=0.634  H-MLP=0.415  H-CNN=0.463  H-Linear=0.439
+  S19          n=87   H-QCNN=0.678  H-VQC=0.529  H-MLP=0.667  H-CNN=0.586  H-Linear=0.770
+  S2           n=60   H-QCNN=0.400  H-VQC=0.400  H-MLP=0.583  H-CNN=0.567  H-Linear=0.600
+  S20          n=533  H-QCNN=0.574  H-VQC=0.510  H-MLP=0.565  H-CNN=0.589  H-Linear=0.559
+  S21          n=156  H-QCNN=0.577  H-VQC=0.577  H-MLP=0.545  H-CNN=0.545  H-Linear=0.609
+  S22          n=50   H-QCNN=0.660  H-VQC=0.460  H-MLP=0.640  H-CNN=0.720  H-Linear=0.680
+  S23          n=62   H-QCNN=0.403  H-VQC=0.484  H-MLP=0.419  H-CNN=0.452  H-Linear=0.516
+  S24          n=63   H-QCNN=0.603  H-VQC=0.444  H-MLP=0.492  H-CNN=0.603  H-Linear=0.619
+  S25          n=152  H-QCNN=0.546  H-VQC=0.507  H-MLP=0.513  H-CNN=0.539  H-Linear=0.520
+  S3           n=64   H-QCNN=0.469  H-VQC=0.484  H-MLP=0.453  H-CNN=0.500  H-Linear=0.484
+  S4           n=48   H-QCNN=0.979  H-VQC=0.833  H-MLP=0.979  H-CNN=0.958  H-Linear=0.938
+  S5           n=24   H-QCNN=0.500  H-VQC=0.542  H-MLP=0.708  H-CNN=0.417  H-Linear=0.500
+  S6           n=30   H-QCNN=0.533  H-VQC=0.533  H-MLP=0.467  H-CNN=0.467  H-Linear=0.500
+  S7           n=87   H-QCNN=0.644  H-VQC=0.529  H-MLP=0.540  H-CNN=0.552  H-Linear=0.552
+  S8           n=150  H-QCNN=0.633  H-VQC=0.520  H-MLP=0.627  H-CNN=0.633  H-Linear=0.633
+  S9           n=100  H-QCNN=0.620  H-VQC=0.540  H-MLP=0.450  H-CNN=0.670  H-Linear=0.620
+
+==============================================================================
+PLAN A — learned projection (2000 -> 8), shared by all arms
+==============================================================================
+model              accuracy             F1            AUC  sec/fold
+-------------------------------------------------------------------
+H-QCNN          0.573+-0.046    0.599+-0.048    0.598+-0.052      23.0
+H-VQC           0.523+-0.035    0.535+-0.038    0.528+-0.048      11.8
+H-MLP           0.567+-0.051    0.586+-0.055    0.600+-0.052       0.4
+H-CNN           0.589+-0.046    0.621+-0.048    0.613+-0.048       2.7
+H-Linear        0.591+-0.045    0.618+-0.046    0.622+-0.052       0.4
+
+H-QCNN vs H-CNN: median dAcc = -0.015, wins 9/25, p = 0.2735
+H-VQC vs H-MLP: median dAcc = -0.048, wins 7/25, p = 0.0480
+H-QCNN vs H-Linear: median dAcc = -0.010, wins 7/25, p = 0.2548
+H-VQC vs H-Linear: median dAcc = -0.049, wins 4/25, p = 0.0039
+
+saved: results/rerun22/planA_mdd/hybrid_results.json

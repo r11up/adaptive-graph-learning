@@ -1,0 +1,48 @@
+[04:13:37Z] === graph pipeline, backend=torch, 8 qubits ===
+./scripts/run_encoder_ab.sh: line 16: 35956 Terminated: 15          $PY -u scripts/run_abide_study.py --backend "$backend" --n-qubits "$Q" --cache "results/encoder_ab/encoded_${backend}_q${Q}.pt" --out "results/encoder_ab/${backend}_q${Q}" > "results/encoder_ab/${backend}_q${Q}.log" 2>&1
+[04:54:43Z] finished torch (rc=0)
+  KKI          n=48   f1=0.000 acc=0.583 spec=1.000
+  LEUVEN_1     n=29   f1=0.000 acc=0.517 spec=1.000
+  LEUVEN_2     n=34   f1=0.000 acc=0.559 spec=1.000
+  MAX_MUN      n=52   f1=0.000 acc=0.538 spec=1.000
+  NYU          n=175  f1=0.600 acc=0.429 spec=0.000
+  OHSU         n=26   f1=0.632 acc=0.462 spec=0.000
+  OLIN         n=34   f1=0.717 acc=0.559 spec=0.000
+  PITT         n=56   f1=0.000 acc=0.482 spec=1.000
+  SBL          n=30   f1=0.667 acc=0.500 spec=0.000
+  SDSU         n=36   f1=0.000 acc=0.611 spec=1.000
+  STANFORD     n=39   f1=0.000 acc=0.513 spec=1.000
+  TRINITY      n=47   f1=0.638 acc=0.468 spec=0.000
+  UCLA_1       n=72   f1=0.000 acc=0.431 spec=1.000
+  UCLA_2       n=26   f1=0.667 acc=0.500 spec=0.000
+  UM_1         n=106  f1=0.000 acc=0.500 spec=1.000
+  UM_2         n=34   f1=0.000 acc=0.618 spec=1.000
+  USM          n=71   f1=0.000 acc=0.352 spec=1.000
+  YALE         n=56   f1=0.000 acc=0.500 spec=1.000
+
+ablation: quantum topology + GCN (isolates the attention mechanism)
+
+[04:54:43Z] === graph pipeline, backend=interleaved, 8 qubits ===
+[04:54:49Z] finished interleaved (rc=0)
+nodes=200  features=8  T range=78-316  mean explained variance=91.1%
+
+encoding 1035 subjects x 200 regions (8 qubits, 64 circuit parameters, backend=interleaved)
+Traceback (most recent call last):
+  File "/Users/utsav/Desktop/adaptive-edge-learning/scripts/run_abide_study.py", line 228, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/utsav/Desktop/adaptive-edge-learning/scripts/run_abide_study.py", line 114, in main
+    cohort = encode_cohort(dataset, encoder, k_neighbors=args.k_neighbors,
+                           topology=args.topology)
+  File "/Users/utsav/Desktop/adaptive-edge-learning/.venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/Users/utsav/Desktop/adaptive-edge-learning/src/qagta/pipelines/connectome_pipeline.py", line 121, in encode_cohort
+    z, states = encoder.encode(x, return_state=True)
+                ^^^^^^^^^^^^^^
+  File "/Users/utsav/Desktop/adaptive-edge-learning/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1967, in __getattr__
+    raise AttributeError(
+        f"'{type(self).__name__}' object has no attribute '{name}'"
+    )
+AttributeError: 'InterleavedEncoder' object has no attribute 'encode'
+
+=== ENCODER A/B COMPLETE ===

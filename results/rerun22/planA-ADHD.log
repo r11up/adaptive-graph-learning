@@ -1,0 +1,31 @@
+hybrid study (Plan A) -> results/rerun22/planA_adhd
+skipped 1 subjects: too_short=1
+767 subjects | 280 ASD / 487 control | 9 sites
+nodes=190  features=8  T range=72-257  mean explained variance=93.0%
+connectivity: (767, 17955)  ->  projection sees top-2000
+
+  KKI          n=83   H-QCNN=0.446  H-VQC=0.434  H-MLP=0.446  H-CNN=0.470  H-Linear=0.494
+  NYU          n=216  H-QCNN=0.481  H-VQC=0.574  H-MLP=0.486  H-CNN=0.505  H-Linear=0.500
+  NeuroIMAGE   n=48   H-QCNN=0.479  H-VQC=0.688  H-MLP=0.521  H-CNN=0.500  H-Linear=0.479
+  OHSU         n=78   H-QCNN=0.410  H-VQC=0.590  H-MLP=0.487  H-CNN=0.474  H-Linear=0.449
+  Peking_1     n=85   H-QCNN=0.565  H-VQC=0.447  H-MLP=0.553  H-CNN=0.541  H-Linear=0.529
+  Peking_2     n=67   H-QCNN=0.493  H-VQC=0.507  H-MLP=0.552  H-CNN=0.522  H-Linear=0.552
+  Peking_3     n=42   H-QCNN=0.571  H-VQC=0.548  H-MLP=0.452  H-CNN=0.571  H-Linear=0.524
+
+==============================================================================
+PLAN A — learned projection (2000 -> 8), shared by all arms
+==============================================================================
+model              accuracy             F1            AUC  sec/fold
+-------------------------------------------------------------------
+H-QCNN          0.492+-0.044    0.335+-0.061    0.507+-0.043       7.4
+H-VQC           0.541+-0.065    0.513+-0.122    0.534+-0.068       3.7
+H-MLP           0.500+-0.032    0.344+-0.055    0.484+-0.031       0.1
+H-CNN           0.512+-0.027    0.352+-0.079    0.494+-0.023       0.9
+H-Linear        0.504+-0.026    0.376+-0.045    0.502+-0.030       0.1
+
+H-QCNN vs H-CNN: median dAcc = -0.023, wins 1/7, p = 0.1562
+H-VQC vs H-MLP: median dAcc = +0.088, wins 4/7, p = 0.4688
+H-QCNN vs H-Linear: median dAcc = -0.019, wins 2/7, p = 0.4375
+H-VQC vs H-Linear: median dAcc = +0.024, wins 4/7, p = 0.5781
+
+saved: results/rerun22/planA_adhd/hybrid_results.json

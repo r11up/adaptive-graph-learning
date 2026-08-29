@@ -17,11 +17,13 @@ env/
 .mypy_cache/
 .ipynb_checkpoints/
 
-# Outputs
-results/
-*.png
+# Outputs. Per-fold metrics and figures ARE published, so the numbers in the
+# paper can be checked without re-running anything. The encoded-cohort caches
+# are not: they are ~535 MB, regenerable in minutes, and derived from cohort
+# data we are not permitted to redistribute.
 *.pt
 *.ckpt
+results/**/*.pt
 
 # Data — keep the directory, not its contents
 data/*
@@ -38,14 +40,12 @@ QAE_*.ipynb
 # OS
 .DS_Store
 
-# Encoded cohort caches (large, regenerable)
-results/*.pt
+
 
 # Manuscript sources — unpublished, kept local
 paper-tex/
 
-# Encoded caches inside timestamped run dirs
-results/**/encoded.pt
+
 
 # LaTeX build artefacts
 paper-tex/*.aux
@@ -55,3 +55,7 @@ paper-tex/*.synctex.gz
 paper-tex/*.fls
 paper-tex/*.fdb_latexmk
 paper-tex/main.pdf
+
+# Cohort data is governed by data use agreements (ABIDE, ADHD-200,
+# REST-meta-MDD, UCLA-CNP) and is never redistributed here. Only derived
+# per-fold metrics are published, which contain no subject identifiers.

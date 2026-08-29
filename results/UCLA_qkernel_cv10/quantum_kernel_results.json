@@ -1,0 +1,471 @@
+{
+  "config": {
+    "data_root": "data/UCLA-CNP-cc200",
+    "pipeline": "cpac",
+    "strategy": "filt_noglobal",
+    "atlas": "rois_cc200",
+    "qubits": 8,
+    "reps": 2,
+    "bandwidths": [
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "kernel_type": "both",
+    "gammas": [
+      0.1,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "descriptor": "correlation",
+    "selection": "alignment",
+    "entanglement": "linear",
+    "limit": null,
+    "min_test_size": 10,
+    "cv": "stratified",
+    "folds": 10,
+    "out": "results/UCLA_qkernel_cv10"
+  },
+  "n_subjects": 226,
+  "per_fold": {
+    "quantum kernel": [
+      {
+        "site": "fold1",
+        "n": 23,
+        "kernel_type": "fidelity",
+        "bandwidth": 1.0,
+        "gamma": null,
+        "f1": 0.5806451612903226,
+        "accuracy": 0.43478260869565216,
+        "specificity": 0.09090909090909091,
+        "auc": 0.3409090909090909
+      },
+      {
+        "site": "fold2",
+        "n": 23,
+        "kernel_type": "projected",
+        "bandwidth": 1.0,
+        "gamma": 2.0,
+        "f1": 0.6153846153846154,
+        "accuracy": 0.5652173913043478,
+        "specificity": 0.45454545454545453,
+        "auc": 0.5757575757575758
+      },
+      {
+        "site": "fold3",
+        "n": 23,
+        "kernel_type": "fidelity",
+        "bandwidth": 1.0,
+        "gamma": null,
+        "f1": 0.5806451612903226,
+        "accuracy": 0.43478260869565216,
+        "specificity": 0.1,
+        "auc": 0.3692307692307692
+      },
+      {
+        "site": "fold4",
+        "n": 23,
+        "kernel_type": "projected",
+        "bandwidth": 1.0,
+        "gamma": 2.0,
+        "f1": 0.6,
+        "accuracy": 0.4782608695652174,
+        "specificity": 0.2,
+        "auc": 0.4153846153846154
+      },
+      {
+        "site": "fold5",
+        "n": 23,
+        "kernel_type": "fidelity",
+        "bandwidth": 1.0,
+        "gamma": null,
+        "f1": 0.6896551724137931,
+        "accuracy": 0.6086956521739131,
+        "specificity": 0.4,
+        "auc": 0.5615384615384615
+      },
+      {
+        "site": "fold6",
+        "n": 23,
+        "kernel_type": "fidelity",
+        "bandwidth": 1.0,
+        "gamma": null,
+        "f1": 0.5714285714285714,
+        "accuracy": 0.4782608695652174,
+        "specificity": 0.3,
+        "auc": 0.48461538461538467
+      },
+      {
+        "site": "fold7",
+        "n": 22,
+        "kernel_type": "fidelity",
+        "bandwidth": 1.0,
+        "gamma": null,
+        "f1": 0.7692307692307693,
+        "accuracy": 0.7272727272727273,
+        "specificity": 0.6,
+        "auc": 0.6833333333333333
+      },
+      {
+        "site": "fold8",
+        "n": 22,
+        "kernel_type": "projected",
+        "bandwidth": 1.0,
+        "gamma": 2.0,
+        "f1": 0.5833333333333334,
+        "accuracy": 0.5454545454545454,
+        "specificity": 0.5,
+        "auc": 0.6083333333333334
+      },
+      {
+        "site": "fold9",
+        "n": 22,
+        "kernel_type": "projected",
+        "bandwidth": 1.0,
+        "gamma": 2.0,
+        "f1": 0.6,
+        "accuracy": 0.45454545454545453,
+        "specificity": 0.1,
+        "auc": 0.45
+      },
+      {
+        "site": "fold10",
+        "n": 22,
+        "kernel_type": "projected",
+        "bandwidth": 1.0,
+        "gamma": 2.0,
+        "f1": 0.56,
+        "accuracy": 0.5,
+        "specificity": 0.4,
+        "auc": 0.44999999999999996
+      }
+    ],
+    "classical RBF": [
+      {
+        "site": "fold1",
+        "n": 23,
+        "f1": 0.6857142857142857,
+        "accuracy": 0.5217391304347826,
+        "specificity": 0.0,
+        "auc": 0.5
+      },
+      {
+        "site": "fold2",
+        "n": 23,
+        "f1": 0.6857142857142857,
+        "accuracy": 0.5217391304347826,
+        "specificity": 0.0,
+        "auc": 0.5
+      },
+      {
+        "site": "fold3",
+        "n": 23,
+        "f1": 0.7222222222222222,
+        "accuracy": 0.5652173913043478,
+        "specificity": 0.0,
+        "auc": 0.5
+      },
+      {
+        "site": "fold4",
+        "n": 23,
+        "f1": 0.7222222222222222,
+        "accuracy": 0.5652173913043478,
+        "specificity": 0.0,
+        "auc": 0.5
+      },
+      {
+        "site": "fold5",
+        "n": 23,
+        "f1": 0.7222222222222222,
+        "accuracy": 0.5652173913043478,
+        "specificity": 0.0,
+        "auc": 0.4423076923076923
+      },
+      {
+        "site": "fold6",
+        "n": 23,
+        "f1": 0.7222222222222222,
+        "accuracy": 0.5652173913043478,
+        "specificity": 0.0,
+        "auc": 0.5
+      },
+      {
+        "site": "fold7",
+        "n": 22,
+        "f1": 0.0,
+        "accuracy": 0.45454545454545453,
+        "specificity": 1.0,
+        "auc": 0.5
+      },
+      {
+        "site": "fold8",
+        "n": 22,
+        "f1": 0.0,
+        "accuracy": 0.45454545454545453,
+        "specificity": 1.0,
+        "auc": 0.5
+      },
+      {
+        "site": "fold9",
+        "n": 22,
+        "f1": 0.0,
+        "accuracy": 0.45454545454545453,
+        "specificity": 1.0,
+        "auc": 0.4583333333333333
+      },
+      {
+        "site": "fold10",
+        "n": 22,
+        "f1": 0.0,
+        "accuracy": 0.45454545454545453,
+        "specificity": 1.0,
+        "auc": 0.5
+      }
+    ],
+    "classical linear": [
+      {
+        "site": "fold1",
+        "n": 23,
+        "f1": 0.38095238095238093,
+        "accuracy": 0.43478260869565216,
+        "specificity": 0.5454545454545454,
+        "auc": 0.4696969696969697
+      },
+      {
+        "site": "fold2",
+        "n": 23,
+        "f1": 0.5,
+        "accuracy": 0.4782608695652174,
+        "specificity": 0.45454545454545453,
+        "auc": 0.40151515151515155
+      },
+      {
+        "site": "fold3",
+        "n": 23,
+        "f1": 0.5,
+        "accuracy": 0.4782608695652174,
+        "specificity": 0.5,
+        "auc": 0.36923076923076925
+      },
+      {
+        "site": "fold4",
+        "n": 23,
+        "f1": 0.43478260869565216,
+        "accuracy": 0.43478260869565216,
+        "specificity": 0.5,
+        "auc": 0.36923076923076925
+      },
+      {
+        "site": "fold5",
+        "n": 23,
+        "f1": 0.46153846153846156,
+        "accuracy": 0.391304347826087,
+        "specificity": 0.3,
+        "auc": 0.34615384615384615
+      },
+      {
+        "site": "fold6",
+        "n": 23,
+        "f1": 0.5925925925925926,
+        "accuracy": 0.5217391304347826,
+        "specificity": 0.4,
+        "auc": 0.5384615384615384
+      },
+      {
+        "site": "fold7",
+        "n": 22,
+        "f1": 0.75,
+        "accuracy": 0.7272727272727273,
+        "specificity": 0.7,
+        "auc": 0.7166666666666666
+      },
+      {
+        "site": "fold8",
+        "n": 22,
+        "f1": 0.42105263157894735,
+        "accuracy": 0.5,
+        "specificity": 0.7,
+        "auc": 0.675
+      },
+      {
+        "site": "fold9",
+        "n": 22,
+        "f1": 0.5833333333333334,
+        "accuracy": 0.5454545454545454,
+        "specificity": 0.5,
+        "auc": 0.55
+      },
+      {
+        "site": "fold10",
+        "n": 22,
+        "f1": 0.6153846153846154,
+        "accuracy": 0.5454545454545454,
+        "specificity": 0.4,
+        "auc": 0.7
+      }
+    ],
+    "reference: RBF on full dim": [
+      {
+        "site": "fold1",
+        "n": 23,
+        "f1": 0.6086956521739131,
+        "accuracy": 0.6086956521739131,
+        "specificity": 0.6363636363636364,
+        "auc": 0.6666666666666666
+      },
+      {
+        "site": "fold2",
+        "n": 23,
+        "f1": 0.56,
+        "accuracy": 0.5217391304347826,
+        "specificity": 0.45454545454545453,
+        "auc": 0.5833333333333333
+      },
+      {
+        "site": "fold3",
+        "n": 23,
+        "f1": 0.6206896551724138,
+        "accuracy": 0.5217391304347826,
+        "specificity": 0.3,
+        "auc": 0.5384615384615385
+      },
+      {
+        "site": "fold4",
+        "n": 23,
+        "f1": 0.5925925925925926,
+        "accuracy": 0.5217391304347826,
+        "specificity": 0.4,
+        "auc": 0.5307692307692308
+      },
+      {
+        "site": "fold5",
+        "n": 23,
+        "f1": 0.48,
+        "accuracy": 0.43478260869565216,
+        "specificity": 0.4,
+        "auc": 0.4538461538461539
+      },
+      {
+        "site": "fold6",
+        "n": 23,
+        "f1": 0.7096774193548387,
+        "accuracy": 0.6086956521739131,
+        "specificity": 0.3,
+        "auc": 0.5615384615384615
+      },
+      {
+        "site": "fold7",
+        "n": 22,
+        "f1": 0.64,
+        "accuracy": 0.5909090909090909,
+        "specificity": 0.5,
+        "auc": 0.5833333333333334
+      },
+      {
+        "site": "fold8",
+        "n": 22,
+        "f1": 0.8275862068965517,
+        "accuracy": 0.7727272727272727,
+        "specificity": 0.5,
+        "auc": 0.7333333333333333
+      },
+      {
+        "site": "fold9",
+        "n": 22,
+        "f1": 0.56,
+        "accuracy": 0.5,
+        "specificity": 0.4,
+        "auc": 0.5333333333333333
+      },
+      {
+        "site": "fold10",
+        "n": 22,
+        "f1": 0.6206896551724138,
+        "accuracy": 0.5,
+        "specificity": 0.2,
+        "auc": 0.475
+      }
+    ]
+  },
+  "summary": {
+    "quantum kernel": {
+      "f1": [
+        0.6150322784371728,
+        0.04032576330848502
+      ],
+      "accuracy": [
+        0.5227272727272727,
+        0.057008596628977413
+      ],
+      "auc": [
+        0.4939102564102565,
+        0.06830678073387372
+      ]
+    },
+    "classical RBF": {
+      "f1": [
+        0.42603174603174604,
+        0.22743108864512018
+      ],
+      "accuracy": [
+        0.5122529644268774,
+        0.03248421921401013
+      ],
+      "auc": [
+        0.49006410256410254,
+        0.013192307692307694
+      ]
+    },
+    "classical linear": {
+      "f1": [
+        0.5239636624075983,
+        0.06905782521863124
+      ],
+      "accuracy": [
+        0.5057312252964425,
+        0.057402606167322505
+      ],
+      "auc": [
+        0.5135955710955711,
+        0.08962526117825616
+      ]
+    },
+    "reference: RBF on full dim": {
+      "f1": [
+        0.6219931181362723,
+        0.05813354461784848
+      ],
+      "accuracy": [
+        0.558102766798419,
+        0.05776954955615721
+      ],
+      "auc": [
+        0.5659615384615384,
+        0.0517253419592714
+      ]
+    }
+  },
+  "paired_tests": {
+    "classical RBF": {
+      "median_diff": -0.05144836006904968,
+      "p_value": 0.556640625,
+      "wins": 4,
+      "losses": 6,
+      "folds": 10
+    },
+    "classical linear": {
+      "median_diff": 0.09801488833746902,
+      "p_value": 0.037109375,
+      "wins": 8,
+      "losses": 2,
+      "folds": 10
+    }
+  },
+  "timestamp": "20260827-214500Z"
+}

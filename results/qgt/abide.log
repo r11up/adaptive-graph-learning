@@ -1,0 +1,37 @@
+graph transformer study -> results/qgt/abide
+1035 subjects | 505 ASD / 530 control | 20 sites
+nodes=200  features=8  T range=78-316  mean explained variance=91.1%
+graph: 200 nodes, k=4, 800 edges | 6 qubits per pair
+
+  CALTECH      n=37   Q-Attention=0.486  C-Attention=0.459
+  CMU          n=27   Q-Attention=0.481  C-Attention=0.481
+  KKI          n=48   Q-Attention=0.583  C-Attention=0.583
+  LEUVEN_1     n=29   Q-Attention=0.448  C-Attention=0.621
+  LEUVEN_2     n=34   Q-Attention=0.441  C-Attention=0.559
+  MAX_MUN      n=52   Q-Attention=0.500  C-Attention=0.500
+  NYU          n=175  Q-Attention=0.571  C-Attention=0.571
+  OHSU         n=26   Q-Attention=0.538  C-Attention=0.538
+  OLIN         n=34   Q-Attention=0.412  C-Attention=0.559
+  PITT         n=56   Q-Attention=0.446  C-Attention=0.518
+  SBL          n=30   Q-Attention=0.467  C-Attention=0.600
+  SDSU         n=36   Q-Attention=0.472  C-Attention=0.389
+  STANFORD     n=39   Q-Attention=0.462  C-Attention=0.513
+  TRINITY      n=47   Q-Attention=0.532  C-Attention=0.468
+  UCLA_1       n=72   Q-Attention=0.458  C-Attention=0.444
+  UCLA_2       n=26   Q-Attention=0.500  C-Attention=0.500
+  UM_1         n=106  Q-Attention=0.472  C-Attention=0.481
+  UM_2         n=34   Q-Attention=0.382  C-Attention=0.382
+  USM          n=71   Q-Attention=0.606  C-Attention=0.648
+  YALE         n=56   Q-Attention=0.500  C-Attention=0.500
+
+========================================================================
+EXPERIMENT 4 — quantum vs classical attention, 6 qubits per pair
+========================================================================
+model                accuracy             F1            AUC    s/fold
+---------------------------------------------------------------------
+Q-Attention       0.488+-0.025    0.260+-0.117    0.512+-0.034      97.8
+C-Attention       0.516+-0.031    0.251+-0.128    0.537+-0.032       9.9
+
+Q-Attention vs C-Attention: median dAcc = +0.000, wins 4/20, p = 0.1167
+
+saved: results/qgt/abide/qgt_results.json

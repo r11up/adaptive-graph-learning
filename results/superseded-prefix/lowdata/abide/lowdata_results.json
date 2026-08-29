@@ -1,0 +1,5850 @@
+{
+  "config": {
+    "data_root": "data/ABIDE-I",
+    "atlas": "rois_cc200",
+    "qubits": 8,
+    "sizes": [
+      100,
+      200,
+      400,
+      800
+    ],
+    "repeats": 3,
+    "epochs": 40,
+    "lr": 0.02,
+    "min_test_size": 10,
+    "seed": 0,
+    "out": "results/lowdata/abide"
+  },
+  "rows": [
+    {
+      "n_train": 100,
+      "means": {
+        "Quantum": 0.5282081067465023,
+        "C-MLP": 0.5510154415140575,
+        "C-Linear": 0.5448200971904046
+      },
+      "per_model": {
+        "Quantum": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.43243243243243246,
+            "train_accuracy": 0.74,
+            "auc": 0.4707602339181286
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.69,
+            "auc": 0.5760233918128654
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.4594594594594595,
+            "train_accuracy": 0.7,
+            "auc": 0.5
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5185185185185185,
+            "train_accuracy": 0.73,
+            "auc": 0.532967032967033
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.48148148148148145,
+            "train_accuracy": 0.73,
+            "auc": 0.45054945054945056
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.73,
+            "auc": 0.6208791208791208
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.4583333333333333,
+            "train_accuracy": 0.71,
+            "auc": 0.4571428571428572
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5208333333333334,
+            "train_accuracy": 0.73,
+            "auc": 0.425
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5416666666666666,
+            "train_accuracy": 0.71,
+            "auc": 0.5625
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5172413793103449,
+            "train_accuracy": 0.66,
+            "auc": 0.5380952380952381
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.41379310344827586,
+            "train_accuracy": 0.74,
+            "auc": 0.3
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.41379310344827586,
+            "train_accuracy": 0.65,
+            "auc": 0.4380952380952381
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.68,
+            "auc": 0.4526315789473684
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.68,
+            "auc": 0.5403508771929825
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.67,
+            "auc": 0.7859649122807018
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.4423076923076923,
+            "train_accuracy": 0.68,
+            "auc": 0.4940476190476191
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.71,
+            "auc": 0.5148809523809523
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5192307692307693,
+            "train_accuracy": 0.69,
+            "auc": 0.5803571428571428
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.49714285714285716,
+            "train_accuracy": 0.68,
+            "auc": 0.49279999999999996
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.52,
+            "train_accuracy": 0.71,
+            "auc": 0.5009333333333333
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5085714285714286,
+            "train_accuracy": 0.66,
+            "auc": 0.5185333333333333
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.67,
+            "auc": 0.5
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.34615384615384615,
+            "train_accuracy": 0.76,
+            "auc": 0.38690476190476186
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.74,
+            "auc": 0.5059523809523809
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.72,
+            "auc": 0.5649122807017544
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.63,
+            "auc": 0.6070175438596491
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.68,
+            "auc": 0.7192982456140351
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.6607142857142857,
+            "train_accuracy": 0.78,
+            "auc": 0.6819923371647509
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.44642857142857145,
+            "train_accuracy": 0.7,
+            "auc": 0.388250319284802
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.77,
+            "auc": 0.5172413793103449
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.76,
+            "auc": 0.5111111111111111
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.77,
+            "auc": 0.43555555555555553
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6333333333333333,
+            "train_accuracy": 0.77,
+            "auc": 0.6177777777777779
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.73,
+            "auc": 0.6298701298701299
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.69,
+            "auc": 0.6688311688311689
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.3888888888888889,
+            "train_accuracy": 0.69,
+            "auc": 0.4512987012987013
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.65,
+            "auc": 0.3578947368421052
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5128205128205128,
+            "train_accuracy": 0.64,
+            "auc": 0.5473684210526315
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5897435897435898,
+            "train_accuracy": 0.71,
+            "auc": 0.5578947368421052
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5531914893617021,
+            "train_accuracy": 0.73,
+            "auc": 0.5763636363636364
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5106382978723404,
+            "train_accuracy": 0.65,
+            "auc": 0.5963636363636363
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5957446808510638,
+            "train_accuracy": 0.67,
+            "auc": 0.7109090909090909
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5972222222222222,
+            "train_accuracy": 0.72,
+            "auc": 0.6577498033044846
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5694444444444444,
+            "train_accuracy": 0.7,
+            "auc": 0.5444531864673485
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.67,
+            "auc": 0.5774980330448466
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.73,
+            "auc": 0.514792899408284
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.71,
+            "auc": 0.6331360946745561
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.75,
+            "auc": 0.49112426035502954
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5660377358490566,
+            "train_accuracy": 0.71,
+            "auc": 0.5884656461374154
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5943396226415094,
+            "train_accuracy": 0.77,
+            "auc": 0.5955856176575294
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5754716981132075,
+            "train_accuracy": 0.63,
+            "auc": 0.5411178355286579
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.65,
+            "auc": 0.5238095238095237
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.67,
+            "auc": 0.3992673992673993
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.67,
+            "auc": 0.44322344322344326
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.4507042253521127,
+            "train_accuracy": 0.63,
+            "auc": 0.4930434782608696
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5774647887323944,
+            "train_accuracy": 0.65,
+            "auc": 0.5956521739130435
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5070422535211268,
+            "train_accuracy": 0.69,
+            "auc": 0.5295652173913042
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.7,
+            "auc": 0.5573979591836734
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.69,
+            "auc": 0.4987244897959183
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.42857142857142855,
+            "train_accuracy": 0.66,
+            "auc": 0.4005102040816327
+          }
+        ],
+        "C-MLP": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.35135135135135137,
+            "train_accuracy": 0.93,
+            "auc": 0.25146198830409355
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.7297297297297297,
+            "train_accuracy": 0.93,
+            "auc": 0.736842105263158
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.94,
+            "auc": 0.6257309941520469
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.37037037037037035,
+            "train_accuracy": 0.96,
+            "auc": 0.22527472527472525
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.91,
+            "auc": 0.7032967032967032
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.87,
+            "auc": 0.7032967032967034
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5208333333333334,
+            "train_accuracy": 0.91,
+            "auc": 0.5482142857142858
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.4583333333333333,
+            "train_accuracy": 0.83,
+            "auc": 0.4446428571428571
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.3958333333333333,
+            "train_accuracy": 0.87,
+            "auc": 0.38392857142857145
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.6896551724137931,
+            "train_accuracy": 0.88,
+            "auc": 0.7619047619047619
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5517241379310345,
+            "train_accuracy": 0.89,
+            "auc": 0.6428571428571428
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6896551724137931,
+            "train_accuracy": 0.95,
+            "auc": 0.6952380952380952
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.9,
+            "auc": 0.5333333333333334
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.89,
+            "auc": 0.5157894736842105
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.89,
+            "auc": 0.6912280701754386
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.4807692307692308,
+            "train_accuracy": 0.93,
+            "auc": 0.5833333333333333
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5192307692307693,
+            "train_accuracy": 0.87,
+            "auc": 0.5252976190476191
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.91,
+            "auc": 0.5699404761904763
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.56,
+            "train_accuracy": 0.89,
+            "auc": 0.5741333333333334
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5371428571428571,
+            "train_accuracy": 0.91,
+            "auc": 0.5406666666666666
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5657142857142857,
+            "train_accuracy": 0.84,
+            "auc": 0.6322666666666666
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.93,
+            "auc": 0.4821428571428571
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.87,
+            "auc": 0.5416666666666666
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.91,
+            "auc": 0.5773809523809523
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.89,
+            "auc": 0.6526315789473685
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.86,
+            "auc": 0.512280701754386
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.7352941176470589,
+            "train_accuracy": 0.87,
+            "auc": 0.7543859649122807
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.93,
+            "auc": 0.5938697318007663
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.4642857142857143,
+            "train_accuracy": 0.95,
+            "auc": 0.48914431673052367
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.42857142857142855,
+            "train_accuracy": 0.97,
+            "auc": 0.4559386973180077
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.93,
+            "auc": 0.64
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6333333333333333,
+            "train_accuracy": 0.92,
+            "auc": 0.6399999999999999
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.96,
+            "auc": 0.72
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.97,
+            "auc": 0.5324675324675325
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5277777777777778,
+            "train_accuracy": 0.89,
+            "auc": 0.5957792207792207
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.86,
+            "auc": 0.6525974025974026
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.82,
+            "auc": 0.4842105263157895
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.4358974358974359,
+            "train_accuracy": 0.97,
+            "auc": 0.4999999999999999
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.89,
+            "auc": 0.5578947368421052
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.48936170212765956,
+            "train_accuracy": 0.92,
+            "auc": 0.4181818181818181
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.44680851063829785,
+            "train_accuracy": 0.97,
+            "auc": 0.45272727272727276
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6382978723404256,
+            "train_accuracy": 0.88,
+            "auc": 0.6109090909090908
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.93,
+            "auc": 0.5523210070810385
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5416666666666666,
+            "train_accuracy": 0.89,
+            "auc": 0.5916601101494886
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.89,
+            "auc": 0.7025963808025177
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.96,
+            "auc": 0.5562130177514794
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6538461538461539,
+            "train_accuracy": 0.87,
+            "auc": 0.6153846153846154
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6538461538461539,
+            "train_accuracy": 0.91,
+            "auc": 0.5976331360946746
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5188679245283019,
+            "train_accuracy": 0.9,
+            "auc": 0.5389818440726236
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5943396226415094,
+            "train_accuracy": 0.95,
+            "auc": 0.6532573869704521
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.46226415094339623,
+            "train_accuracy": 0.84,
+            "auc": 0.4720541117835529
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.91,
+            "auc": 0.5457875457875458
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.93,
+            "auc": 0.5860805860805861
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.92,
+            "auc": 0.7692307692307692
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5070422535211268,
+            "train_accuracy": 0.85,
+            "auc": 0.5504347826086957
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6619718309859155,
+            "train_accuracy": 0.78,
+            "auc": 0.6817391304347826
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5070422535211268,
+            "train_accuracy": 0.94,
+            "auc": 0.6060869565217392
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5892857142857143,
+            "train_accuracy": 0.9,
+            "auc": 0.5829081632653061
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.85,
+            "auc": 0.5344387755102041
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.94,
+            "auc": 0.5191326530612246
+          }
+        ],
+        "C-Linear": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.40540540540540543,
+            "train_accuracy": 0.76,
+            "auc": 0.3508771929824562
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6216216216216216,
+            "train_accuracy": 0.8,
+            "auc": 0.6900584795321637
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.84,
+            "auc": 0.6637426900584795
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.4444444444444444,
+            "train_accuracy": 0.91,
+            "auc": 0.41208791208791207
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.8,
+            "auc": 0.6868131868131868
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.73,
+            "auc": 0.6648351648351649
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5208333333333334,
+            "train_accuracy": 0.85,
+            "auc": 0.5410714285714286
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.3541666666666667,
+            "train_accuracy": 0.77,
+            "auc": 0.4196428571428572
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.4375,
+            "train_accuracy": 0.76,
+            "auc": 0.44642857142857145
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.81,
+            "auc": 0.7428571428571429
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.79,
+            "auc": 0.6142857142857143
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.87,
+            "auc": 0.6047619047619047
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.77,
+            "auc": 0.6456140350877193
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.72,
+            "auc": 0.512280701754386
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.77,
+            "auc": 0.7017543859649122
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5576923076923077,
+            "train_accuracy": 0.83,
+            "auc": 0.5491071428571429
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.78,
+            "auc": 0.5833333333333334
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.79,
+            "auc": 0.5297619047619048
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5542857142857143,
+            "train_accuracy": 0.81,
+            "auc": 0.5510666666666667
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5085714285714286,
+            "train_accuracy": 0.85,
+            "auc": 0.5539999999999999
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.75,
+            "auc": 0.6334666666666667
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.38461538461538464,
+            "train_accuracy": 0.82,
+            "auc": 0.4464285714285714
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.77,
+            "auc": 0.5119047619047619
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.83,
+            "auc": 0.5773809523809524
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.72,
+            "auc": 0.6105263157894737
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.73,
+            "auc": 0.6140350877192983
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.77,
+            "auc": 0.7929824561403509
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.81,
+            "auc": 0.6436781609195403
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.48214285714285715,
+            "train_accuracy": 0.89,
+            "auc": 0.4993614303959132
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.42857142857142855,
+            "train_accuracy": 0.85,
+            "auc": 0.39591315453384424
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5666666666666667,
+            "train_accuracy": 0.79,
+            "auc": 0.6444444444444445
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5666666666666667,
+            "train_accuracy": 0.71,
+            "auc": 0.5822222222222222
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.6333333333333333,
+            "train_accuracy": 0.9,
+            "auc": 0.6888888888888889
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.87,
+            "auc": 0.5551948051948052
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.74,
+            "auc": 0.5974025974025974
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.73,
+            "auc": 0.6558441558441559
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.3076923076923077,
+            "train_accuracy": 0.72,
+            "auc": 0.33684210526315794
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.38461538461538464,
+            "train_accuracy": 0.84,
+            "auc": 0.481578947368421
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5897435897435898,
+            "train_accuracy": 0.76,
+            "auc": 0.6578947368421052
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.44680851063829785,
+            "train_accuracy": 0.8,
+            "auc": 0.39636363636363636
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.46808510638297873,
+            "train_accuracy": 0.81,
+            "auc": 0.5654545454545454
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5957446808510638,
+            "train_accuracy": 0.77,
+            "auc": 0.66
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5972222222222222,
+            "train_accuracy": 0.83,
+            "auc": 0.5971675845790716
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5277777777777778,
+            "train_accuracy": 0.85,
+            "auc": 0.5861526357199056
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.625,
+            "train_accuracy": 0.8,
+            "auc": 0.6837136113296616
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.87,
+            "auc": 0.5562130177514792
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.75,
+            "auc": 0.6982248520710059
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.7307692307692307,
+            "train_accuracy": 0.79,
+            "auc": 0.6982248520710059
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5471698113207547,
+            "train_accuracy": 0.73,
+            "auc": 0.6123175507297971
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6132075471698113,
+            "train_accuracy": 0.84,
+            "auc": 0.6760412958348166
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.49056603773584906,
+            "train_accuracy": 0.75,
+            "auc": 0.47917408330366684
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.84,
+            "auc": 0.5567765567765568
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.81,
+            "auc": 0.5567765567765569
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5,
+            "train_accuracy": 0.82,
+            "auc": 0.7472527472527473
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5070422535211268,
+            "train_accuracy": 0.76,
+            "auc": 0.5704347826086956
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.6619718309859155,
+            "train_accuracy": 0.73,
+            "auc": 0.7121739130434782
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.5211267605633803,
+            "train_accuracy": 0.81,
+            "auc": 0.6373913043478261
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 100,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.83,
+            "auc": 0.576530612244898
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 100,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.72,
+            "auc": 0.5867346938775512
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 100,
+            "accuracy": 0.48214285714285715,
+            "train_accuracy": 0.85,
+            "auc": 0.4795918367346939
+          }
+        ]
+      },
+      "best": "C-MLP"
+    },
+    {
+      "n_train": 200,
+      "means": {
+        "Quantum": 0.5483126587928628,
+        "C-MLP": 0.5678797180791348,
+        "C-Linear": 0.5872305244581172
+      },
+      "per_model": {
+        "Quantum": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5135135135135135,
+            "train_accuracy": 0.675,
+            "auc": 0.4795321637426901
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5405405405405406,
+            "train_accuracy": 0.655,
+            "auc": 0.5672514619883041
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6486486486486487,
+            "train_accuracy": 0.685,
+            "auc": 0.6900584795321636
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.695,
+            "auc": 0.7087912087912087
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.67,
+            "auc": 0.6153846153846154
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.48148148148148145,
+            "train_accuracy": 0.635,
+            "auc": 0.5659340659340659
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.695,
+            "auc": 0.5214285714285714
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.645,
+            "auc": 0.4535714285714286
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6041666666666666,
+            "train_accuracy": 0.655,
+            "auc": 0.5517857142857143
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5517241379310345,
+            "train_accuracy": 0.71,
+            "auc": 0.5666666666666667
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6896551724137931,
+            "train_accuracy": 0.65,
+            "auc": 0.7523809523809524
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5517241379310345,
+            "train_accuracy": 0.66,
+            "auc": 0.5523809523809523
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.695,
+            "auc": 0.5719298245614035
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.615,
+            "auc": 0.6350877192982457
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.4117647058823529,
+            "train_accuracy": 0.66,
+            "auc": 0.4245614035087719
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.4807692307692308,
+            "train_accuracy": 0.65,
+            "auc": 0.5654761904761905
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.705,
+            "auc": 0.4821428571428572
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.4807692307692308,
+            "train_accuracy": 0.71,
+            "auc": 0.6130952380952381
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5542857142857143,
+            "train_accuracy": 0.645,
+            "auc": 0.598
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5885714285714285,
+            "train_accuracy": 0.67,
+            "auc": 0.5812
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.56,
+            "train_accuracy": 0.69,
+            "auc": 0.5705333333333333
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.635,
+            "auc": 0.5059523809523809
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.4230769230769231,
+            "train_accuracy": 0.68,
+            "auc": 0.38690476190476186
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.65,
+            "auc": 0.6190476190476191
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.645,
+            "auc": 0.7578947368421052
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.47058823529411764,
+            "train_accuracy": 0.67,
+            "auc": 0.5719298245614035
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.675,
+            "auc": 0.6035087719298246
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.4642857142857143,
+            "train_accuracy": 0.695,
+            "auc": 0.43550446998722864
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5892857142857143,
+            "train_accuracy": 0.665,
+            "auc": 0.5466155810983397
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5178571428571429,
+            "train_accuracy": 0.67,
+            "auc": 0.5261813537675607
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.43333333333333335,
+            "train_accuracy": 0.66,
+            "auc": 0.4
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5666666666666667,
+            "train_accuracy": 0.67,
+            "auc": 0.5111111111111111
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6,
+            "train_accuracy": 0.665,
+            "auc": 0.6711111111111111
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.67,
+            "auc": 0.5941558441558441
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.4722222222222222,
+            "train_accuracy": 0.685,
+            "auc": 0.5487012987012987
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.765,
+            "auc": 0.6201298701298701
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.4358974358974359,
+            "train_accuracy": 0.695,
+            "auc": 0.40263157894736845
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.71,
+            "auc": 0.6394736842105263
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.71,
+            "auc": 0.4368421052631579
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6595744680851063,
+            "train_accuracy": 0.69,
+            "auc": 0.7272727272727273
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5319148936170213,
+            "train_accuracy": 0.625,
+            "auc": 0.5218181818181817
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.7021276595744681,
+            "train_accuracy": 0.65,
+            "auc": 0.6127272727272728
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5138888888888888,
+            "train_accuracy": 0.675,
+            "auc": 0.5153422501966956
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.66,
+            "auc": 0.6309992132179386
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.66,
+            "auc": 0.6073957513768686
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.67,
+            "auc": 0.5857988165680473
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.68,
+            "auc": 0.4911242603550296
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.665,
+            "auc": 0.5325443786982249
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.4339622641509434,
+            "train_accuracy": 0.655,
+            "auc": 0.4382342470630118
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5094339622641509,
+            "train_accuracy": 0.685,
+            "auc": 0.5016019935920256
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.4716981132075472,
+            "train_accuracy": 0.685,
+            "auc": 0.5069419722321111
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.675,
+            "auc": 0.46153846153846156
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.66,
+            "auc": 0.5897435897435898
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.4411764705882353,
+            "train_accuracy": 0.66,
+            "auc": 0.5457875457875458
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5774647887323944,
+            "train_accuracy": 0.675,
+            "auc": 0.6034782608695652
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5915492957746479,
+            "train_accuracy": 0.66,
+            "auc": 0.591304347826087
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6901408450704225,
+            "train_accuracy": 0.64,
+            "auc": 0.7295652173913042
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.625,
+            "train_accuracy": 0.71,
+            "auc": 0.6352040816326531
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.655,
+            "auc": 0.524234693877551
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6964285714285714,
+            "train_accuracy": 0.7,
+            "auc": 0.7359693877551021
+          }
+        ],
+        "C-MLP": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.4864864864864865,
+            "train_accuracy": 0.78,
+            "auc": 0.5175438596491228
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5405405405405406,
+            "train_accuracy": 0.855,
+            "auc": 0.5555555555555556
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.785,
+            "auc": 0.6286549707602339
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.82,
+            "auc": 0.5494505494505495
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.4444444444444444,
+            "train_accuracy": 0.815,
+            "auc": 0.4835164835164835
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.86,
+            "auc": 0.6978021978021978
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.4583333333333333,
+            "train_accuracy": 0.83,
+            "auc": 0.5232142857142856
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.79,
+            "auc": 0.6732142857142858
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.625,
+            "train_accuracy": 0.84,
+            "auc": 0.6232142857142857
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5517241379310345,
+            "train_accuracy": 0.825,
+            "auc": 0.5857142857142857
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.4827586206896552,
+            "train_accuracy": 0.85,
+            "auc": 0.5476190476190477
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6551724137931034,
+            "train_accuracy": 0.865,
+            "auc": 0.5428571428571428
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.785,
+            "auc": 0.5228070175438596
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.83,
+            "auc": 0.656140350877193
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.795,
+            "auc": 0.5368421052631579
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5576923076923077,
+            "train_accuracy": 0.81,
+            "auc": 0.568452380952381
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5192307692307693,
+            "train_accuracy": 0.88,
+            "auc": 0.4791666666666667
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.855,
+            "auc": 0.5357142857142857
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6057142857142858,
+            "train_accuracy": 0.825,
+            "auc": 0.6486666666666667
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5314285714285715,
+            "train_accuracy": 0.785,
+            "auc": 0.5745333333333333
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6114285714285714,
+            "train_accuracy": 0.86,
+            "auc": 0.6202666666666666
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.82,
+            "auc": 0.5952380952380952
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.865,
+            "auc": 0.6785714285714286
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.825,
+            "auc": 0.5773809523809523
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.47058823529411764,
+            "train_accuracy": 0.77,
+            "auc": 0.5368421052631578
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.825,
+            "auc": 0.5684210526315789
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.4411764705882353,
+            "train_accuracy": 0.85,
+            "auc": 0.5508771929824562
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.815,
+            "auc": 0.5006385696040868
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.84,
+            "auc": 0.5810983397190294
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.85,
+            "auc": 0.665389527458493
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.4666666666666667,
+            "train_accuracy": 0.875,
+            "auc": 0.4666666666666667
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5666666666666667,
+            "train_accuracy": 0.87,
+            "auc": 0.5555555555555556
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.81,
+            "auc": 0.6711111111111111
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.855,
+            "auc": 0.5292207792207793
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6111111111111112,
+            "train_accuracy": 0.815,
+            "auc": 0.6785714285714286
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.865,
+            "auc": 0.6331168831168832
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5641025641025641,
+            "train_accuracy": 0.815,
+            "auc": 0.5368421052631578
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.81,
+            "auc": 0.6552631578947368
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5128205128205128,
+            "train_accuracy": 0.825,
+            "auc": 0.5236842105263158
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6808510638297872,
+            "train_accuracy": 0.855,
+            "auc": 0.6927272727272727
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.40425531914893614,
+            "train_accuracy": 0.795,
+            "auc": 0.4090909090909091
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5957446808510638,
+            "train_accuracy": 0.83,
+            "auc": 0.6727272727272727
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6111111111111112,
+            "train_accuracy": 0.765,
+            "auc": 0.6341463414634146
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5972222222222222,
+            "train_accuracy": 0.84,
+            "auc": 0.6420141620771047
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.83,
+            "auc": 0.6640440597954366
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.7307692307692307,
+            "train_accuracy": 0.825,
+            "auc": 0.7218934911242604
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.815,
+            "auc": 0.3550295857988166
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.835,
+            "auc": 0.7514792899408285
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5377358490566038,
+            "train_accuracy": 0.77,
+            "auc": 0.6023495906016376
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.660377358490566,
+            "train_accuracy": 0.81,
+            "auc": 0.6977572089711641
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.86,
+            "auc": 0.5400498398006408
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.84,
+            "auc": 0.6446886446886447
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.795,
+            "auc": 0.6043956043956045
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.4117647058823529,
+            "train_accuracy": 0.84,
+            "auc": 0.5054945054945055
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5352112676056338,
+            "train_accuracy": 0.81,
+            "auc": 0.548695652173913
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6056338028169014,
+            "train_accuracy": 0.805,
+            "auc": 0.7086956521739131
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6338028169014085,
+            "train_accuracy": 0.825,
+            "auc": 0.7165217391304348
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.85,
+            "auc": 0.6466836734693878
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.765,
+            "auc": 0.6326530612244898
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.85,
+            "auc": 0.5931122448979592
+          }
+        ],
+        "C-Linear": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.40540540540540543,
+            "train_accuracy": 0.695,
+            "auc": 0.4035087719298246
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6756756756756757,
+            "train_accuracy": 0.78,
+            "auc": 0.628654970760234
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6486486486486487,
+            "train_accuracy": 0.705,
+            "auc": 0.6549707602339181
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5185185185185185,
+            "train_accuracy": 0.715,
+            "auc": 0.5989010989010989
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.71,
+            "auc": 0.5164835164835164
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.79,
+            "auc": 0.7087912087912087
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.71,
+            "auc": 0.5839285714285715
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5416666666666666,
+            "train_accuracy": 0.71,
+            "auc": 0.6482142857142856
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.625,
+            "train_accuracy": 0.685,
+            "auc": 0.725
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6551724137931034,
+            "train_accuracy": 0.74,
+            "auc": 0.7
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.74,
+            "auc": 0.6857142857142857
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5862068965517241,
+            "train_accuracy": 0.7,
+            "auc": 0.5761904761904761
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6764705882352942,
+            "train_accuracy": 0.695,
+            "auc": 0.5649122807017544
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.71,
+            "auc": 0.6035087719298244
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.72,
+            "auc": 0.5157894736842106
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5576923076923077,
+            "train_accuracy": 0.695,
+            "auc": 0.5803571428571428
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.4423076923076923,
+            "train_accuracy": 0.78,
+            "auc": 0.4880952380952381
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.735,
+            "auc": 0.6324404761904762
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.56,
+            "train_accuracy": 0.685,
+            "auc": 0.6293333333333333
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5485714285714286,
+            "train_accuracy": 0.7,
+            "auc": 0.5674666666666666
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5828571428571429,
+            "train_accuracy": 0.78,
+            "auc": 0.6490666666666667
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.725,
+            "auc": 0.5773809523809523
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.7307692307692307,
+            "train_accuracy": 0.735,
+            "auc": 0.8214285714285714
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.745,
+            "auc": 0.5059523809523809
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.655,
+            "auc": 0.6035087719298246
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.655,
+            "auc": 0.6385964912280702
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.77,
+            "auc": 0.5543859649122806
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.72,
+            "auc": 0.48659003831417624
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6785714285714286,
+            "train_accuracy": 0.695,
+            "auc": 0.6692209450830141
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5892857142857143,
+            "train_accuracy": 0.735,
+            "auc": 0.67816091954023
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.755,
+            "auc": 0.4755555555555555
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.43333333333333335,
+            "train_accuracy": 0.76,
+            "auc": 0.5244444444444445
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5666666666666667,
+            "train_accuracy": 0.69,
+            "auc": 0.5822222222222222
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6944444444444444,
+            "train_accuracy": 0.725,
+            "auc": 0.6071428571428571
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.705,
+            "auc": 0.7337662337662337
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.7222222222222222,
+            "train_accuracy": 0.77,
+            "auc": 0.7337662337662338
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.715,
+            "auc": 0.6078947368421053
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.75,
+            "auc": 0.6500000000000001
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.75,
+            "auc": 0.513157894736842
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.723404255319149,
+            "train_accuracy": 0.75,
+            "auc": 0.7763636363636364
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.46808510638297873,
+            "train_accuracy": 0.7,
+            "auc": 0.4418181818181818
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.7021276595744681,
+            "train_accuracy": 0.68,
+            "auc": 0.7054545454545454
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5694444444444444,
+            "train_accuracy": 0.7,
+            "auc": 0.6490952006294257
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6805555555555556,
+            "train_accuracy": 0.72,
+            "auc": 0.6939417781274586
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.67,
+            "auc": 0.6876475216365067
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.71,
+            "auc": 0.621301775147929
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.4230769230769231,
+            "train_accuracy": 0.68,
+            "auc": 0.40828402366863903
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.7,
+            "auc": 0.7159763313609468
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5283018867924528,
+            "train_accuracy": 0.66,
+            "auc": 0.5813456746173016
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.6415094339622641,
+            "train_accuracy": 0.735,
+            "auc": 0.6988252046991812
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6037735849056604,
+            "train_accuracy": 0.75,
+            "auc": 0.6304734781060877
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.725,
+            "auc": 0.695970695970696
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5,
+            "train_accuracy": 0.71,
+            "auc": 0.6263736263736264
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.4117647058823529,
+            "train_accuracy": 0.68,
+            "auc": 0.5970695970695972
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5774647887323944,
+            "train_accuracy": 0.69,
+            "auc": 0.5869565217391304
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.704225352112676,
+            "train_accuracy": 0.69,
+            "auc": 0.7782608695652173
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6197183098591549,
+            "train_accuracy": 0.68,
+            "auc": 0.6434782608695653
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 200,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.715,
+            "auc": 0.6237244897959184
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 200,
+            "accuracy": 0.5892857142857143,
+            "train_accuracy": 0.69,
+            "auc": 0.6709183673469388
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 200,
+            "accuracy": 0.6071428571428571,
+            "train_accuracy": 0.76,
+            "auc": 0.5778061224489796
+          }
+        ]
+      },
+      "best": "C-Linear"
+    },
+    {
+      "n_train": 400,
+      "means": {
+        "Quantum": 0.5598088030959691,
+        "C-MLP": 0.5777757517799456,
+        "C-Linear": 0.5967678920305425
+      },
+      "per_model": {
+        "Quantum": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6216216216216216,
+            "train_accuracy": 0.6725,
+            "auc": 0.6871345029239766
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5405405405405406,
+            "train_accuracy": 0.6575,
+            "auc": 0.6111111111111112
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.6575,
+            "auc": 0.564327485380117
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.6375,
+            "auc": 0.6978021978021978
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5185185185185185,
+            "train_accuracy": 0.6675,
+            "auc": 0.6593406593406593
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.6625,
+            "auc": 0.7967032967032966
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5416666666666666,
+            "train_accuracy": 0.6325,
+            "auc": 0.6285714285714286
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.4583333333333333,
+            "train_accuracy": 0.6375,
+            "auc": 0.5464285714285715
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6041666666666666,
+            "train_accuracy": 0.715,
+            "auc": 0.7660714285714286
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.675,
+            "auc": 0.5666666666666667
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.4827586206896552,
+            "train_accuracy": 0.6075,
+            "auc": 0.5380952380952381
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.66,
+            "auc": 0.7571428571428571
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.6975,
+            "auc": 0.5403508771929825
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.6225,
+            "auc": 0.5333333333333333
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.6525,
+            "auc": 0.5228070175438597
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.655,
+            "auc": 0.5639880952380952
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5192307692307693,
+            "train_accuracy": 0.6725,
+            "auc": 0.5669642857142857
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5961538461538461,
+            "train_accuracy": 0.67,
+            "auc": 0.5877976190476191
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.6775,
+            "auc": 0.6136
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5142857142857142,
+            "train_accuracy": 0.6525,
+            "auc": 0.6026666666666667
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5828571428571429,
+            "train_accuracy": 0.6775,
+            "auc": 0.5894666666666666
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.65,
+            "auc": 0.613095238095238
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.6825,
+            "auc": 0.375
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.6825,
+            "auc": 0.4761904761904762
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.68,
+            "auc": 0.47017543859649125
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.66,
+            "auc": 0.6035087719298246
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.67,
+            "auc": 0.6807017543859649
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.6975,
+            "auc": 0.5734355044699873
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.6425,
+            "auc": 0.5606641123882503
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.6425,
+            "auc": 0.5427841634738186
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.6825,
+            "auc": 0.3911111111111111
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6,
+            "train_accuracy": 0.685,
+            "auc": 0.52
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.4666666666666667,
+            "train_accuracy": 0.67,
+            "auc": 0.47111111111111115
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.655,
+            "auc": 0.6038961038961039
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5277777777777778,
+            "train_accuracy": 0.7,
+            "auc": 0.5941558441558442
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.68,
+            "auc": 0.6948051948051948
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.66,
+            "auc": 0.5710526315789474
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.3333333333333333,
+            "train_accuracy": 0.655,
+            "auc": 0.2710526315789473
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6410256410256411,
+            "train_accuracy": 0.665,
+            "auc": 0.6421052631578947
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.574468085106383,
+            "train_accuracy": 0.6525,
+            "auc": 0.6690909090909091
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.574468085106383,
+            "train_accuracy": 0.675,
+            "auc": 0.5636363636363637
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6382978723404256,
+            "train_accuracy": 0.65,
+            "auc": 0.6763636363636364
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5694444444444444,
+            "train_accuracy": 0.6275,
+            "auc": 0.6412273800157356
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.6825,
+            "auc": 0.6514555468135326
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6527777777777778,
+            "train_accuracy": 0.6725,
+            "auc": 0.6955153422501967
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.6325,
+            "auc": 0.6745562130177515
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6538461538461539,
+            "train_accuracy": 0.665,
+            "auc": 0.6272189349112426
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.6225,
+            "auc": 0.5680473372781065
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5094339622641509,
+            "train_accuracy": 0.62,
+            "auc": 0.5425418298326806
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5943396226415094,
+            "train_accuracy": 0.6575,
+            "auc": 0.6753292986828052
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5754716981132075,
+            "train_accuracy": 0.655,
+            "auc": 0.5781416874332502
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.68,
+            "auc": 0.5567765567765568
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.4411764705882353,
+            "train_accuracy": 0.6875,
+            "auc": 0.6556776556776557
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.6425,
+            "auc": 0.3882783882783883
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6056338028169014,
+            "train_accuracy": 0.665,
+            "auc": 0.5895652173913043
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.704225352112676,
+            "train_accuracy": 0.6675,
+            "auc": 0.7295652173913043
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6197183098591549,
+            "train_accuracy": 0.68,
+            "auc": 0.6747826086956522
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.63,
+            "auc": 0.610969387755102
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.4107142857142857,
+            "train_accuracy": 0.6525,
+            "auc": 0.40178571428571436
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6607142857142857,
+            "train_accuracy": 0.65,
+            "auc": 0.7002551020408164
+          }
+        ],
+        "C-MLP": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5675675675675675,
+            "train_accuracy": 0.745,
+            "auc": 0.6023391812865497
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6216216216216216,
+            "train_accuracy": 0.7275,
+            "auc": 0.6052631578947368
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.75,
+            "auc": 0.564327485380117
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.72,
+            "auc": 0.7527472527472527
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.7475,
+            "auc": 0.6758241758241759
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.705,
+            "auc": 0.6428571428571428
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5625,
+            "train_accuracy": 0.6925,
+            "auc": 0.6696428571428572
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5625,
+            "train_accuracy": 0.7125,
+            "auc": 0.6857142857142857
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5416666666666666,
+            "train_accuracy": 0.7475,
+            "auc": 0.6071428571428572
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.7725,
+            "auc": 0.6571428571428573
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.6975,
+            "auc": 0.519047619047619
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.7,
+            "auc": 0.6142857142857144
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.74,
+            "auc": 0.6491228070175439
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.7647058823529411,
+            "train_accuracy": 0.69,
+            "auc": 0.8596491228070176
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.7225,
+            "auc": 0.5263157894736843
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.75,
+            "auc": 0.5758928571428572
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.76,
+            "auc": 0.6145833333333334
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.4230769230769231,
+            "train_accuracy": 0.705,
+            "auc": 0.5401785714285714
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6514285714285715,
+            "train_accuracy": 0.71,
+            "auc": 0.6334666666666666
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6057142857142858,
+            "train_accuracy": 0.7225,
+            "auc": 0.6252
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6342857142857142,
+            "train_accuracy": 0.7175,
+            "auc": 0.6546666666666666
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.34615384615384615,
+            "train_accuracy": 0.705,
+            "auc": 0.49404761904761907
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.7375,
+            "auc": 0.4285714285714286
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.72,
+            "auc": 0.5297619047619048
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.6975,
+            "auc": 0.6526315789473685
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.7,
+            "auc": 0.5543859649122808
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6764705882352942,
+            "train_accuracy": 0.7275,
+            "auc": 0.6701754385964913
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.7075,
+            "auc": 0.5670498084291188
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.735,
+            "auc": 0.5913154533844189
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5892857142857143,
+            "train_accuracy": 0.76,
+            "auc": 0.6615581098339719
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.745,
+            "auc": 0.43555555555555553
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.7425,
+            "auc": 0.5333333333333333
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.43333333333333335,
+            "train_accuracy": 0.74,
+            "auc": 0.3466666666666667
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.4722222222222222,
+            "train_accuracy": 0.7475,
+            "auc": 0.5324675324675325
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.725,
+            "auc": 0.6785714285714286
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.7222222222222222,
+            "train_accuracy": 0.715,
+            "auc": 0.75
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.38461538461538464,
+            "train_accuracy": 0.735,
+            "auc": 0.4052631578947368
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.358974358974359,
+            "train_accuracy": 0.7125,
+            "auc": 0.36578947368421044
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5897435897435898,
+            "train_accuracy": 0.7275,
+            "auc": 0.5921052631578947
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6595744680851063,
+            "train_accuracy": 0.7475,
+            "auc": 0.6727272727272727
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6170212765957447,
+            "train_accuracy": 0.7075,
+            "auc": 0.7218181818181818
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5531914893617021,
+            "train_accuracy": 0.77,
+            "auc": 0.5472727272727274
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5416666666666666,
+            "train_accuracy": 0.71,
+            "auc": 0.5735641227380016
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.7025,
+            "auc": 0.6136900078678207
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5972222222222222,
+            "train_accuracy": 0.745,
+            "auc": 0.6483084185680567
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.8076923076923077,
+            "train_accuracy": 0.7475,
+            "auc": 0.8875739644970414
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.7475,
+            "auc": 0.6272189349112426
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.7275,
+            "auc": 0.5680473372781065
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6509433962264151,
+            "train_accuracy": 0.7225,
+            "auc": 0.6568173727305091
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6415094339622641,
+            "train_accuracy": 0.71,
+            "auc": 0.7429690281238875
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5754716981132075,
+            "train_accuracy": 0.7075,
+            "auc": 0.6237095051619794
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.725,
+            "auc": 0.6703296703296704
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.73,
+            "auc": 0.663003663003663
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.7225,
+            "auc": 0.6593406593406593
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6619718309859155,
+            "train_accuracy": 0.7425,
+            "auc": 0.6739130434782608
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5633802816901409,
+            "train_accuracy": 0.705,
+            "auc": 0.7086956521739131
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6197183098591549,
+            "train_accuracy": 0.72,
+            "auc": 0.6765217391304348
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6428571428571429,
+            "train_accuracy": 0.735,
+            "auc": 0.6696428571428572
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5357142857142857,
+            "train_accuracy": 0.745,
+            "auc": 0.5994897959183674
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5892857142857143,
+            "train_accuracy": 0.73,
+            "auc": 0.7168367346938775
+          }
+        ],
+        "C-Linear": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6216216216216216,
+            "train_accuracy": 0.695,
+            "auc": 0.6754385964912281
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6756756756756757,
+            "train_accuracy": 0.6575,
+            "auc": 0.6286549707602339
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5675675675675675,
+            "train_accuracy": 0.72,
+            "auc": 0.5584795321637427
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.6575,
+            "auc": 0.7032967032967032
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.69,
+            "auc": 0.8296703296703296
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.6675,
+            "auc": 0.7802197802197802
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6041666666666666,
+            "train_accuracy": 0.67,
+            "auc": 0.6696428571428572
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.4583333333333333,
+            "train_accuracy": 0.685,
+            "auc": 0.6571428571428571
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.68,
+            "auc": 0.7446428571428572
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.6875,
+            "auc": 0.5952380952380951
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5517241379310345,
+            "train_accuracy": 0.635,
+            "auc": 0.4285714285714286
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6551724137931034,
+            "train_accuracy": 0.675,
+            "auc": 0.680952380952381
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.6975,
+            "auc": 0.5824561403508772
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.635,
+            "auc": 0.6526315789473685
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.655,
+            "auc": 0.44912280701754387
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.6825,
+            "auc": 0.5639880952380952
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.6825,
+            "auc": 0.636904761904762
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5576923076923077,
+            "train_accuracy": 0.655,
+            "auc": 0.5952380952380952
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6285714285714286,
+            "train_accuracy": 0.655,
+            "auc": 0.6297333333333333
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5657142857142857,
+            "train_accuracy": 0.62,
+            "auc": 0.6281333333333333
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5942857142857143,
+            "train_accuracy": 0.67,
+            "auc": 0.6212
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.6875,
+            "auc": 0.5119047619047619
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.6875,
+            "auc": 0.5833333333333333
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.6925,
+            "auc": 0.5654761904761905
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.67,
+            "auc": 0.6350877192982456
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.65,
+            "auc": 0.624561403508772
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.7352941176470589,
+            "train_accuracy": 0.635,
+            "auc": 0.7859649122807018
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5178571428571429,
+            "train_accuracy": 0.665,
+            "auc": 0.5696040868454662
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.685,
+            "auc": 0.5696040868454662
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6428571428571429,
+            "train_accuracy": 0.6825,
+            "auc": 0.6155810983397191
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.665,
+            "auc": 0.48444444444444446
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.68,
+            "auc": 0.4888888888888888
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.66,
+            "auc": 0.42666666666666664
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.675,
+            "auc": 0.5941558441558441
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.68,
+            "auc": 0.724025974025974
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.6625,
+            "auc": 0.762987012987013
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.41025641025641024,
+            "train_accuracy": 0.65,
+            "auc": 0.46315789473684205
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.358974358974359,
+            "train_accuracy": 0.6625,
+            "auc": 0.3973684210526316
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5897435897435898,
+            "train_accuracy": 0.6825,
+            "auc": 0.581578947368421
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6808510638297872,
+            "train_accuracy": 0.6625,
+            "auc": 0.7672727272727273
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5957446808510638,
+            "train_accuracy": 0.6775,
+            "auc": 0.6818181818181819
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6595744680851063,
+            "train_accuracy": 0.7025,
+            "auc": 0.7018181818181819
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.6525,
+            "auc": 0.6018882769472855
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6527777777777778,
+            "train_accuracy": 0.6675,
+            "auc": 0.6900078678206137
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6111111111111112,
+            "train_accuracy": 0.72,
+            "auc": 0.6892210857592447
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.8076923076923077,
+            "train_accuracy": 0.67,
+            "auc": 0.8165680473372781
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.6925,
+            "auc": 0.7041420118343196
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.67,
+            "auc": 0.650887573964497
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6415094339622641,
+            "train_accuracy": 0.64,
+            "auc": 0.7077251690993236
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6792452830188679,
+            "train_accuracy": 0.655,
+            "auc": 0.785688857244571
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6792452830188679,
+            "train_accuracy": 0.6625,
+            "auc": 0.7063011747953007
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.645,
+            "auc": 0.706959706959707
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.69,
+            "auc": 0.6080586080586081
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.5,
+            "train_accuracy": 0.6475,
+            "auc": 0.6923076923076924
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6619718309859155,
+            "train_accuracy": 0.6875,
+            "auc": 0.688695652173913
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6901408450704225,
+            "train_accuracy": 0.635,
+            "auc": 0.7643478260869565
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.647887323943662,
+            "train_accuracy": 0.6475,
+            "auc": 0.7426086956521739
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 400,
+            "accuracy": 0.6785714285714286,
+            "train_accuracy": 0.685,
+            "auc": 0.6951530612244897
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 400,
+            "accuracy": 0.6071428571428571,
+            "train_accuracy": 0.7025,
+            "auc": 0.6581632653061225
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 400,
+            "accuracy": 0.6964285714285714,
+            "train_accuracy": 0.6775,
+            "auc": 0.729591836734694
+          }
+        ]
+      },
+      "best": "C-Linear"
+    },
+    {
+      "n_train": 800,
+      "means": {
+        "Quantum": 0.5971198085843867,
+        "C-MLP": 0.6034455968622797,
+        "C-Linear": 0.6088890725642868
+      },
+      "per_model": {
+        "Quantum": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6486486486486487,
+            "train_accuracy": 0.66125,
+            "auc": 0.6637426900584795
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5675675675675675,
+            "train_accuracy": 0.67125,
+            "auc": 0.5847953216374269
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5405405405405406,
+            "train_accuracy": 0.64625,
+            "auc": 0.6111111111111112
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.64125,
+            "auc": 0.7637362637362637
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.65375,
+            "auc": 0.6153846153846154
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.7037037037037037,
+            "train_accuracy": 0.66625,
+            "auc": 0.7967032967032966
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6458333333333334,
+            "train_accuracy": 0.65125,
+            "auc": 0.7678571428571429
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.625,
+            "train_accuracy": 0.64625,
+            "auc": 0.7714285714285715
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5833333333333334,
+            "train_accuracy": 0.66625,
+            "auc": 0.7017857142857143
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5862068965517241,
+            "train_accuracy": 0.66375,
+            "auc": 0.638095238095238
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5862068965517241,
+            "train_accuracy": 0.6275,
+            "auc": 0.6476190476190476
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5862068965517241,
+            "train_accuracy": 0.645,
+            "auc": 0.6285714285714286
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.6375,
+            "auc": 0.5789473684210527
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5,
+            "train_accuracy": 0.63,
+            "auc": 0.4771929824561404
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.665,
+            "auc": 0.5017543859649123
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.655,
+            "auc": 0.6785714285714286
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5961538461538461,
+            "train_accuracy": 0.6475,
+            "auc": 0.6666666666666666
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6538461538461539,
+            "train_accuracy": 0.6575,
+            "auc": 0.6830357142857143
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5657142857142857,
+            "train_accuracy": 0.64,
+            "auc": 0.6102666666666666
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5428571428571428,
+            "train_accuracy": 0.6375,
+            "auc": 0.6152
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5771428571428572,
+            "train_accuracy": 0.6675,
+            "auc": 0.6609333333333333
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.65375,
+            "auc": 0.6190476190476191
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.64375,
+            "auc": 0.47619047619047616
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.64625,
+            "auc": 0.5476190476190477
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.6575,
+            "auc": 0.6771929824561403
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6470588235294118,
+            "train_accuracy": 0.655,
+            "auc": 0.6736842105263158
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6764705882352942,
+            "train_accuracy": 0.635,
+            "auc": 0.7263157894736841
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.48214285714285715,
+            "train_accuracy": 0.64375,
+            "auc": 0.5312899106002554
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.48214285714285715,
+            "train_accuracy": 0.65125,
+            "auc": 0.5159642401021711
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.6425,
+            "auc": 0.5287356321839081
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.4666666666666667,
+            "train_accuracy": 0.6525,
+            "auc": 0.5155555555555555
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6333333333333333,
+            "train_accuracy": 0.63875,
+            "auc": 0.5511111111111111
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.645,
+            "auc": 0.4755555555555555
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.64875,
+            "auc": 0.6525974025974026
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.6375,
+            "auc": 0.5746753246753247
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6944444444444444,
+            "train_accuracy": 0.6475,
+            "auc": 0.6753246753246753
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.38461538461538464,
+            "train_accuracy": 0.64125,
+            "auc": 0.35526315789473684
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.4358974358974359,
+            "train_accuracy": 0.65625,
+            "auc": 0.4684210526315789
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.41025641025641024,
+            "train_accuracy": 0.64625,
+            "auc": 0.45000000000000007
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6170212765957447,
+            "train_accuracy": 0.64125,
+            "auc": 0.6872727272727273
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6170212765957447,
+            "train_accuracy": 0.64625,
+            "auc": 0.6709090909090909
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6382978723404256,
+            "train_accuracy": 0.6425,
+            "auc": 0.6909090909090909
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6527777777777778,
+            "train_accuracy": 0.66125,
+            "auc": 0.6624704956726987
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6388888888888888,
+            "train_accuracy": 0.67,
+            "auc": 0.6719118804091266
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.6425,
+            "auc": 0.7018095987411488
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.65,
+            "auc": 0.591715976331361
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.6625,
+            "auc": 0.6745562130177515
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.6525,
+            "auc": 0.6094674556213018
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6415094339622641,
+            "train_accuracy": 0.61875,
+            "auc": 0.6767532929868281
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6037735849056604,
+            "train_accuracy": 0.65,
+            "auc": 0.6251334994660022
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6320754716981132,
+            "train_accuracy": 0.64,
+            "auc": 0.6728373086507654
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.6625,
+            "auc": 0.5091575091575092
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.66875,
+            "auc": 0.47985347985347987
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.665,
+            "auc": 0.5567765567765568
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6197183098591549,
+            "train_accuracy": 0.65875,
+            "auc": 0.7034782608695652
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6901408450704225,
+            "train_accuracy": 0.6675,
+            "auc": 0.7860869565217392
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6901408450704225,
+            "train_accuracy": 0.64125,
+            "auc": 0.8139130434782609
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.625,
+            "train_accuracy": 0.65375,
+            "auc": 0.6160714285714286
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6071428571428571,
+            "train_accuracy": 0.64375,
+            "auc": 0.6313775510204082
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.625,
+            "train_accuracy": 0.63375,
+            "auc": 0.6926020408163266
+          }
+        ],
+        "C-MLP": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.4864864864864865,
+            "train_accuracy": 0.7025,
+            "auc": 0.4649122807017544
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6216216216216216,
+            "train_accuracy": 0.735,
+            "auc": 0.6374269005847953
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.69375,
+            "auc": 0.5760233918128654
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.68625,
+            "auc": 0.7802197802197802
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.72125,
+            "auc": 0.7637362637362637
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.68875,
+            "auc": 0.6758241758241759
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6875,
+            "train_accuracy": 0.71,
+            "auc": 0.7196428571428571
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.625,
+            "train_accuracy": 0.695,
+            "auc": 0.7321428571428571
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5625,
+            "train_accuracy": 0.705,
+            "auc": 0.7035714285714286
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.7325,
+            "auc": 0.7619047619047619
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5172413793103449,
+            "train_accuracy": 0.69375,
+            "auc": 0.5380952380952381
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.7241379310344828,
+            "train_accuracy": 0.69375,
+            "auc": 0.6761904761904761
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.6775,
+            "auc": 0.6596491228070176
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.665,
+            "auc": 0.5508771929824561
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.695,
+            "auc": 0.6842105263157895
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.68,
+            "auc": 0.5699404761904763
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5576923076923077,
+            "train_accuracy": 0.685,
+            "auc": 0.6904761904761905
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6538461538461539,
+            "train_accuracy": 0.705,
+            "auc": 0.6473214285714286
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6171428571428571,
+            "train_accuracy": 0.69125,
+            "auc": 0.6530666666666667
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6285714285714286,
+            "train_accuracy": 0.6625,
+            "auc": 0.6149333333333333
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.64,
+            "train_accuracy": 0.695,
+            "auc": 0.6568
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.69625,
+            "auc": 0.4702380952380952
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.38461538461538464,
+            "train_accuracy": 0.69625,
+            "auc": 0.38095238095238093
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5,
+            "train_accuracy": 0.69875,
+            "auc": 0.40476190476190477
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.69875,
+            "auc": 0.6175438596491228
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5,
+            "train_accuracy": 0.695,
+            "auc": 0.5894736842105263
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6764705882352942,
+            "train_accuracy": 0.70375,
+            "auc": 0.6807017543859649
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.48214285714285715,
+            "train_accuracy": 0.6825,
+            "auc": 0.4878671775223499
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.48214285714285715,
+            "train_accuracy": 0.69875,
+            "auc": 0.4789272030651341
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5178571428571429,
+            "train_accuracy": 0.68,
+            "auc": 0.565772669220945
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6333333333333333,
+            "train_accuracy": 0.695,
+            "auc": 0.5866666666666667
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5666666666666667,
+            "train_accuracy": 0.67875,
+            "auc": 0.5244444444444444
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.675,
+            "auc": 0.5022222222222222
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.6675,
+            "auc": 0.6396103896103896
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6944444444444444,
+            "train_accuracy": 0.6825,
+            "auc": 0.724025974025974
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.69625,
+            "auc": 0.7207792207792207
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.41025641025641024,
+            "train_accuracy": 0.6975,
+            "auc": 0.4473684210526316
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.358974358974359,
+            "train_accuracy": 0.705,
+            "auc": 0.4026315789473684
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.4358974358974359,
+            "train_accuracy": 0.7125,
+            "auc": 0.4394736842105263
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6170212765957447,
+            "train_accuracy": 0.6925,
+            "auc": 0.7109090909090909
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.723404255319149,
+            "train_accuracy": 0.69875,
+            "auc": 0.7381818181818183
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6382978723404256,
+            "train_accuracy": 0.69625,
+            "auc": 0.7072727272727273
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5694444444444444,
+            "train_accuracy": 0.70125,
+            "auc": 0.6412273800157355
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.625,
+            "train_accuracy": 0.68625,
+            "auc": 0.6947285601888278
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5416666666666666,
+            "train_accuracy": 0.68625,
+            "auc": 0.6207710464201416
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6923076923076923,
+            "train_accuracy": 0.695,
+            "auc": 0.591715976331361
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.8076923076923077,
+            "train_accuracy": 0.72375,
+            "auc": 0.8402366863905326
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6153846153846154,
+            "train_accuracy": 0.705,
+            "auc": 0.6272189349112426
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6792452830188679,
+            "train_accuracy": 0.7025,
+            "auc": 0.7354930580277679
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.7075471698113207,
+            "train_accuracy": 0.695,
+            "auc": 0.7472410110359557
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6320754716981132,
+            "train_accuracy": 0.69625,
+            "auc": 0.7262370950516198
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.7075,
+            "auc": 0.6483516483516484
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.7275,
+            "auc": 0.5824175824175825
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5,
+            "train_accuracy": 0.73125,
+            "auc": 0.5714285714285714
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.676056338028169,
+            "train_accuracy": 0.69125,
+            "auc": 0.7417391304347826
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.7746478873239436,
+            "train_accuracy": 0.73,
+            "auc": 0.882608695652174
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6056338028169014,
+            "train_accuracy": 0.7,
+            "auc": 0.7443478260869566
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6964285714285714,
+            "train_accuracy": 0.6975,
+            "auc": 0.7283163265306122
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6428571428571429,
+            "train_accuracy": 0.69625,
+            "auc": 0.6734693877551021
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6607142857142857,
+            "train_accuracy": 0.6925,
+            "auc": 0.6926020408163266
+          }
+        ],
+        "C-Linear": [
+          {
+            "site": "CALTECH",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5675675675675675,
+            "train_accuracy": 0.6625,
+            "auc": 0.5555555555555556
+          },
+          {
+            "site": "CALTECH",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5945945945945946,
+            "train_accuracy": 0.67125,
+            "auc": 0.5994152046783625
+          },
+          {
+            "site": "CALTECH",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.7027027027027027,
+            "train_accuracy": 0.64125,
+            "auc": 0.6871345029239766
+          },
+          {
+            "site": "CMU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5555555555555556,
+            "train_accuracy": 0.6425,
+            "auc": 0.7252747252747253
+          },
+          {
+            "site": "CMU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5925925925925926,
+            "train_accuracy": 0.6725,
+            "auc": 0.7472527472527473
+          },
+          {
+            "site": "CMU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6296296296296297,
+            "train_accuracy": 0.65875,
+            "auc": 0.7472527472527473
+          },
+          {
+            "site": "KKI",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6041666666666666,
+            "train_accuracy": 0.64125,
+            "auc": 0.7482142857142856
+          },
+          {
+            "site": "KKI",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.625,
+            "train_accuracy": 0.6475,
+            "auc": 0.7696428571428572
+          },
+          {
+            "site": "KKI",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6041666666666666,
+            "train_accuracy": 0.65,
+            "auc": 0.7142857142857142
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6551724137931034,
+            "train_accuracy": 0.66625,
+            "auc": 0.7809523809523808
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6206896551724138,
+            "train_accuracy": 0.63125,
+            "auc": 0.6952380952380953
+          },
+          {
+            "site": "LEUVEN_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5862068965517241,
+            "train_accuracy": 0.63125,
+            "auc": 0.680952380952381
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.7058823529411765,
+            "train_accuracy": 0.64,
+            "auc": 0.5649122807017544
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.62875,
+            "auc": 0.512280701754386
+          },
+          {
+            "site": "LEUVEN_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.6525,
+            "auc": 0.5578947368421053
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5961538461538461,
+            "train_accuracy": 0.65875,
+            "auc": 0.6339285714285714
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5961538461538461,
+            "train_accuracy": 0.63375,
+            "auc": 0.6607142857142857
+          },
+          {
+            "site": "MAX_MUN",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5961538461538461,
+            "train_accuracy": 0.6575,
+            "auc": 0.6264880952380952
+          },
+          {
+            "site": "NYU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5771428571428572,
+            "train_accuracy": 0.64625,
+            "auc": 0.6241333333333333
+          },
+          {
+            "site": "NYU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.64,
+            "train_accuracy": 0.63125,
+            "auc": 0.6314666666666667
+          },
+          {
+            "site": "NYU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6285714285714286,
+            "train_accuracy": 0.64625,
+            "auc": 0.6612
+          },
+          {
+            "site": "OHSU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5384615384615384,
+            "train_accuracy": 0.6375,
+            "auc": 0.5952380952380951
+          },
+          {
+            "site": "OHSU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.65375,
+            "auc": 0.5178571428571428
+          },
+          {
+            "site": "OHSU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5769230769230769,
+            "train_accuracy": 0.65125,
+            "auc": 0.5238095238095238
+          },
+          {
+            "site": "OLIN",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.64875,
+            "auc": 0.6736842105263158
+          },
+          {
+            "site": "OLIN",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6176470588235294,
+            "train_accuracy": 0.64125,
+            "auc": 0.6771929824561405
+          },
+          {
+            "site": "OLIN",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5588235294117647,
+            "train_accuracy": 0.65125,
+            "auc": 0.7017543859649122
+          },
+          {
+            "site": "PITT",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6071428571428571,
+            "train_accuracy": 0.63875,
+            "auc": 0.5542784163473818
+          },
+          {
+            "site": "PITT",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5535714285714286,
+            "train_accuracy": 0.64,
+            "auc": 0.5670498084291188
+          },
+          {
+            "site": "PITT",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6071428571428571,
+            "train_accuracy": 0.6375,
+            "auc": 0.5887611749680716
+          },
+          {
+            "site": "SBL",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5333333333333333,
+            "train_accuracy": 0.64625,
+            "auc": 0.5244444444444445
+          },
+          {
+            "site": "SBL",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6,
+            "train_accuracy": 0.63875,
+            "auc": 0.52
+          },
+          {
+            "site": "SBL",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.5666666666666667,
+            "train_accuracy": 0.6475,
+            "auc": 0.5066666666666667
+          },
+          {
+            "site": "SDSU",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6111111111111112,
+            "train_accuracy": 0.64,
+            "auc": 0.6785714285714286
+          },
+          {
+            "site": "SDSU",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.63875,
+            "auc": 0.6850649350649352
+          },
+          {
+            "site": "SDSU",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.7777777777777778,
+            "train_accuracy": 0.6425,
+            "auc": 0.8181818181818181
+          },
+          {
+            "site": "STANFORD",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.38461538461538464,
+            "train_accuracy": 0.63875,
+            "auc": 0.3921052631578947
+          },
+          {
+            "site": "STANFORD",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.46153846153846156,
+            "train_accuracy": 0.645,
+            "auc": 0.5236842105263158
+          },
+          {
+            "site": "STANFORD",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.4358974358974359,
+            "train_accuracy": 0.6375,
+            "auc": 0.47105263157894733
+          },
+          {
+            "site": "TRINITY",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6595744680851063,
+            "train_accuracy": 0.635,
+            "auc": 0.7818181818181819
+          },
+          {
+            "site": "TRINITY",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6808510638297872,
+            "train_accuracy": 0.63875,
+            "auc": 0.7981818181818182
+          },
+          {
+            "site": "TRINITY",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6808510638297872,
+            "train_accuracy": 0.65125,
+            "auc": 0.7927272727272727
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6805555555555556,
+            "train_accuracy": 0.6525,
+            "auc": 0.6868607395751378
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6527777777777778,
+            "train_accuracy": 0.64625,
+            "auc": 0.7175452399685287
+          },
+          {
+            "site": "UCLA_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6666666666666666,
+            "train_accuracy": 0.62375,
+            "auc": 0.7238394964594808
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6538461538461539,
+            "train_accuracy": 0.63375,
+            "auc": 0.7278106508875739
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.7307692307692307,
+            "train_accuracy": 0.66,
+            "auc": 0.7455621301775148
+          },
+          {
+            "site": "UCLA_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6538461538461539,
+            "train_accuracy": 0.65375,
+            "auc": 0.6982248520710059
+          },
+          {
+            "site": "UM_1",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.6415094339622641,
+            "train_accuracy": 0.62125,
+            "auc": 0.7472410110359559
+          },
+          {
+            "site": "UM_1",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.7075471698113207,
+            "train_accuracy": 0.63375,
+            "auc": 0.7945888216447134
+          },
+          {
+            "site": "UM_1",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6415094339622641,
+            "train_accuracy": 0.62375,
+            "auc": 0.7839088643645425
+          },
+          {
+            "site": "UM_2",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.5882352941176471,
+            "train_accuracy": 0.665,
+            "auc": 0.7106227106227107
+          },
+          {
+            "site": "UM_2",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5294117647058824,
+            "train_accuracy": 0.6875,
+            "auc": 0.6227106227106227
+          },
+          {
+            "site": "UM_2",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.4117647058823529,
+            "train_accuracy": 0.67375,
+            "auc": 0.6043956043956045
+          },
+          {
+            "site": "USM",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.7183098591549296,
+            "train_accuracy": 0.635,
+            "auc": 0.7773913043478262
+          },
+          {
+            "site": "USM",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.6901408450704225,
+            "train_accuracy": 0.67375,
+            "auc": 0.7947826086956522
+          },
+          {
+            "site": "USM",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.704225352112676,
+            "train_accuracy": 0.6325,
+            "auc": 0.7556521739130435
+          },
+          {
+            "site": "YALE",
+            "rep": 0,
+            "n_train": 800,
+            "accuracy": 0.625,
+            "train_accuracy": 0.645,
+            "auc": 0.7028061224489797
+          },
+          {
+            "site": "YALE",
+            "rep": 1,
+            "n_train": 800,
+            "accuracy": 0.5714285714285714,
+            "train_accuracy": 0.64,
+            "auc": 0.6581632653061225
+          },
+          {
+            "site": "YALE",
+            "rep": 2,
+            "n_train": 800,
+            "accuracy": 0.6428571428571429,
+            "train_accuracy": 0.63875,
+            "auc": 0.6811224489795918
+          }
+        ]
+      },
+      "best": "C-Linear"
+    }
+  ],
+  "timestamp": "20260829-034846Z"
+}

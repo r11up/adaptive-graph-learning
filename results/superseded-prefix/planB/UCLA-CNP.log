@@ -1,0 +1,31 @@
+ensemble study (Plan B) -> results/planB/UCLA-CNP
+4 blocks x 8 features = 32 total
+
+226 subjects | 124 ASD / 102 control | 2 sites
+nodes=190  features=8  T range=128-152  mean explained variance=97.2%
+  fold1        n=23   Q-Ensemble=0.565  C-Ensemble=0.609  C-Single=0.522
+  fold2        n=23   Q-Ensemble=0.391  C-Ensemble=0.565  C-Single=0.609
+  fold3        n=23   Q-Ensemble=0.565  C-Ensemble=0.478  C-Single=0.652
+  fold4        n=23   Q-Ensemble=0.522  C-Ensemble=0.609  C-Single=0.522
+  fold5        n=23   Q-Ensemble=0.609  C-Ensemble=0.609  C-Single=0.652
+  fold6        n=23   Q-Ensemble=0.304  C-Ensemble=0.609  C-Single=0.609
+  fold7        n=22   Q-Ensemble=0.727  C-Ensemble=0.545  C-Single=0.545
+  fold8        n=22   Q-Ensemble=0.636  C-Ensemble=0.545  C-Single=0.591
+  fold9        n=22   Q-Ensemble=0.591  C-Ensemble=0.500  C-Single=0.455
+  fold10       n=22   Q-Ensemble=0.636  C-Ensemble=0.682  C-Single=0.545
+
+==============================================================================
+PLAN B — 4 disjoint blocks of 8 features
+==============================================================================
+model                accuracy             F1            AUC  sec/fold
+---------------------------------------------------------------------
+Q-Ensemble        0.555+-0.077    0.571+-0.091    0.548+-0.083      10.3
+C-Ensemble        0.575+-0.037    0.613+-0.039    0.573+-0.028       0.1
+C-Single          0.570+-0.039    0.603+-0.046    0.565+-0.054       0.0
+
+mean learned block weight (strongest features first): 0.273  0.263  0.294  0.170
+
+Q-Ensemble vs C-Ensemble: median dAcc = -0.022, wins 4/10, p = 0.9766
+Q-Ensemble vs C-Single: median dAcc = +0.022, wins 5/10, p = 1.0000
+
+saved: results/planB/UCLA-CNP/ensemble_results.json

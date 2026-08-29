@@ -1,0 +1,137 @@
+{
+  "config": {
+    "data_root": "data/ADHD-200",
+    "atlas": "rois_cc200",
+    "features": 8,
+    "node_qubits": 3,
+    "k": 4,
+    "epochs": 12,
+    "lr": 0.01,
+    "batch": 16,
+    "cv": "leave-site-out",
+    "folds": 10,
+    "min_test_size": 10,
+    "seed": 0,
+    "limit": null,
+    "out": "results/qgt/adhd"
+  },
+  "per_fold": {
+    "Q-Attention": [
+      {
+        "site": "KKI",
+        "n": 83,
+        "accuracy": 0.7349397590361446,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.4832339791356185
+      },
+      {
+        "site": "NYU",
+        "n": 216,
+        "accuracy": 0.4537037037037037,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.5217917675544794
+      },
+      {
+        "site": "NeuroIMAGE",
+        "n": 48,
+        "accuracy": 0.4791666666666667,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.5095652173913043
+      },
+      {
+        "site": "OHSU",
+        "n": 78,
+        "accuracy": 0.5256410256410257,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.46341463414634154
+      },
+      {
+        "site": "Peking_1",
+        "n": 85,
+        "accuracy": 0.7176470588235294,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.4187158469945355
+      },
+      {
+        "site": "Peking_2",
+        "n": 67,
+        "accuracy": 0.47761194029850745,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.36830357142857145
+      },
+      {
+        "site": "Peking_3",
+        "n": 42,
+        "accuracy": 0.5476190476190477,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.3638443935926773
+      }
+    ],
+    "C-Attention": [
+      {
+        "site": "KKI",
+        "n": 83,
+        "accuracy": 0.7349397590361446,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.5
+      },
+      {
+        "site": "NYU",
+        "n": 216,
+        "accuracy": 0.4537037037037037,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.4740574195780007
+      },
+      {
+        "site": "NeuroIMAGE",
+        "n": 48,
+        "accuracy": 0.4791666666666667,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.5
+      },
+      {
+        "site": "OHSU",
+        "n": 78,
+        "accuracy": 0.5256410256410257,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.5
+      },
+      {
+        "site": "Peking_1",
+        "n": 85,
+        "accuracy": 0.7176470588235294,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.5
+      },
+      {
+        "site": "Peking_2",
+        "n": 67,
+        "accuracy": 0.47761194029850745,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.5316964285714285
+      },
+      {
+        "site": "Peking_3",
+        "n": 42,
+        "accuracy": 0.5476190476190477,
+        "f1": 0.0,
+        "specificity": 1.0,
+        "auc": 0.36155606407322655
+      }
+    ]
+  },
+  "timestamp": "20260829-063329Z"
+}

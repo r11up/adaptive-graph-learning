@@ -76,7 +76,10 @@ class LearnedProjection(nn.Module):
         # sigmoid on the raw projection because the normalisation has already
         # centred and scaled each dimension, so the input sits in tanh's
         # responsive region instead of its tails.
-        return (torch.tanh(self.norm(self.linear(x))) + 1.0) * (math.pi / 2)
+        # FINDING 22: the circuit encodes RZ(2x), so the projection must land in
+        # [0, pi/2] rather than [0, pi] -- the latter spans a full phase period
+        # and maps the two ends of the range onto the same state.
+        return (torch.tanh(self.norm(self.linear(x))) + 1.0) * (math.pi / 4)
 
 
 class HybridQCNN(nn.Module):

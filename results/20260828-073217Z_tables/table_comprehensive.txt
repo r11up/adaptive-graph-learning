@@ -1,0 +1,74 @@
+COMPREHENSIVE RESULTS — all cohorts, all models
+==============================================================================
+generated 2026-08-28 07:32 UTC
+
+cohort          model                          acc      F1     AUC    spec
+------------------------------------------------------------------------------
+ABIDE-I         CNN (1-D)                    0.589   0.538   0.638      --
+                MLP                          0.600   0.550   0.629      --
+                MLP (no graph)               0.662   0.641   0.729      --
+                PG (RBF edges)               0.601   0.589   0.630      --
+                PG (correlation edges)       0.589   0.587   0.639      --
+                QCNN                         0.610   0.575   0.648      --
+                QPG (quantum edges)          0.537   0.528   0.576      --
+                QSVM (fidelity)              0.622   0.560   0.663      --
+                QSVM-Pegasos                 0.579   0.475      --      --
+                QSVM-fixed                   0.622   0.560   0.663      --
+                SVM-RBF                      0.616   0.559   0.662      --
+                SVM-RBF (all feat.)          0.649   0.632   0.738      --
+                SVM-RBF (matched)            0.616   0.559   0.662      --
+                SVM-linear (all feat.)       0.629   0.624   0.692      --
+                TQEK                         0.610   0.534   0.686      --
+                Trainable-RBF                0.581   0.562   0.606      --
+                VQC                          0.575   0.487   0.631      --
+
+ADHD-200        CNN (1-D)                    0.495   0.385   0.504      --
+                MLP                          0.540   0.437   0.548      --
+                MLP (no graph)               0.535   0.234   0.522      --
+                PG (RBF edges)               0.524   0.308   0.493      --
+                PG (correlation edges)       0.503   0.285   0.495      --
+                QCNN                         0.540   0.403   0.565      --
+                QPG (quantum edges)          0.526   0.363   0.558      --
+                QSVM (fidelity)              0.529   0.492   0.559      --
+                QSVM-Pegasos                 0.561   0.000      --      --
+                QSVM-fixed                   0.546   0.458   0.561      --
+                SVM-RBF                      0.571   0.448   0.573      --
+                SVM-RBF (all feat.)          0.561   0.264   0.555      --
+                SVM-RBF (matched)            0.571   0.448   0.573      --
+                SVM-linear (all feat.)       0.508   0.331   0.489      --
+                TQEK                         0.549   0.421   0.551      --
+                Trainable-RBF                0.562   0.430   0.554      --
+                VQC                          0.503   0.457   0.483      --
+
+REST-meta-MDD   CNN (1-D)                    0.540   0.514   0.568      --
+                MLP                          0.523   0.496   0.553      --
+                MLP (no graph)               0.608   0.632   0.652      --
+                PG (RBF edges)               0.573   0.612   0.601      --
+                PG (correlation edges)       0.585   0.610   0.602      --
+                QCNN                         0.534   0.520   0.570      --
+                QPG (quantum edges)          0.526   0.528   0.550      --
+                QSVM (fidelity)              0.522   0.513   0.547      --
+                QSVM-Pegasos                 0.523   0.508      --      --
+                QSVM-fixed                   0.522   0.513   0.547      --
+                SVM-RBF                      0.526   0.499   0.561      --
+                SVM-RBF (all feat.)          0.590   0.604   0.651      --
+                SVM-RBF (matched)            0.526   0.499   0.561      --
+                SVM-linear (all feat.)       0.576   0.593   0.594      --
+                TQEK                         0.519   0.454   0.570      --
+                Trainable-RBF                0.571   0.682   0.566      --
+                VQC                          0.490   0.426   0.519      --
+
+UCLA-CNP        CNN (1-D)                    0.544   0.569   0.555      --
+                MLP                          0.597   0.630   0.611      --
+                QCNN                         0.571   0.593   0.573      --
+                QSVM (fidelity)              0.562   0.608   0.578      --
+                QSVM-Pegasos                 0.561   0.652      --      --
+                QSVM-fixed                   0.554   0.584   0.579      --
+                SVM-RBF                      0.540   0.570   0.569      --
+                SVM-RBF (all feat.)          0.567   0.608   0.591      --
+                SVM-RBF (matched)            0.540   0.570   0.569      --
+                SVM-linear (all feat.)       0.557   0.627   0.629      --
+                TQEK                         0.558   0.594   0.569      --
+                Trainable-RBF                0.602   0.634   0.610      --
+                VQC                          0.531   0.526   0.549      --
+

@@ -1,0 +1,309 @@
+{
+  "n_subjects": 104,
+  "n_sites": 6,
+  "config": {
+    "data_root": "data/adhd200",
+    "pipeline": "cpac",
+    "strategy": "filt_noglobal",
+    "atlas": "rois_cc200",
+    "n_qubits": 16,
+    "k_neighbors": 20,
+    "epochs": 30,
+    "lr": 0.01,
+    "hidden_dim": 32,
+    "heads": 4,
+    "dropout": 0.6,
+    "limit": null,
+    "backend": "torch",
+    "permutations": 0,
+    "skip_baselines": false,
+    "cache": "results/adhd200_encoded.pt",
+    "refresh_cache": true,
+    "out": "results/adhd200",
+    "seed": 0
+  },
+  "results": {
+    "SVM (linear)": {
+      "f1": {
+        "mean": 0.3162393162393162,
+        "ci95": 0.3485893847136944
+      },
+      "accuracy": {
+        "mean": 0.6536596119929453,
+        "ci95": 0.22246037478809827
+      },
+      "specificity": {
+        "mean": 0.8363095238095237,
+        "ci95": 0.26198096835033224
+      },
+      "sensitivity": {
+        "mean": 0.2619047619047619,
+        "ci95": 0.2838622514139169
+      },
+      "folds": [
+        {
+          "site": "KKI",
+          "n_test": 24,
+          "f1": 0.6153846153846154,
+          "accuracy": 0.7916666666666666,
+          "specificity": 0.9375,
+          "sensitivity": 0.5,
+          "mad": NaN
+        },
+        {
+          "site": "NeuroIMAGE",
+          "n_test": 14,
+          "f1": 0.3333333333333333,
+          "accuracy": 0.42857142857142855,
+          "specificity": 0.5714285714285714,
+          "sensitivity": 0.2857142857142857,
+          "mad": NaN
+        },
+        {
+          "site": "Peking_1",
+          "n_test": 27,
+          "f1": 0.0,
+          "accuracy": 0.7407407407407407,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": NaN
+        }
+      ]
+    },
+    "SVM (rbf)": {
+      "f1": {
+        "mean": 0.08333333333333333,
+        "ci95": 0.16333333333333336
+      },
+      "accuracy": {
+        "mean": 0.5965608465608465,
+        "ci95": 0.19800687244727436
+      },
+      "specificity": {
+        "mean": 0.9107142857142857,
+        "ci95": 0.08808140174482544
+      },
+      "sensitivity": {
+        "mean": 0.047619047619047616,
+        "ci95": 0.09333333333333334
+      },
+      "folds": [
+        {
+          "site": "KKI",
+          "n_test": 24,
+          "f1": 0.0,
+          "accuracy": 0.5833333333333334,
+          "specificity": 0.875,
+          "sensitivity": 0.0,
+          "mad": NaN
+        },
+        {
+          "site": "NeuroIMAGE",
+          "n_test": 14,
+          "f1": 0.0,
+          "accuracy": 0.42857142857142855,
+          "specificity": 0.8571428571428571,
+          "sensitivity": 0.0,
+          "mad": NaN
+        },
+        {
+          "site": "Peking_1",
+          "n_test": 27,
+          "f1": 0.25,
+          "accuracy": 0.7777777777777778,
+          "specificity": 1.0,
+          "sensitivity": 0.14285714285714285,
+          "mad": NaN
+        }
+      ]
+    },
+    "GCN + Pearson": {
+      "f1": {
+        "mean": 0.27705627705627706,
+        "ci95": 0.10322263687778799
+      },
+      "accuracy": {
+        "mean": 0.5848765432098766,
+        "ci95": 0.08322024791576331
+      },
+      "specificity": {
+        "mean": 0.7797619047619048,
+        "ci95": 0.0954957823385119
+      },
+      "sensitivity": {
+        "mean": 0.23214285714285712,
+        "ci95": 0.105
+      },
+      "folds": [
+        {
+          "site": "KKI",
+          "n_test": 24,
+          "f1": 0.18181818181818182,
+          "accuracy": 0.625,
+          "specificity": 0.875,
+          "sensitivity": 0.125,
+          "mad": 0.2763109505176544
+        },
+        {
+          "site": "NeuroIMAGE",
+          "n_test": 14,
+          "f1": 0.36363636363636365,
+          "accuracy": 0.5,
+          "specificity": 0.7142857142857143,
+          "sensitivity": 0.2857142857142857,
+          "mad": 0.32655900716781616
+        },
+        {
+          "site": "Peking_1",
+          "n_test": 27,
+          "f1": 0.2857142857142857,
+          "accuracy": 0.6296296296296297,
+          "specificity": 0.75,
+          "sensitivity": 0.2857142857142857,
+          "mad": 0.4972611218690872
+        }
+      ]
+    },
+    "GCN + RBF": {
+      "f1": {
+        "mean": 0.23174603174603173,
+        "ci95": 0.2448900988072551
+      },
+      "accuracy": {
+        "mean": 0.5579805996472663,
+        "ci95": 0.1564895656226249
+      },
+      "specificity": {
+        "mean": 0.6886904761904762,
+        "ci95": 0.2950282943116549
+      },
+      "sensitivity": {
+        "mean": 0.2261904761904762,
+        "ci95": 0.24360715187457951
+      },
+      "folds": [
+        {
+          "site": "KKI",
+          "n_test": 24,
+          "f1": 0.26666666666666666,
+          "accuracy": 0.5416666666666666,
+          "specificity": 0.6875,
+          "sensitivity": 0.25,
+          "mad": 0.3686625808477402
+        },
+        {
+          "site": "NeuroIMAGE",
+          "n_test": 14,
+          "f1": 0.42857142857142855,
+          "accuracy": 0.42857142857142855,
+          "specificity": 0.42857142857142855,
+          "sensitivity": 0.42857142857142855,
+          "mad": 0.5107566714286804
+        },
+        {
+          "site": "Peking_1",
+          "n_test": 27,
+          "f1": 0.0,
+          "accuracy": 0.7037037037037037,
+          "specificity": 0.95,
+          "sensitivity": 0.0,
+          "mad": 0.4937075078487396
+        }
+      ]
+    },
+    "Proposed (quantum + GAT)": {
+      "f1": {
+        "mean": 0.1111111111111111,
+        "ci95": 0.2177777777777778
+      },
+      "accuracy": {
+        "mean": 0.5246913580246914,
+        "ci95": 0.23177900221548958
+      },
+      "specificity": {
+        "mean": 0.75,
+        "ci95": 0.49
+      },
+      "sensitivity": {
+        "mean": 0.16666666666666666,
+        "ci95": 0.3266666666666667
+      },
+      "folds": [
+        {
+          "site": "KKI",
+          "n_test": 24,
+          "f1": 0.3333333333333333,
+          "accuracy": 0.3333333333333333,
+          "specificity": 0.25,
+          "sensitivity": 0.5,
+          "mad": 0.5192152708768845
+        },
+        {
+          "site": "NeuroIMAGE",
+          "n_test": 14,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 9.020906873047352e-05
+        },
+        {
+          "site": "Peking_1",
+          "n_test": 27,
+          "f1": 0.0,
+          "accuracy": 0.7407407407407407,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.6197858452796936
+        }
+      ]
+    },
+    "Ablation (quantum + GCN)": {
+      "f1": {
+        "mean": 0.0,
+        "ci95": 0.0
+      },
+      "accuracy": {
+        "mean": 0.5864197530864197,
+        "ci95": 0.09449437879492
+      },
+      "specificity": {
+        "mean": 0.9333333333333332,
+        "ci95": 0.13066666666666663
+      },
+      "sensitivity": {
+        "mean": 0.0,
+        "ci95": 0.0
+      },
+      "folds": [
+        {
+          "site": "KKI",
+          "n_test": 24,
+          "f1": 0.0,
+          "accuracy": 0.6666666666666666,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 0.07254724949598312
+        },
+        {
+          "site": "NeuroIMAGE",
+          "n_test": 14,
+          "f1": 0.0,
+          "accuracy": 0.5,
+          "specificity": 1.0,
+          "sensitivity": 0.0,
+          "mad": 1.0
+        },
+        {
+          "site": "Peking_1",
+          "n_test": 27,
+          "f1": 0.0,
+          "accuracy": 0.5925925925925926,
+          "specificity": 0.8,
+          "sensitivity": 0.0,
+          "mad": 0.38448427617549896
+        }
+      ]
+    }
+  }
+}
