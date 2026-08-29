@@ -1,0 +1,107 @@
+FINDING 25 — THRESHOLD CALIBRATION DOES NOT CONVERT RANKING INTO ACCURACY
+=========================================================================
+Status: measured, all four cohorts, hypothesis FALSIFIED
+Date:   2026-08-29
+Code:   scripts/run_calibration.py
+Raw:    results/calibration/{abide,adhd,mdd,ucla}/calibration_results.json
+
+
+THE HYPOTHESIS
+--------------
+FINDING 24 measured an asymmetry: the quantum arm leads on AUC in 34 of 68
+comparisons but on accuracy in only 24 of 72. AUC scores ranking; accuracy
+scores ranking AND threshold placement. A QCNN maps a bounded Pauli-Z
+expectation to logits through a two-parameter affine layer, a weaker
+calibration mechanism than a classical network's final linear layer, so the
+quantum arm might rank well and threshold badly.
+
+That predicted a specific, cheap intervention: choose the decision threshold
+per fold instead of defaulting to 0.5, and the quantum arm's ranking should
+convert into accuracy.
+
+An external review independently proposed the same experiment, which is a
+reason to run it rather than to assume it.
+
+
+DESIGN
+------
+Threshold chosen on TRAINING scores only, maximising Youden's J, then applied
+unchanged to test scores. No test information reaches the choice.
+
+BOTH arms calibrated identically. Calibrating only the quantum side would
+replace a matched comparison with an unmatched one, which is the failure mode
+FINDING 20 documents. The question is not who wins after calibration but who
+GAINS more from it.
+
+
+RESULT — NO ARM GAINS
+---------------------
+  cohort           Quantum   C-CNN   C-MLP   C-Linear
+  --------------   -------   -----   -----   --------
+  ABIDE-I           -0.001  -0.011  +0.005    -0.006
+  ADHD-200          +0.013  +0.014  +0.019    +0.000
+  REST-meta-MDD     -0.005  +0.017  -0.009    -0.013
+  UCLA-CNP          -0.009  +0.017  -0.009    -0.018
+  --------------   -------   -----   -----   --------
+  mean              -0.000  +0.009  +0.002    -0.009
+
+The quantum arm's mean gain across four cohorts is ZERO to three decimals. Of
+sixteen model-cohort pairs only one reaches p < 0.05, and it goes the wrong
+way: C-Linear on REST-meta-MDD LOSES 0.013 accuracy (p = 0.028) when its
+threshold is tuned.
+
+ABIDE-I is the decisive case and the cleanest refutation. It is where the
+quantum arm has its highest AUC (0.679) and therefore the most ranking quality
+available to convert. Calibration there yields -0.001.
+
+THE THRESHOLD-PLACEMENT EXPLANATION IS WRONG.
+
+
+WHAT THIS CORRECTS IN FINDING 24
+--------------------------------
+Running this also exposed an over-broad claim of my own. FINDING 24 framed the
+result as "quantum ranks as well or better than matched classical models". The
+matched-pair statement is correct -- QCNN beats its matched CNN by +0.037 AUC
+(p = 0.033) on ABIDE-I. The general one is not.
+
+Against the BEST classical arm in the same run:
+
+  cohort           Quantum   best classical      verdict
+  --------------   -------   ---------------     -------
+  ABIDE-I            0.679   0.679  (C-Linear)   ties
+  ADHD-200           0.548   0.563  (C-Linear)   behind
+  REST-meta-MDD      0.566   0.582  (C-CNN)      behind
+  UCLA-CNP           0.590   0.603  (C-Linear)   behind
+
+Quantum ties the best classical arm on ONE cohort and is behind on three. The
+AUC advantage is specifically over the convolutional comparator, not over
+classical models generally. FINDING 24 and the paper both need this narrowing.
+
+This is the same discipline applied earlier to C-CNN, now applied to a claim
+that favoured us.
+
+
+WHY THE ASYMMETRY EXISTS, IF NOT THRESHOLDS
+-------------------------------------------
+Unresolved, and worth stating as open. Two candidates the data does not
+separate:
+
+1. The AUC/accuracy gap is a property of WHICH comparator, not of calibration.
+   C-CNN ranks poorly and thresholds poorly; quantum beats it on both. Against
+   C-Linear, quantum ties on AUC and on accuracy. On that reading there is no
+   asymmetry to explain -- only a weak comparator.
+
+2. Youden's J on training scores is itself a poor estimator at these sample
+   sizes and fold counts, so the calibration is real but too noisy to help.
+   Nested cross-validation for the threshold would test this and was not run.
+
+Candidate 1 is the simpler explanation and is consistent with everything else
+in the study.
+
+
+WHAT TO REPORT
+--------------
+The reviewer's recommendation was sound and worth acting on; the result is
+that it does not work. Report the experiment and the null, because "adjust the
+threshold" is the obvious first response to an AUC/accuracy gap and the field
+benefits from knowing it was tried and measured here.

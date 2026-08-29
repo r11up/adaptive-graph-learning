@@ -34,7 +34,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -149,7 +148,8 @@ def main() -> int:
                     continue
                 chosen = select_features(conn[tr_idx], y_tr, args.qubits)
                 sc = StandardScaler().fit(conn[tr_idx][:, chosen])
-                c_tr, c_te = sc.transform(conn[tr_idx][:, chosen]), sc.transform(conn[te_idx][:, chosen])
+                c_tr = sc.transform(conn[tr_idx][:, chosen])
+                c_te = sc.transform(conn[te_idx][:, chosen])
                 # FINDING 22: [0, pi] spans a full phase period in RZ(2x); use [0, pi/2].
                 ang = MinMaxScaler((0, np.pi / 2)).fit(c_tr)
                 q_tr = ang.transform(c_tr)

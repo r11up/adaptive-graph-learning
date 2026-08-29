@@ -26,7 +26,7 @@ import json
 from pathlib import Path
 
 import numpy as np
-from scipy.stats import pearsonr, wilcoxon
+from scipy.stats import wilcoxon
 
 # Cohort display name -> (results subdirectory, fold count) per plan.
 # Pre-fix layouts are retained so the corrected numbers can be diffed against
@@ -129,7 +129,7 @@ def main() -> int:
     print(f"      Bonferroni {0.05 / n:.5f}; smallest p {min(all_p):.4f}; "
           f"survivors {sum(p < 0.05 / n for p in all_p)}")
     if losers:
-        print(f"      losing arm in significant tests: "
+        print("      losing arm in significant tests: "
               + ", ".join(f"{k} x{v}" for k, v in sorted(losers.items(), key=lambda x: -x[1])))
 
     print(f"\n{'cohort':<16}" + "".join(f"{n:>14}" for n in

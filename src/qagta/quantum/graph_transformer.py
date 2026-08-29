@@ -44,7 +44,7 @@ import math
 import torch
 from torch import nn
 
-from qagta.quantum.simulator import _apply_ry, _apply_rz, _cnot_permutation
+from qagta.quantum.simulator import _apply_ry, _apply_rz
 
 
 class QuantumAttention(nn.Module):

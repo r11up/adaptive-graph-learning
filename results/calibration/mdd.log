@@ -1,0 +1,45 @@
+threshold calibration -> results/calibration/mdd
+2428 subjects | 1300 ASD / 1128 control | 25 sites
+nodes=200  features=8  T range=90-240  mean explained variance=92.7%
+  S1           n=148  Quantum=0.507->0.507  C-CNN=0.486->0.466  C-MLP=0.534->0.507  C-Linear=0.500->0.486
+  S10          n=83   Quantum=0.518->0.554  C-CNN=0.494->0.566  C-MLP=0.506->0.566  C-Linear=0.578->0.590
+  S11          n=61   Quantum=0.525->0.426  C-CNN=0.525->0.459  C-MLP=0.475->0.492  C-Linear=0.541->0.475
+  S12          n=38   Quantum=0.500->0.500  C-CNN=0.421->0.368  C-MLP=0.526->0.447  C-Linear=0.395->0.395
+  S13          n=42   Quantum=0.405->0.405  C-CNN=0.476->0.524  C-MLP=0.357->0.357  C-Linear=0.333->0.333
+  S14          n=96   Quantum=0.573->0.604  C-CNN=0.552->0.521  C-MLP=0.604->0.583  C-Linear=0.594->0.594
+  S15          n=100  Quantum=0.540->0.490  C-CNN=0.580->0.630  C-MLP=0.590->0.550  C-Linear=0.520->0.580
+  S16          n=62   Quantum=0.548->0.484  C-CNN=0.516->0.581  C-MLP=0.516->0.468  C-Linear=0.597->0.548
+  S17          n=91   Quantum=0.527->0.473  C-CNN=0.462->0.473  C-MLP=0.505->0.516  C-Linear=0.560->0.516
+  S18          n=41   Quantum=0.463->0.463  C-CNN=0.439->0.488  C-MLP=0.439->0.415  C-Linear=0.463->0.463
+  S19          n=87   Quantum=0.701->0.701  C-CNN=0.747->0.736  C-MLP=0.713->0.701  C-Linear=0.701->0.759
+  S2           n=60   Quantum=0.483->0.500  C-CNN=0.500->0.517  C-MLP=0.550->0.517  C-Linear=0.517->0.483
+  S20          n=533  Quantum=0.533->0.533  C-CNN=0.523->0.544  C-MLP=0.518->0.505  C-Linear=0.544->0.531
+  S21          n=156  Quantum=0.526->0.526  C-CNN=0.545->0.577  C-MLP=0.481->0.519  C-Linear=0.551->0.526
+  S22          n=50   Quantum=0.700->0.720  C-CNN=0.720->0.700  C-MLP=0.660->0.640  C-Linear=0.640->0.620
+  S23          n=62   Quantum=0.500->0.500  C-CNN=0.532->0.548  C-MLP=0.500->0.516  C-Linear=0.484->0.484
+  S24          n=63   Quantum=0.476->0.444  C-CNN=0.460->0.460  C-MLP=0.460->0.476  C-Linear=0.444->0.429
+  S25          n=152  Quantum=0.533->0.520  C-CNN=0.533->0.553  C-MLP=0.599->0.579  C-Linear=0.612->0.572
+  S3           n=64   Quantum=0.344->0.391  C-CNN=0.406->0.500  C-MLP=0.375->0.359  C-Linear=0.391->0.375
+  S4           n=48   Quantum=0.604->0.562  C-CNN=0.562->0.646  C-MLP=0.583->0.562  C-Linear=0.604->0.583
+  S5           n=24   Quantum=0.583->0.625  C-CNN=0.625->0.625  C-MLP=0.542->0.542  C-Linear=0.583->0.583
+  S6           n=30   Quantum=0.567->0.600  C-CNN=0.600->0.600  C-MLP=0.600->0.567  C-Linear=0.467->0.467
+  S7           n=87   Quantum=0.483->0.529  C-CNN=0.494->0.540  C-MLP=0.483->0.506  C-Linear=0.506->0.506
+  S8           n=150  Quantum=0.507->0.493  C-CNN=0.520->0.513  C-MLP=0.520->0.540  C-Linear=0.560->0.493
+  S9           n=100  Quantum=0.620->0.600  C-CNN=0.590->0.590  C-MLP=0.530->0.520  C-Linear=0.630->0.600
+
+==============================================================================
+THRESHOLD CALIBRATION — default 0.5 against a Youden threshold fit on train
+==============================================================================
+model             AUC   acc @0.5  acc calib     gain        p
+-------------------------------------------------------------
+Quantum         0.566      0.531      0.526   -0.005   0.6191
+C-CNN           0.582      0.532      0.549   +0.017   0.0680
+C-MLP           0.549      0.527      0.518   -0.009   0.1321
+C-Linear        0.561      0.533      0.520   -0.013   0.0277
+
+quantum against each classical arm, calibrated accuracy:
+  vs C-CNN     -0.017  p=0.0284
+  vs C-MLP     +0.006  p=0.3719
+  vs C-Linear  +0.002  p=0.7413
+
+saved: results/calibration/mdd/calibration_results.json

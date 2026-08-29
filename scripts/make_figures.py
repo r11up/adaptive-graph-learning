@@ -53,7 +53,7 @@ def fig_fidelity_collapse(out_dir: Path, paper_dir: Path | None) -> None:
     maximum = np.array([0.970, 0.662, 0.144, 0.023])
     usable = np.array([47.5, 7.4, 0.6, 0.0])
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9))
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.5))
 
     axes[0].semilogy(qubits, mean, "o-", color=QUANTUM, label="mean fidelity")
     axes[0].semilogy(qubits, maximum, "s--", color=ACCENT, label="max fidelity")
@@ -73,7 +73,7 @@ def fig_fidelity_collapse(out_dir: Path, paper_dir: Path | None) -> None:
     axes[1].set_title("Usable structure remaining", fontsize=9)
     for bar, value in zip(bars, usable, strict=True):
         axes[1].text(bar.get_x() + bar.get_width() / 2, value + 1.4,
-                     f"{value:.1f}%", ha="center", fontsize=7)
+                     f"{value:.1f}%", ha="center", fontsize=6)
     axes[1].set_ylim(0, 55)
 
     # Secondary axis showing how far 2^n outruns the 200 regions.
@@ -107,7 +107,7 @@ def fig_lso_comparison(results_json: Path, out_dir: Path, paper_dir: Path | None
               .replace(" (quantum + GCN)", "quantum+GCN") for n in names]
     colours = [QUANTUM if "quantum" in n.lower() else CLASSICAL for n in names]
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.0))
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.6))
     y = np.arange(len(names))
     for ax, values, errors, label in (
         (axes[0], f1, f1_ci, "F1 (ASD-positive)"),
@@ -138,7 +138,7 @@ def fig_quantum_kernel(kernel_json: Path, out_dir: Path, paper_dir: Path | None)
 
     order = ["quantum kernel", "classical RBF", "classical linear"]
     order = [n for n in order if n in summary]
-    fig, axes = plt.subplots(1, 2, figsize=(7.4, 3.0))
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.6))
 
     x = np.arange(len(order))
     width = 0.38
@@ -198,7 +198,7 @@ def fig_topology_ablation(sweep_dir: Path, out_dir: Path, paper_dir: Path | None
 
     labels = [r["tag"].replace("_", "\n") for r in rows]
     x = np.arange(len(rows))
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9))
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.5))
 
     bars = axes[0].bar(x, [r["mad"] for r in rows], color=QUANTUM, width=0.6)
     axes[0].set_xticks(x)
@@ -207,7 +207,7 @@ def fig_topology_ablation(sweep_dir: Path, out_dir: Path, paper_dir: Path | None
     axes[0].set_title("Over-smoothing is relieved", fontsize=9)
     for bar, r in zip(bars, rows, strict=True):
         axes[0].text(bar.get_x() + bar.get_width() / 2, r["mad"] + 0.002,
-                     f"{r['mad']:.3f}", ha="center", fontsize=7)
+                     f"{r['mad']:.3f}", ha="center", fontsize=6)
 
     axes[1].bar(x, [r["accuracy"] for r in rows], color=CLASSICAL, width=0.6)
     axes[1].axhline(0.5, color=ACCENT, ls="--", lw=1.2)
@@ -245,7 +245,7 @@ def fig_cross_cohort(out_dir: Path, paper_dir: Path | None) -> None:
 
     models = ["quantum kernel", "classical RBF", "classical linear"]
     colours = [QUANTUM, CLASSICAL, "#718096"]
-    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.1))
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.6))
 
     x = np.arange(len(loaded))
     width = 0.26
@@ -256,7 +256,7 @@ def fig_cross_cohort(out_dir: Path, paper_dir: Path | None) -> None:
                     color=colour, error_kw={"lw": 1, "ecolor": "#4a5568"})
     axes[0].set_xticks(x)
     axes[0].set_xticklabels([f"{lab}\nn={n}, {f} folds" for lab, _, n, f in loaded],
-                            fontsize=7)
+                            fontsize=6)
     axes[0].set_ylabel("F1")
     axes[0].legend(fontsize=7, frameon=False)
     axes[0].set_title("Matched features, matched folds", fontsize=9)
@@ -312,7 +312,7 @@ def fig_benchmark(out_dir: Path, paper_dir: Path | None) -> None:
         print("  (skipped fig_benchmark: no results)")
         return
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.8, 3.1))
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.6))
     x = np.arange(len(loaded))
     width = 0.27
     series = [
@@ -351,7 +351,7 @@ def fig_benchmark(out_dir: Path, paper_dir: Path | None) -> None:
     axes[1].set_title("No cohort separates them", fontsize=9)
     for i, (w, n, pv) in enumerate(zip(wins, folds, ps, strict=True)):
         axes[1].text(min(w + 0.03, 0.72), i, f"{int(w * n)}/{n}, p={pv:.2f}",
-                     va="center", fontsize=7)
+                     va="center", fontsize=6)
     axes[1].text(0.505, len(labels) - 0.35, "parity", fontsize=7, color=ACCENT)
 
     fig.tight_layout()
@@ -377,7 +377,7 @@ def fig_parcellation(out_dir: Path, paper_dir: Path | None) -> None:
         return
     from nilearn import plotting
 
-    fig = plt.figure(figsize=(7.4, 2.5))
+    fig = plt.figure(figsize=(7.1, 2.4))
     display = plotting.plot_roi(
         str(ATLAS_PATH), figure=fig, display_mode="z",
         cut_coords=(-20, 0, 20, 40), cmap="tab20", colorbar=False,
@@ -432,7 +432,7 @@ def fig_connectivity_comparison(out_dir: Path, paper_dir: Path | None) -> None:
     # Order regions by correlation clustering so block structure is visible.
     order = np.argsort(correlation.mean(axis=1))
 
-    fig, axes = plt.subplots(1, 3, figsize=(7.8, 2.9))
+    fig, axes = plt.subplots(1, 3, figsize=(7.1, 2.4))
     for ax, (title, matrix, cmap, limits) in zip(axes, panels, strict=True):
         shown = matrix[np.ix_(order, order)]
         vmin, vmax = limits
@@ -444,7 +444,7 @@ def fig_connectivity_comparison(out_dir: Path, paper_dir: Path | None) -> None:
         ax.set_yticks([])
         fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04).ax.tick_params(labelsize=6)
         off = shown[~np.eye(len(shown), dtype=bool)]
-        ax.set_xlabel(f"mean |value| = {np.abs(off).mean():.3f}", fontsize=7)
+        ax.set_xlabel(f"mean |value| = {np.abs(off).mean():.3f}", fontsize=6)
 
     fig.suptitle("What the quantum metric does to topology (one subject)", fontsize=9)
     fig.tight_layout()
@@ -514,7 +514,7 @@ def fig_kernel_spectrum(out_dir: Path, paper_dir: Path | None) -> None:
         c_dims.append(effective_dim(kernel))
         c_kernels[g] = kernel
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.0))
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.6))
 
     axes[0].loglog(bandwidths, q_dims, "o-", color=QUANTUM, label="quantum fidelity")
     axes[0].loglog(gammas, c_dims, "s--", color=ACCENT, label="classical RBF")
@@ -551,10 +551,10 @@ def fig_architectures(out_dir: Path, paper_dir: Path | None) -> None:
     """
     from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
-    fig, axes = plt.subplots(1, 3, figsize=(7.9, 2.9))
+    fig, axes = plt.subplots(1, 3, figsize=(7.1, 2.5))
     panels = [
         ("RQT — Region-level Quantum Topology",
-         ["200 brain regions", "temporal PCA features", "fidelity between REGIONS",
+         ["200 brain regions", "connectivity profiles", "fidelity between REGIONS",
           "graph attention", "pool over regions"],
          "node = brain region", "chance", ACCENT),
         ("SQK — Subject-level Quantum Kernel",
@@ -615,8 +615,36 @@ MODEL_FAMILIES = [
 COHORT_ORDER = ["ABIDE-I", "ADHD-200", "REST-meta-MDD", "UCLA-CNP"]
 
 
+# Cohort directory names in the post-correction runs, mapped to the display
+# names the earlier timestamped layout used.
+_POSTFIX_SUITE = {
+    "qmodels_abide": "ABIDE-I",
+    "qmodels_adhd": "ADHD-200",
+    "qmodels_mdd": "REST-meta-MDD",
+    "qmodels_ucla": "UCLA-CNP",
+}
+
+
 def _load_suite(results_root: Path) -> dict:
-    """Summaries from the most recent quantum model suite, keyed by cohort."""
+    """Model-suite summaries keyed by cohort, preferring the corrected runs.
+
+    The variational models were re-run after the encoding correction, and those
+    results live under ``results/rerun22/qmodels_<cohort>/`` rather than in the
+    timestamped ``*_qmodels`` layout the earlier runs used. Figures must read
+    the corrected numbers, so that location is checked first; the timestamped
+    glob remains as a fallback for reproducing an older figure from an
+    archived run.
+    """
+    rerun = results_root / "rerun22"
+    if rerun.exists():
+        out = {}
+        for tag, cohort in _POSTFIX_SUITE.items():
+            f = rerun / tag / "quantum_models_results.json"
+            if f.exists():
+                out[cohort] = json.loads(f.read_text())
+        if out:
+            return out
+
     suites = sorted(results_root.glob("*_qmodels"))
     if not suites:
         return {}
@@ -724,7 +752,7 @@ def fig_quantum_delta(out_dir: Path, paper_dir: Path | None,
         return
 
     models = sorted({r[1] for r in rows})
-    fig, ax = plt.subplots(figsize=(7.6, 3.4))
+    fig, ax = plt.subplots(figsize=(3.5, 3.0))
     slot = 0.8 / len(models)
 
     for i, model in enumerate(models):
@@ -772,6 +800,232 @@ def fig_quantum_delta(out_dir: Path, paper_dir: Path | None,
     save(fig, "fig_quantum_delta", out_dir, paper_dir)
 
 
+
+def fig_overfitting(out_dir: Path, paper_dir: Path | None,
+                    results_root: Path = Path("results")) -> None:
+    """Overfitting gap by cohort: the one quantity the quantum arm leads on.
+
+    Drawn because it is the study's only reproducible quantum-specific effect
+    and a table states it without showing that it holds on every cohort at
+    once. Cohorts are ordered by size so the reader can see for themselves that
+    the ordering claimed in the text is descriptive, not a trend.
+    """
+    import json
+    Q = ["Q-Plain", "Q-Reup1", "Q-Reup2"]
+    cohorts = [("mdd", "REST-meta-MDD", 2428), ("abide", "ABIDE-I", 1035),
+               ("adhd", "ADHD-200", 767), ("ucla", "UCLA-CNP", 226)]
+    rows = []
+    for tag, name, n in cohorts:
+        f = results_root / "rerun22" / f"planC_{tag}" / "reupload_results.json"
+        if not f.exists():
+            return
+        pf = json.loads(f.read_text())["per_fold"]
+        gap = {k: np.mean([x["train_accuracy"] - x["accuracy"] for x in v])
+               for k, v in pf.items()}
+        rows.append((name, n, np.mean([gap[q] for q in Q]),
+                     gap["C-CNN"], gap["C-MLP"], gap["C-Linear"]))
+
+    fig, ax = plt.subplots(figsize=(3.5, 2.9))
+    x = np.arange(len(rows))
+    w = 0.2
+    series = [("Quantum", 2, ACCENT), ("C-CNN", 3, "#8c8c8c"),
+              ("C-MLP", 4, "#c0c0c0"), ("C-Linear", 5, "#5b5b5b")]
+    for i, (lab, idx, col) in enumerate(series):
+        ax.bar(x + (i - 1.5) * w, [r[idx] for r in rows], w, label=lab, color=col,
+               edgecolor="white", linewidth=0.4)
+    ax.set_xticks(x)
+    ax.set_xticklabels([f"{r[0]}\n$n$={r[1]}" for r in rows], fontsize=6)
+    ax.set_ylabel("overfitting gap (train $-$ test)", fontsize=6)
+    ax.set_title("Quantum overfits least of the neural arms,\non every cohort",
+                 fontsize=7.5)
+    ax.legend(fontsize=6, frameon=False, ncol=2)
+    ax.tick_params(labelsize=6)
+    ax.grid(axis="y", alpha=0.25, linewidth=0.4)
+    for sp in ("top", "right"):
+        ax.spines[sp].set_visible(False)
+    save(fig, "fig_overfitting", out_dir, paper_dir)
+
+
+def fig_lowdata(out_dir: Path, paper_dir: Path | None,
+                results_root: Path = Path("results")) -> None:
+    """Accuracy and overfitting against training-set size.
+
+    Two panels because the result is a dissociation: the gap separates the arms
+    at every size while accuracy does not, and a single panel would let a
+    reader take the second for the first.
+    """
+    import json
+    f = results_root / "rerun22" / "lowdata_abide" / "lowdata_results.json"
+    if not f.exists():
+        return
+    rows = json.loads(f.read_text())["rows"]
+    ns = [r["n_train"] for r in rows]
+    acc = {k: [r["means"][k] for r in rows] for k in ("Quantum", "C-MLP", "C-Linear")}
+    gap = {k: [np.mean([x["train_accuracy"] - x["accuracy"] for x in r["per_model"][k]])
+               for r in rows] for k in ("Quantum", "C-MLP", "C-Linear")}
+
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.6), sharex=True)
+    style = {"Quantum": (ACCENT, "o", "-"), "C-MLP": ("#8c8c8c", "s", "--"),
+             "C-Linear": ("#3b3b3b", "^", ":")}
+    for k, (c, mk, ls) in style.items():
+        axes[0].plot(ns, acc[k], marker=mk, ls=ls, color=c, label=k, ms=4, lw=1.3)
+        axes[1].plot(ns, gap[k], marker=mk, ls=ls, color=c, label=k, ms=4, lw=1.3)
+    axes[0].set_ylabel("test accuracy", fontsize=6)
+    axes[0].set_title("Accuracy: no separation at any size", fontsize=7.5)
+    axes[1].set_ylabel("overfitting gap", fontsize=6)
+    axes[1].set_title("Overfitting: quantum below the MLP at every size",
+                      fontsize=7.5)
+    axes[1].set_xlabel("training subjects per fold", fontsize=6)
+    for a in axes:
+        a.set_xscale("log")
+        a.set_xticks(ns)
+        a.get_xaxis().set_major_formatter(plt.ScalarFormatter())
+        # Suppress the decade minor labels a log axis adds between the four
+        # training sizes, which otherwise collide with the tick labels.
+        a.get_xaxis().set_minor_formatter(plt.NullFormatter())
+        a.tick_params(axis="x", which="minor", length=0)
+        a.tick_params(labelsize=6)
+        a.grid(alpha=0.25, linewidth=0.4)
+        for sp in ("top", "right"):
+            a.spines[sp].set_visible(False)
+    axes[0].legend(fontsize=6, frameon=False)
+    fig.tight_layout()
+    save(fig, "fig_lowdata", out_dir, paper_dir)
+
+
+
+def fig_degeneracy(out_dir: Path, paper_dir: Path | None,
+                   metrics_json: Path = Path("results/full_metrics.json")) -> None:
+    """Accuracy against Matthews correlation, exposing degenerate predictors.
+
+    Raw confusion matrices for nine models on four cohorts would be thirty-six
+    panels. This compresses the same information into the comparison that
+    matters: a model predicting one class scores near the majority rate on
+    accuracy but near zero on MCC, so it sits far to the right of the trend.
+    The inset shows the clearest case as an actual confusion matrix.
+    """
+    import json
+    if not metrics_json.exists():
+        return
+    data = json.loads(metrics_json.read_text())
+    runs = {k: v for k, v in data.items() if k.startswith("qmodels_")}
+    if not runs:
+        return
+
+    fig, ax = plt.subplots(figsize=(3.5, 3.0))
+    worst = None
+    for _run, models in runs.items():
+        for name, m in models.items():
+            q = name.startswith(("Q", "TQEK"))
+            deg = min(m["sensitivity"], m["specificity"]) < 0.30 or abs(m["mcc"]) < 0.02
+            ax.scatter(m["accuracy"], m["mcc"], s=26 if deg else 16,
+                       c=(ACCENT if q else "#8c8c8c"),
+                       marker="X" if deg else "o",
+                       edgecolors="black" if deg else "none",
+                       linewidths=0.6 if deg else 0, zorder=3 if deg else 2, alpha=0.9)
+            if deg and (worst is None or m["mcc"] < worst[1]["mcc"]):
+                worst = (f"{name}, {m['cohort']}", m)
+
+    ax.axhline(0, color="black", lw=0.7, ls="--", alpha=0.6)
+    ax.set_xlabel("accuracy", fontsize=6)
+    ax.set_ylabel("Matthews correlation", fontsize=6)
+    ax.set_title("Accuracy hides degenerate predictors;\nMCC does not", fontsize=7.5)
+    ax.tick_params(labelsize=6)
+    ax.grid(alpha=0.25, linewidth=0.4)
+    for sp in ("top", "right"):
+        ax.spines[sp].set_visible(False)
+    handles = [
+        plt.Line2D([], [], marker="o", ls="", color=ACCENT, ms=4, label="quantum"),
+        plt.Line2D([], [], marker="o", ls="", color="#8c8c8c", ms=4, label="classical"),
+        plt.Line2D([], [], marker="X", ls="", color="white", ms=6,
+                   markeredgecolor="black", label="degenerate"),
+    ]
+    ax.legend(handles=handles, fontsize=6, frameon=False, loc="upper left")
+
+    if worst:
+        name, m = worst
+        txt = (f"{name}\nTN {m['TN']}  FP {m['FP']}\nFN {m['FN']}  TP {m['TP']}\n"
+               f"acc {m['accuracy']:.3f}, MCC {m['mcc']:+.3f}")
+        ax.annotate(txt, xy=(m["accuracy"], m["mcc"]),
+                    xytext=(0.52, 0.13), textcoords="axes fraction",
+                    fontsize=5.4, family="monospace",
+                    bbox=dict(boxstyle="round,pad=0.35", fc="white", ec="0.6", lw=0.5),
+                    arrowprops=dict(arrowstyle="->", lw=0.6, color="0.4"))
+    save(fig, "fig_degeneracy", out_dir, paper_dir)
+
+
+
+def fig_kernel_spectrum_cohorts(out_dir: Path, paper_dir: Path | None) -> None:
+    """Effective dimension against width parameter, on all four cohorts.
+
+    Section "Why the Two Kernels Tie" argues from a single cohort that a fixed
+    fidelity kernel traverses the same one-parameter family of Gram matrices as
+    an RBF kernel. The argument is structural rather than cohort-specific, so
+    it should hold everywhere; this checks that it does. Each panel sweeps the
+    width parameter of both kernels and plots the participation ratio
+    $(\\sum\\lambda)^2 / \\sum\\lambda^2$, the number of directions the kernel
+    actually uses.
+    """
+    from scipy import stats as sstats
+    from sklearn.metrics.pairwise import rbf_kernel
+    from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+    from qagta.data.abide import load_abide
+    from qagta.data.descriptors import build_descriptors
+    from qagta.quantum.kernel import QuantumFeatureMap, quantum_kernel_matrix
+
+    cohorts = [("ABIDE I", Path("data/ABIDE-I"), "rois_cc200"),
+               ("ADHD-200", Path("data/ADHD-200"), "rois_cc200"),
+               ("REST-meta-MDD", Path("data/REST-meta-MDD"), "rois_cc200"),
+               ("UCLA-CNP", Path("data/UCLA-CNP-cc200"), "rois_cc200")]
+    bands = [0.02, 0.05, 0.10, 0.15, 0.20, 0.30, 0.50, 1.00, 2.00]
+    gammas = [0.01, 0.05, 0.125, 0.5, 2.0]
+
+    def eff_dim(K):
+        lam = np.linalg.eigvalsh(K)
+        lam = lam[lam > 0]
+        return float(lam.sum() ** 2 / (lam ** 2).sum()) if len(lam) else float("nan")
+
+    panels = []
+    for name, root, atlas in cohorts:
+        if not (root / "ABIDE_pcp").exists():
+            continue
+        ds = load_abide(root=root, atlas=atlas, n_components=8, limit=400)
+        series = root / "ABIDE_pcp" / "cpac" / "filt_noglobal"
+        conn = build_descriptors(
+            [np.loadtxt(series / f"{s.file_id}_{atlas}.1D") for s in ds.subjects],
+            kind="correlation")
+        y = ds.labels
+        t, _ = sstats.ttest_ind(conn[y == 0], conn[y == 1], axis=0, equal_var=False)
+        ch = np.argsort(-np.nan_to_num(np.abs(t)))[:8]
+        ang = MinMaxScaler((0, np.pi)).fit_transform(conn[:, ch])
+        sc = StandardScaler().fit_transform(conn[:, ch])
+        q = [eff_dim(quantum_kernel_matrix(ang, ang, QuantumFeatureMap(8, bandwidth=b)))
+             for b in bands]
+        c = [eff_dim(rbf_kernel(sc, sc, gamma=g)) for g in gammas]
+        panels.append((name, len(ds), q, c))
+
+    if not panels:
+        return
+    fig, axes = plt.subplots(1, 4, figsize=(7.1, 2.1), sharey=True)
+    axes = np.atleast_1d(axes).ravel()
+    for ax, (name, n, q, c) in zip(axes, panels, strict=False):
+        ax.plot(bands, q, "o-", color=ACCENT, ms=3.2, lw=1.2, label="quantum fidelity")
+        ax.plot(gammas, c, "s--", color="#6b6b6b", ms=3.2, lw=1.2, label="classical RBF")
+        ax.set_xscale("log")
+        ax.set_yscale("log")
+        ax.set_ylabel("eff. dim.", fontsize=6.5)
+        ax.set_title(f"{name}  ($n$={n})", fontsize=6)
+        ax.tick_params(labelsize=5.6)
+        ax.grid(alpha=0.25, linewidth=0.4)
+        for sp in ("top", "right"):
+            ax.spines[sp].set_visible(False)
+    axes[0].legend(fontsize=5.6, frameon=False)
+    axes[-1].set_xlabel("width parameter (bandwidth / $\\gamma$)", fontsize=6.5)
+    fig.tight_layout()
+    save(fig, "fig_kernel_spectrum_cohorts", out_dir, paper_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lso-json", type=Path, default=Path("results/abide_lso_results.json"))
@@ -813,6 +1067,10 @@ def main() -> int:
     fig_architectures(out_dir, args.paper_dir)
     fig_quantum_vs_classical(out_dir, args.paper_dir)
     fig_quantum_delta(out_dir, args.paper_dir)
+    fig_overfitting(out_dir, args.paper_dir)
+    fig_lowdata(out_dir, args.paper_dir)
+    fig_degeneracy(out_dir, args.paper_dir)
+    fig_kernel_spectrum_cohorts(out_dir, args.paper_dir)
     print("done")
     return 0
 

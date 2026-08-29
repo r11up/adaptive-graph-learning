@@ -1,0 +1,28 @@
+threshold calibration -> results/calibration/adhd
+skipped 1 subjects: too_short=1
+767 subjects | 280 ASD / 487 control | 9 sites
+nodes=190  features=8  T range=72-257  mean explained variance=93.0%
+  KKI          n=83   Quantum=0.446->0.494  C-CNN=0.446->0.446  C-MLP=0.422->0.446  C-Linear=0.518->0.506
+  NYU          n=216  Quantum=0.560->0.565  C-CNN=0.509->0.532  C-MLP=0.532->0.537  C-Linear=0.528->0.569
+  NeuroIMAGE   n=48   Quantum=0.458->0.438  C-CNN=0.354->0.479  C-MLP=0.417->0.479  C-Linear=0.417->0.375
+  OHSU         n=78   Quantum=0.513->0.551  C-CNN=0.474->0.474  C-MLP=0.538->0.500  C-Linear=0.513->0.526
+  Peking_1     n=85   Quantum=0.565->0.506  C-CNN=0.518->0.494  C-MLP=0.541->0.565  C-Linear=0.612->0.659
+  Peking_2     n=67   Quantum=0.567->0.552  C-CNN=0.552->0.552  C-MLP=0.522->0.552  C-Linear=0.552->0.507
+  Peking_3     n=42   Quantum=0.548->0.643  C-CNN=0.524->0.500  C-MLP=0.619->0.643  C-Linear=0.619->0.619
+
+==============================================================================
+THRESHOLD CALIBRATION — default 0.5 against a Youden threshold fit on train
+==============================================================================
+model             AUC   acc @0.5  acc calib     gain        p
+-------------------------------------------------------------
+Quantum         0.548      0.522      0.536   +0.013   0.6875
+C-CNN           0.510      0.482      0.497   +0.014   1.0000
+C-MLP           0.556      0.513      0.532   +0.019   0.2188
+C-Linear        0.563      0.537      0.537   +0.000   1.0000
+
+quantum against each classical arm, calibrated accuracy:
+  vs C-CNN     +0.032  p=0.1562
+  vs C-MLP     +0.000  p=1.0000
+  vs C-Linear  +0.024  p=0.5781
+
+saved: results/calibration/adhd/calibration_results.json
