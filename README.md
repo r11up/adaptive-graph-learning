@@ -229,15 +229,72 @@ are drawn from the literature cited in the manuscript.
 
 ```
 src/qagta/
-  quantum/    differentiable statevector simulator, encoder, fidelity, Qiskit backend
-  graph/      adaptive edge learning, dynamic graph construction
-  models/     graph attention and SAGE encoders, gated decision module
-  training/   hybrid training loops, parameter-shift rule, evaluation
-  data/       loaders, one-class splits, synthetic generator
-  pipeline.py end-to-end orchestration
-scripts/      data generation and pipeline runner
-tests/        41 tests covering all subsystems
+  quantum/          quantum models and the simulator they run on
+    simulator.py      differentiable batched statevector backend
+    qcnn.py           quantum convolutional network (Cong et al.), Qiskit-equivalent to 1e-6
+    variational.py    variational classifier: ZZFeatureMap, RealAmplitudes, parity read-out
+    kernel.py         fidelity kernel and Gram-matrix construction
+    trainable_kernel.py  quantum embedding kernel trained by kernel-target alignment
+    graph_transformer.py quantum self-attention: query and key share one register
+    hybrid.py         learned projection feeding a quantum or classical head (Plan A)
+    ensemble.py       ensembles of narrow circuits over disjoint feature blocks (Plan B)
+    fmri_encoder.py   per-region encoders, ring-entangled and interleaved
+    fidelity.py       pairwise state overlap
+    projected.py      projected quantum kernels
+    qiskit_backend.py Qiskit reference path, for equivalence checks
+  graph/            adaptive edge learning, connectome construction
+  models/           graph attention and SAGE encoders, gated decision module
+  training/         training loops, baselines, leave-site-out evaluation
+  data/             cohort loaders, connectivity descriptors, feature compression
+  pipeline.py       end-to-end orchestration
+
+scripts/
+  # model training and evaluation
+  run_quantum_models.py   the model suite: QCNN, VQC, two QSVMs, TQEK, and matched classical arms
+  run_abide_study.py      graph pipeline: quantum edges into a GAT, against classical GNNs
+  run_quantum_kernel.py   fidelity kernel against classical kernels
+  run_population_graph.py subjects as nodes, quantum edges between them
+  run_benchmark.py        matched-feature comparison across cohorts
+  # interventions on the feature budget
+  run_hybrid.py           Plan A, projection learned jointly with the circuit
+  run_ensemble.py         Plan B, ensembles over disjoint feature blocks
+  run_reupload.py         Plan C, data re-uploading at fixed register width
+  run_qubit_scaling.py    does a wider register help a variational model?
+  run_graph_transformer.py quantum attention against classical attention
+  # follow-up experiments
+  run_lowdata.py          does the quantum arm win when training data is scarce?
+  run_calibration.py      does per-fold threshold calibration convert AUC into accuracy?
+  # analysis and reporting
+  analyse_plans.py        pools a plan across cohorts, flags which arm loses each test
+  make_metrics.py         confusion matrices, sensitivity, precision, MCC from stored folds
+  make_figures.py         every figure in the manuscript
+  make_tables.py          result tables
+  # data acquisition
+  download_abide.py, download_adhd200.py, ingest_cohort.py,
+  ingest_adhd200_athena.py, make_mdd_phenotypic.py, generate_data.py
+  # drivers
+  run_all_cohorts.sh, run_plans_ab_cohorts.sh, run_qgt_all.sh, run_sweep.sh,
+  rerun_after_fix.sh, rerun_parallel.sh, resume_rerun22.sh, run_encoder_ab.sh
+
+findings/         one file per measured result, 01 to 25; see findings/README.md
+results/          per-fold metrics and figures; see results/README.md
+docs/figures/     cohort network renderings used in this README
+tests/            81 tests covering the simulator, models, graph and pipeline
 ```
+
+### Where to start
+
+Reproducing a number from the paper: `results/README.md` says which run
+directory holds it, and `analyse_plans.py` or `make_metrics.py` will recompute
+the summary from the stored per-fold records without retraining anything.
+
+Understanding what was measured and why: read `findings/README.md` first. It
+gives the reading order and flags which findings were later revised.
+
+Running an experiment yourself: every script under `scripts/` takes
+`--data-root` and `--out`, defaults to ABIDE-I, and prints per-fold results as
+it goes. Cohort data is not distributed here; the download and ingest scripts
+fetch it from the original sources.
 
 ## Tests
 
