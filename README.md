@@ -177,6 +177,47 @@ Notable knobs: `quantum.n_qubits` (sets latent dimensionality), `graph.k_neighbo
 `model.encoder` (`gat` or `sage`), and `training.quantum_gradient`
 (`autograd` or `parameter_shift`).
 
+## Cohorts and the networks reported for them
+
+All four cohorts use the CC200 parcellation (Craddock 2012), whose 200 regions
+map onto the seven canonical Yeo networks plus subcortical structures. The
+renderings below show which networks the clinical literature reports as
+disrupted in each disorder — red most affected, then orange, then yellow, with
+blue marking networks not implicated and grey unlabelled subcortical context.
+
+**These summarise prior literature, not results from this repository.** No
+experiment here localises a network: the models operate on the whole brain with
+no regional prior, and the graph configurations sit at chance
+(`findings/06`). They are included to situate the cohorts.
+
+### ABIDE I — autism, default-mode leading
+
+![Networks reported disrupted in ASD](docs/figures/networks_abide.png)
+
+### ADHD-200 — frontoparietal leading
+
+![Networks reported disrupted in ADHD](docs/figures/networks_adhd200.png)
+
+### REST-meta-MDD — default-mode, reported as *hyper*-connectivity
+
+![Networks reported disrupted in MDD](docs/figures/networks_mdd.png)
+
+UCLA-CNP is omitted: its three diagnostic groups (schizophrenia, bipolar
+disorder, ADHD) do not share a single consensus network profile.
+
+Renderings produced with **BrainPainter**:
+
+> R. V. Marinescu, A. Eshaghi, D. C. Alexander and P. Golland.
+> *BrainPainter: A software for the visualisation of brain structures,
+> biomarkers and associated pathological processes.*
+> Multimodal Brain Image Analysis and Mathematical Foundations of
+> Computational Anatomy (MBIA/MFCA), LNCS 11846:112–120, 2019.
+> [arXiv:1905.08627](https://arxiv.org/abs/1905.08627) ·
+> [source](https://github.com/razvanmarinescu/brain-coloring)
+
+Network assignments follow Yeo et al. (2011); the disorder-specific rankings
+are drawn from the literature cited in the manuscript.
+
 ## Layout
 
 ```
